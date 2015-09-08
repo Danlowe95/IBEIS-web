@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dash.css">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://v4-alpha.getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">WIBEIS</a>
+            <ul class="nav navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Another link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link disabled">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 col-md-offset-2 main">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-deck-wrapper">
+                            <div class="card-deck">
+                                <div class="card">
+                                    <a href="#images">
+                                        <img class="card-img" data-src="holder.js/100%x250/" alt="Card image cap">
+                                        <div class="card-img-overlay">
+                                            <h4 class="card-title">Images</h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card">
+                                    <a href="#annotations">
+                                        <img class="card-img" data-src="holder.js/100%x250/" alt="Card image cap">
+                                        <div class="card-img-overlay">
+                                            <h4 class="card-title">Annotations</h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card">
+                                    <a href="#individuals">
+                                        <img class="card-img" data-src="holder.js/100%x250/" alt="Card image cap">
+                                        <div class="card-img-overlay">
+                                            <h4 class="card-title">Individuals</h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h3 class="process-text">Detection</h3>
+                            </div>
+                            <div class="col-md-7">
+                                <progress class="progress progress-success progress-process" value="42" max="100">42%</progress>
+                            </div>
+                            <div class="col-md-1">
+                                <h3 class="process-text">42%</h3></div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary btn-full">Primary</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h3 class="process-text">Identification</h3>
+                            </div>
+                            <div class="col-md-7">
+                                <progress class="progress progress-success progress-process" value="42" max="100">42%</progress>
+                            </div>
+                            <div class="col-md-1">
+                                <h3 class="process-text">42%</h3></div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary btn-full">Primary</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
