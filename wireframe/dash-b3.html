@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dash-b3.css">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://v4-alpha.getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">WIBEIS</a>
+            <ul class="nav navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">Help</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Images</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Annotations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Individuals</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 col-md-offset-2 main">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="#" class="thumbnail">
+                            <img data-src="holder.js/100%x225/" alt="...">
+                            <div class="header-content">
+                                <h3><strong>Images</strong></h3>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" class="thumbnail">
+                            <img data-src="holder.js/100%x225/" alt="...">
+                            <div class="header-content">
+                                <h3><strong>Annotations</strong></h3>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" class="thumbnail">
+                            <img data-src="holder.js/100%x225/" alt="...">
+                            <div class="header-content">
+                                <h3><strong>Individuals</strong></h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h2><i class="fa fa-object-group"></i>&emsp;Detection&emsp;<small>Currently running on 546 images&emsp;<a href="#" data-target="#det-collapse" data-toggle="collapse" class="expand"><i class="fa fa-plus-square-o"></i></a></small></h2>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h2 class="pull-right"><a href="#" class="process-verify" data-toggle="modal" data-target="#verModal">Verify All</a></h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="progress progress-thick">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped" style="width: 35%">
+                                                <span class="sr-only">35% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 20%">
+                                                <span class="sr-only">20% Complete (warning)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-group collapse" id="det-collapse">
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <h4><i class="fa fa-object-group"></i>&emsp;Plains Zebras&emsp;<small>325 images</small></h4>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <h4><a class="process-verify pull-right" href="">Verify</a></h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-info" style="width: 35%">
+                                                                <span class="sr-only">35% Complete (success)</span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-success" style="width: 20%">
+                                                                <span class="sr-only">20% Complete (warning)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <h4><i class="fa fa-object-group"></i>&emsp;Grevy Zebras</h4>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <h4><a class="process-verify pull-right" href="">Verify</a></h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-info" style="width: 35%">
+                                                                <span class="sr-only">35% Complete (success)</span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-success" style="width: 20%">
+                                                                <span class="sr-only">20% Complete (warning)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h2><i class="fa fa-users"></i>&emsp;Identification&emsp;<small>Currently running on 203 images&emsp;<a href="#" data-target="#id-collapse" data-toggle="collapse" class="expand"><i class="fa fa-plus-square-o"></i></a></small></h2>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h2 class="pull-right"><a href="#" class="process-verify">Verify All</a></h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="progress progress-thick">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped" style="width: 35%">
+                                                <span class="sr-only">35% Complete (success)</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 20%">
+                                                <span class="sr-only">20% Complete (warning)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-group collapse" id="id-collapse">
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <h4><i class="fa fa-users"></i>&emsp;Item 1</h4>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <h4><a class="process-verify pull-right" href="">Verify</a></h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-info" style="width: 35%">
+                                                                <span class="sr-only">35% Complete (success)</span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-success" style="width: 20%">
+                                                                <span class="sr-only">20% Complete (warning)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <h4><i class="fa fa-users"></i>&emsp;Item 2</h4>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <h4><a class="process-verify pull-right" href="">Verify</a></h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-info" style="width: 35%">
+                                                                <span class="sr-only">35% Complete (success)</span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-success" style="width: 20%">
+                                                                <span class="sr-only">20% Complete (warning)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <h4><i class="fa fa-users"></i>&emsp;Item 3</h4>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <h4><a class="process-verify pull-right" href="">Verify</a></h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-info" style="width: 35%">
+                                                                <span class="sr-only">35% Complete (success)</span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-success" style="width: 20%">
+                                                                <span class="sr-only">20% Complete (warning)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <p class="text-muted">
+                <i class="fa fa-copyright"></i> WIBEIS 2015&emsp;|&emsp;
+                <a href="https://github.com/Danlowe95/IBEIS-web">Github</a>&emsp;|&emsp;
+                <a href="http://ibeis.org/">IBEIS</a>
+            </p>
+        </div>
+    </footer>
+    <!-- HELP MODAL -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="helpModalLabel">Help<h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / HELP MODAL -->
+    <!-- VERIFICATION MODAL -->
+    <div class="modal fade" id="verModal" tabindex="-1" role="dialog" aria-labelledby="verModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="verModalLabel">Verification<h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / VERIFICATION MODAL -->
+</body>
+
+</html>
