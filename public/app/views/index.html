@@ -10,6 +10,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/dropdowns-enhancement.css">
     <link rel="stylesheet" href="assets/css/ibeis.css">
     <!-- JS -->
     <!-- imports -->
@@ -47,18 +48,24 @@
         <div class="row">
             <div class="col-sm-4 col-md-3 col-lg-2 sidebar">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>&emsp;Select Workspace</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">All Images</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">WS1</a></li>
-                            <li><a href="#">Serengeti</a></li>
-                            <li><a href="#">All Zebras</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-lg dropdown-toggle" title="Select your workspace."><i class="fa fa-fw fa-map-marker"></i>&emsp;<strong><span data-label-placement>All Workplaces</span></strong></button>
+                            <ul class="dropdown-menu bullet pull-center">
+                                <li>
+                                    <input type="radio" id="ex1_1" name="wp" value="all" checked="">
+                                    <label for="wp_all">All Workplaces</label>
+                                </li>
+                                <li class="divider"></li>
+                                <li ng-repeat="wp in workplaces">
+                                    <input type="radio" id="wp_{{ wp.id }}" name="wp" value="{{ wp.id }}">
+                                    <label for="wp_{{ wp.id }}">{{ wp.name }}</label>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-lg btn-primary navbar-btn"><i class="fa fa-upload"></i>&emsp;<strong>Upload</strong></button>
+                        <button type="button" class="btn btn-lg navbar-btn"><i class="fa fa-fw fa-upload"></i>&emsp;<strong>Upload</strong></button>
                     </li>
                     <hr>
                     <li class="nav-item">

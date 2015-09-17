@@ -81,3 +81,17 @@ hr {
     width: 100%;
     text-align: left;
 }
+
+.nav-item > .btn-group {
+    width: 100%;
+    text-align: left;
+}
+
+.nav-item > .btn-group > button {
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-menu {
+    z-index: 2000;
+}
