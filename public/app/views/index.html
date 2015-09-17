@@ -20,6 +20,7 @@
     <script src="assets/js/marked.js"></script>
     <script src="assets/js/angular-md.min.js"></script>
     <script src="assets/js/dropdowns-enhancement.js"></script>
+    <script src="assets/js/angular-breadcrumb.min.js"></script>
     <!-- controllers -->
     <script src="app/controllers/ibeis.controller.js"></script>
     <!-- angular app -->
@@ -61,9 +62,7 @@
                     </li>
                     <hr>
                     <li class="nav-item">
-                        <ol class="breadcrumb">
-                            <li ng-repeat="bc in breadcrumbs"><a href="bc.href">{{ bc.name }}</a></li>
-                        </ol>
+                        <div ncy-breadcrumb></div>
                     </li>
                     <hr>
                 </ul>

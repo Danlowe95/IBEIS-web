@@ -5,8 +5,11 @@ angular.module('ibeis.routes', ['ui.router'])
             .state('index', {
                 url: '',
                 views: {
-                	"sidebar": { templateUrl: "app/views/sidebars/sidebar.collections.html" },
-                	"main": { templateUrl: "app/views/main/main.default.html" }
+                	'sidebar': { templateUrl: 'app/views/sidebars/sidebar.collections.html' },
+                	'main': { templateUrl: 'app/views/main/main.default.html' }
+                },
+                ncyBreadcrumb: {
+                    label: 'All Images'
                 }
             });
 
