@@ -9,7 +9,7 @@ angular.module('ibeis.routes', ['ui.router'])
                 	'main': { templateUrl: 'app/views/main/main.default.html' }
                 },
                 ncyBreadcrumb: {
-                    label: 'All Images'
+                    label: 'All Workplaces'
                 }
             });
 
