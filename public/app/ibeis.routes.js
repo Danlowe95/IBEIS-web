@@ -1,6 +1,8 @@
 angular.module('ibeis.routes', ['ui.router'])
     .config(function($stateProvider, $urlRouterProvider) {
-
+        //doesn't work, supposed to redirect any unknown url
+        $urlRouterProvider.otherwise("/state1");
+        //works
         $stateProvider
             .state('index', {
                 url: '',
@@ -12,5 +14,6 @@ angular.module('ibeis.routes', ['ui.router'])
                     label: 'All Workplaces'
                 }
             });
+
 
     });
