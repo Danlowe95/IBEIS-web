@@ -5,13 +5,13 @@ html {
 
 .sidebar {
     position: fixed;
-    top: 50px;
+    top: 64px;
     bottom: 50px;
     left: 0;
     z-index: 1000;
     display: block;
     padding: 20px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
     overflow: visible;
     background-color: #f5f5f5;
     border-right: 1px solid #e5e5e5;
@@ -21,6 +21,7 @@ html {
     display: block;
     overflow-x: hidden;
     overflow-y: auto;
+    height: auto;
 }
 
 .main {
@@ -98,6 +99,9 @@ html {
 }
 
 .overflow {
-    padding-right: 20px;
     overflow-x: hidden;
 }
+
+/*.navbar {
+    border-bottom: 1px solid #e5e5e5;
+}*/
