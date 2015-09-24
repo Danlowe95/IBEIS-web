@@ -102,6 +102,21 @@ html {
     overflow-x: hidden;
 }
 
-/*.navbar {
-    border-bottom: 1px solid #e5e5e5;
-}*/
+.sidebar-btn {
+    margin-bottom: 13.5px;
+}
+
+.navbar-brand {
+    color: #fff !important;
+    font-size: 40px;
+    margin-top: -9px;
+}
+
+.workspace-select-grp {
+    margin-left: 20px;
+}
+
+.workplace-select {
+    min-width: 300px;
+    max-width: 300px;
+}
