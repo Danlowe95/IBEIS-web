@@ -1,19 +1,26 @@
 angular.module('ibeis.routes', ['ui.router'])
     .config(function($stateProvider, $urlRouterProvider) {
-        //doesn't work, supposed to redirect any unknown url
-        $urlRouterProvider.otherwise("/state1");
-        //works
+        $urlRouterProvider
+            .otherwise('/w/all');
+
         $stateProvider
-            .state('index', {
-                url: '',
+            .state('workplace', {
+                url: '/w/:wid',
                 views: {
-                	'sidebar': { templateUrl: 'app/views/sidebars/sidebar.collections.html' },
-                	'main': { templateUrl: 'app/views/main/main.default.html' }
+                    'sidebar': {
+                        templateUrl: 'app/views/sidebars/sidebar.collections.html'
+                    },
+                    'main': {
+                        templateUrl: 'app/views/main/main.default.html'
+                    }
                 },
                 ncyBreadcrumb: {
-                    label: 'All Workplaces'
+                    label: 'Some Workplace'
+                }
+            }).state('workplace.collection', {
+                url: '/c/:cid',
+                ncyBreadcrumb: {
+                    label: 'Some Collection'
                 }
             });
-
-
     });
