@@ -1,6 +1,6 @@
 <ul class="nav nav-pills nav-stacked">
     <li class="nav-item" ng-repeat="c in collections">
-        <a class="nav-link" href="{{ c.href }}">
+        <a class="nav-link" ui-sref="workplace('testid').collection({{ c.id }})">
             <span>{{ c.name }}</span>
         </a>
     </li>
