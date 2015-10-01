@@ -89,9 +89,12 @@ html {
     text-align: left;
 }
 
-.nav-item > .btn-group > button {
+.nav-item > .btn-group > .btn-whole {
     width: 100%;
-    text-align: left;
+}
+
+.nav-item > .btn-group > .btn-half {
+    width: 50%;
 }
 
 .dropdown-menu {
