@@ -1,1 +1,91 @@
-Default main page.
+<div class=text-right>
+	<div class="btn-group">
+	  <button type="button" class="btn btn-primary active">Image</button>
+	  <button type="button" class="btn btn-primary">Grid</button>
+	  <button type="button" class="btn btn-primary">Map</button>
+	</div>
+     <button class="btn-info btn" data-toggle="modal" data-target="#filter-modal">Filter</button>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+      <img src="../../../assets/img/180x180.png" alt="yoho">
+      <div class="caption" style="display: none;">
+        <h4>Image information</h4>
+        <p>this will be hidden unless the image is clicked</p>
+        <p><a href="#" class="btn btn-primary" role="button">View Source</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+      <img src="../../../assets/img/180x180.png" alt="yoho">
+      <div class="caption" style="display: none;">
+        <h4>Image information</h4>
+        <p>this will be hidden unless the image is clicked</p>
+        <p><a href="#" class="btn btn-primary" role="button">View Source</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+      <img src="../../../assets/img/180x180.png" alt="yoho">
+      <div class="caption">
+        <h4>Image information</h4>
+        <p>this will be hidden unless the image is clicked</p>
+        <p><a href="#" class="btn btn-primary" role="button">View Source</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+      <img src="../../../assets/img/180x180.png" alt="yoho">
+      <div class="caption" style="display: none;">
+        <h4>Image information</h4>
+        <p>this will be hidden unless the image is clicked</p>
+        <p><a href="#" class="btn btn-primary" role="button">View Source</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+      <img src="../../../assets/img/180x180.png" alt="yoho">
+      <div class="caption" style="display: none;">
+        <h4>Image information</h4>
+        <p>this will be hidden unless the image is clicked</p>
+        <p><a href="#" class="btn btn-primary" role="button">View Source</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+      <img src="../../../assets/img/180x180.png" alt="yoho">
+      <div class="caption" style="display: none;">
+        <h4>Image information</h4>
+        <p>this will be hidden unless the image is clicked</p>
+        <p><a href="#" class="btn btn-primary" role="button">View Source</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="filter-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Filter Workspace</h4>
+            </div>
+            <div class="modal-body">
+                <p>Stuff / Create new Workspace with these parameters?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-click="addCollection()" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
