@@ -100,21 +100,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Filter Workspace</h4>
+                <h4 class="modal-title" style="text-decoration: underline">Filter Workspace</h4>
+                <h5>Images Displayed: 24</h5>
+                <hr style="margin-bottom: 0px;">
             </div>
             <div class="modal-body">
-                <p>List of necessary parameters: <br>
-              		-Search?<br>
+              		<h5>Filter Parameters:</h5>
+
+              		<label>Search by:
+              		<input type="textbox">
+              		</label>
               		<row>
-              		<h5>Image Types:</h5>
-              		<div class="checkbox">
-              		<label><input type="checkbox" value="" checked="true">Images</label>
-              		<label><input type="checkbox" value="" checked="true">Annotations</label>
-              		<label><input type="checkbox" value="" checked="true">Animals</label>
-              		</div>
+	              		<h6>Image Types:</h6>
+	              		<div class="checkbox">
+	              		<label><input type="checkbox" value="" checked="true">Images</label>
+	              		<label><input type="checkbox" value="" checked="true">Annotations</label>
+	              		<label><input type="checkbox" value="" checked="true">Animals</label>
+	              		</div>
               		</row>
-              		<h5>Images Displayed: 24</h5>
-              		<h5>Available Metadata</h5>
+              		
+              		<h6>Available Metadata</h6>
               		<row>
               		<div class="btn-group">
 					  <button data-toggle="dropdown" class="btn dropdown-toggle"  data-placeholder="Weather">Weather<span class="caret"></span></button>
