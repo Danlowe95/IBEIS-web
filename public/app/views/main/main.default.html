@@ -115,20 +115,39 @@
               		</row>
               		<h5>Images Displayed: 24</h5>
               		<h5>Available Metadata</h5>
-              		<div class="checkbox">
-					  <label><input type="checkbox" value="">Weather (24)</label>
+              		<row>
+              		<div class="btn-group">
+					  <button data-toggle="dropdown" class="btn dropdown-toggle"  data-placeholder="Weather">Weather<span class="caret"></span></button>
+					    <ul class="dropdown-menu">
+					      <li><input type="checkbox" id="weather1"><label for="weather1" name="clear" value="0">Clear</label></li>
+					      <li><input type="checkbox" id="weather2"><label for="weather2" name="rain" value="1">Rain</label></li>
+					      <li><input type="checkbox" id="weather3"><label for="weather3" name="overcast" value="1">Overcast</label></li>
+					    </ul>
 					</div>
-					<div class="checkbox">
-					  <label><input type="checkbox" value="">Species (24)</label>
-					</div>
-					<div class="checkbox">
-					  <label><input type="checkbox" value="">Male (13)</label>
-					</div>
-					<div class="checkbox">
-					  <label><input type="checkbox" value="">Female (11)</label>
-					</div>
+					</row>
+					<row>
+					<div class="btn-group">
+					  <button data-toggle="dropdown" class="btn dropdown-toggle"  data-placeholder="Species">Species<span class="caret"></span></button>
+					    <ul class="dropdown-menu">
+					      <li><input type="checkbox" id="grevy"><label for="grevy" name="clear" value="0">Grevy Zebra</label></li>
+					     
+					    </ul>
+							</div>
+							</row>	
+							<row>		
+					<div class="btn-group">
+					  <button data-toggle="dropdown" class="btn dropdown-toggle"  data-placeholder="Gender">Gender<span class="caret"></span></button>
+					    <ul class="dropdown-menu">
+					      <li><input type="checkbox" id="gender1"><label for="gender1" name="male" value="0">Male</label></li>
+					      <li><input type="checkbox" id="gender2"><label for="gender2" name="female" value="1">Female</label></li>
+					      
+					    </ul>
+
+					</div></row>
+					
+					
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer">	
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" ng-click="" data-dismiss="modal">Use</button>
                 <button type="button" class="btn btn-primary" ng-click="" data-dismiss="modal">Save</button>
