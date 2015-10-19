@@ -1,29 +1,43 @@
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+<md-sidenav layout="column" class="sidenav md-sidenav-left md-whiteframe-z3" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
     <header class="sidenav-header">
         <div class="logo">
             <img src="assets/img/logo-ibeis.png" height="240" width="240">
         </div>
+        <md-divider></md-divider>
+        <div class="tools md-whiteframe-z1" layout="row">
+            <md-button class="tools-button" flex aria-label="Upload"><i class="fa fa-upload"></i> Upload</md-button>
+            <md-button class="tools-button" flex aria-label="Import"><i class="fa fa-cloud-download"></i> Import</md-button>
+        </div>
     </header>
-    <div class="tools" layout="row">
-        
-    </div>
+    <md-content md-scroll-y layout-padding flex>
+        Remainder of the sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum non massa eu ultrices. Integer laoreet volutpat ullamcorper. In hac habitasse platea dictumst. In commodo, ex quis facilisis porttitor, nunc tellus vehicula lectus, vel volutpat odio ante sit amet nisl. Pellentesque et vestibulum libero. Pellentesque porta leo eros, vitae varius leo vestibulum in. Vestibulum nec massa ornare enim volutpat fermentum. Vestibulum a sodales quam. Morbi velit odio, sollicitudin id sapien tempus, varius condimentum turpis. Pellentesque tincidunt risus mollis lobortis mattis. Mauris lacinia orci vitae gravida ultrices. Pellentesque semper dictum lectus, lobortis eleifend enim suscipit ac. Nulla lectus diam, convallis ac pharetra id, lobortis vitae nisi. Quisque at ornare neque, a mattis lectus. Integer nunc nibh, fringilla ac nulla eget, varius aliquam nibh. Vestibulum vel ornare sapien. Donec finibus imperdiet nibh a blandit. Cras sed lorem mauris. Mauris feugiat elementum nunc, sit amet tristique enim eleifend vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus mauris et eros dignissim, sed dapibus magna ornare. Fusce blandit, orci egestas volutpat sagittis, sapien ligula dignissim diam, eu accumsan lorem velit eu tortor. Donec vel erat velit. Integer et ullamcorper libero. Fusce odio ante, euismod ac ullamcorper accumsan, mollis eu augue. Phasellus ornare ut nisl ac pharetra. Maecenas sollicitudin non velit ac lacinia. In urna diam, egestas vitae tortor ut, tempor fermentum urna. Sed rutrum semper luctus. Nam lorem turpis, placerat a odio vel, scelerisque vulputate justo. Phasellus ut aliquet lacus. Praesent a est eget augue dignissim eleifend at non sem. Duis sit amet convallis arcu. Curabitur ut tincidunt nisl, eget aliquam ipsum. Integer sed ornare augue. Vestibulum tempor a tortor vel facilisis. Duis sit amet sem vel erat imperdiet cursus vitae vel odio. Donec dictum vel diam a consequat. Etiam ac ex sit amet neque egestas sollicitudin. Donec ligula diam, vulputate et metus nec, cursus porttitor ante. Suspendisse eget magna quis dolor tincidunt facilisis et ut lacus. Proin vulputate, nibh vitae commodo tristique, massa tortor hendrerit libero, nec sollicitudin elit massa id ex. Sed egestas aliquam elit ac rutrum. Suspendisse potenti. Curabitur quis cursus ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla sed dapibus elit. Aliquam quis fringilla massa, at varius arcu. Phasellus ullamcorper, ex in malesuada luctus, odio nunc vulputate tortor, a mattis libero justo ut mi. Etiam aliquam mi tellus, quis accumsan turpis lobortis sed. Morbi blandit feugiat neque. Quisque quis sem suscipit, dignissim nibh eget, consequat est. Fusce eu convallis est. In vitae eleifend ipsum, tempus pharetra elit.
+    </md-content>
 </md-sidenav>
 <div class="layout-column flex">
     <md-toolbar layout="row">
         <div class="md-toolbar-tools md-whiteframe-z1">
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
-                <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+                <md-icon aria-label="Menu" md-svg-icon="//s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
             </md-button>
-            <h1 hide-gt-sm>IBEIS</h1>
+            <!-- <h1 hide-gt-sm>IBEIS</h1> -->
             <span flex></span>
-            <md-button class="md-icon-button" aria-label="Settings">
+            <md-button class="md-icon-button" aria-label="Thumbnails">
                 <i class="fa fa-picture-o"></i>
+                <md-tooltip>
+                    Thumbnails
+                </md-tooltip>
             </md-button>
-            <md-button class="md-icon-button" aria-label="Settings">
+            <md-button class="md-icon-button" aria-label="Table">
                 <i class="fa fa-table"></i>
+                <md-tooltip>
+                    Table
+                </md-tooltip>
             </md-button>
-            <md-button class="md-icon-button" aria-label="Settings">
+            <md-button class="md-icon-button" aria-label="Map">
                 <i class="fa fa-map"></i>
+                <md-tooltip>
+                    Map
+                </md-tooltip>
             </md-button>
         </div>
     </md-toolbar>

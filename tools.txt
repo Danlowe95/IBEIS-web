@@ -1,2 +1,0 @@
-http://angular-ui.github.io/ui-router/site/
-http://angular-ui.github.io/angular-google-maps/#!/
