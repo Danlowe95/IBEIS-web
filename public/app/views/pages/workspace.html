@@ -13,6 +13,11 @@
             </md-button>
             <h1 hide-gt-sm>WIBEIS</h1>
             <span flex></span>
+            <md-button ng-click="toggleSidenav('right')"
+            ng-hide="isOpenRight()"
+            class="md-primary">
+            Filter
+          </md-button>
             <md-button class="md-icon-button" aria-label="Settings">
                 <i class="fa fa-picture-o"></i>
             </md-button>
@@ -24,7 +29,27 @@
             </md-button>
         </div>
     </md-toolbar>
+    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Filter Options</h1>
+      </md-toolbar>
+      <md-content ng-controller="RightCtrl" layout-padding>
+        <form>
+          <md-input-container>
+            <label for="testInput">Test input</label>
+            <input type="text" id="testInput"
+                   ng-model="data" md-autofocus>
+          </md-input-container>
+        </form>
+        <md-button ng-click="save()" class="md-primary">
+          Save Changes
+        </md-button>
+        <md-button ng-click="close()" class="md-primary">
+          Discard Changes
+        </md-button>
+      </md-content>
+    </md-sidenav>
     <md-content md-scroll-y layout-padding flex>
-        Content
+    Cards here
     </md-content>
 </div>
