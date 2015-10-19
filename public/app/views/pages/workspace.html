@@ -21,10 +21,22 @@
             </md-button>
             <!-- <h1 hide-gt-sm>IBEIS</h1> -->
             <span flex></span>
-            <md-button ng-click="toggleSidenav('right')" ng-hide="isOpenRight()" class="md-icon-button" aria-label="Filter">
-                <i class="fa fa-filter"></i>
+            <md-button class="md-primary">
+                <i class="fa fa-share"></i> Share
                 <md-tooltip>
-                    Filter
+                    Share the current state of your workspace.
+                </md-tooltip>
+            </md-button>
+            <md-button ng-click="toggleSidenav('right')" class="md-primary" aria-label="Filter">
+                <i class="fa fa-filter"></i> Filter
+                <md-tooltip>
+                    Apply a filter to your workspace.
+                </md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Undo" ng-click="undoFilter()">
+                <i class="fa fa-undo"></i>
+                <md-tooltip>
+                    Undo last filter change.
                 </md-tooltip>
             </md-button>
             <div class="toolbar-divider"></div>
@@ -59,57 +71,20 @@
                     <input type="text" id="testInput" ng-model="data" md-autofocus>
                 </md-input-container>
             </form>
-            <md-button ng-click="save()" class="md-primary">
-                Save Changes
-            </md-button>
-            <md-button ng-click="close()" class="md-primary">
-                Discard Changes
-            </md-button>
+            <div layout="row">
+                <md-button ng-click="save()" class="md-primary" flex>
+                    Apply
+                </md-button>
+                <md-button ng-click="close()" class="md-primary" flex>
+                    Discard
+                </md-button>
+            </div>
+            <md-divider></md-divider>
         </md-content>
     </md-sidenav>
     <md-content md-scroll-y layout-padding flex>
         <md-grid-list md-cols-sm="2" md-cols-md="2" md-cols-lg="4" md-cols-gt-lg="5" md-row-height="1:1" md-gutter="0">
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-            <md-grid-tile>
+            <md-grid-tile ng-repeat="item in testItems">
                 <md-card>
                     <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
                 </md-card>
