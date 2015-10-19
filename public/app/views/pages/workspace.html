@@ -6,7 +6,6 @@
         <md-divider></md-divider>
         <div class="tools md-whiteframe-z1" layout="row">
             <md-button class="tools-button" flex aria-label="Upload"><i class="fa fa-upload"></i> Upload</md-button>
-            <md-button class="tools-button" flex aria-label="Import"><i class="fa fa-cloud-download"></i> Import</md-button>
         </div>
     </header>
     <md-content md-scroll-y layout-padding flex>
@@ -23,30 +22,53 @@
             <span flex></span>
             <md-button class="md-primary">
                 <i class="fa fa-share"></i> Share
-                <md-tooltip>
+                <md-tooltip md-autohide>
                     Share the current state of your workspace.
                 </md-tooltip>
             </md-button>
             <md-button ng-click="toggleSidenav('right')" class="md-primary" aria-label="Filter">
                 <i class="fa fa-filter"></i> Filter
-                <md-tooltip>
+                <md-tooltip md-autohide>
                     Apply a filter to your workspace.
                 </md-tooltip>
             </md-button>
             <md-button class="md-icon-button" aria-label="Undo" ng-click="undoFilter()">
                 <i class="fa fa-undo"></i>
-                <md-tooltip>
+                <md-tooltip md-autohide>
                     Undo last filter change.
                 </md-tooltip>
             </md-button>
             <div class="toolbar-divider"></div>
             <md-menu md-position-mode="target-right target">
-                <md-button class="md-icon-button" aria-label="Thumbnails" ng-click="$mdOpenMenu($event)">
+                <md-button class="md-icon-button" aria-label="Type Selector" ng-click="$mdOpenMenu($event)">
+                    <i class="fa fa-file-image-o" ng-show="type == 'images'"></i>
+                    <i class="fa fa-object-group" ng-show="type == 'annotations'"></i>
+                    <i class="fa fa-users" ng-show="type == 'animals'"></i>
+                    <md-tooltip md-direction="left" md-autohide>
+                        Viewing {{type}}.
+                    </md-tooltip>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-repeat="t in types">
+                        <md-button ng-click="setType(t)">
+                            <div layout="row">
+                                <p flex>
+                                    <i class="fa fa-fw fa-file-image-o" ng-show="v == 'images'"></i>
+                                    <i class="fa fa-fw fa-object-group" ng-show="v == 'annotations'"></i>
+                                    <i class="fa fa-fw fa-users" ng-show="v == 'animals'"></i> &emsp;View {{t}}
+                                </p>
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-menu md-position-mode="target-right target">
+                <md-button class="md-icon-button" aria-label="View Selector" ng-click="$mdOpenMenu($event)">
                     <i class="fa fa-picture-o" ng-show="view == 'thumbnails'"></i>
                     <i class="fa fa-table" ng-show="view == 'table'"></i>
                     <i class="fa fa-map" ng-show="view == 'map'"></i>
-                    <md-tooltip>
-                        Switch view.
+                    <md-tooltip md-direction="left" md-autohide>
+                        In {{view}} mode.
                     </md-tooltip>
                 </md-button>
                 <md-menu-content width="3">
@@ -56,8 +78,7 @@
                                 <p flex>
                                     <i class="fa fa-fw fa-picture-o" ng-show="v == 'thumbnails'"></i>
                                     <i class="fa fa-fw fa-table" ng-show="v == 'table'"></i>
-                                    <i class="fa fa-fw fa-map" ng-show="v == 'map'"></i>
-                                    &emsp;View {{v}}
+                                    <i class="fa fa-fw fa-map" ng-show="v == 'map'"></i> &emsp;View {{v}}
                                 </p>
                             </div>
                         </md-button>
@@ -88,13 +109,10 @@
             <md-divider></md-divider>
         </md-content>
     </md-sidenav>
-    <md-content md-scroll-y layout-padding flex>
-        <md-grid-list md-cols-sm="2" md-cols-md="2" md-cols-lg="4" md-cols-gt-lg="5" md-row-height="1:1" md-gutter="0">
-            <md-grid-tile ng-repeat="item in testItems">
-                <md-card>
-                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
-                </md-card>
-            </md-grid-tile>
-        </md-grid-list>
+    <md-content md-scroll-y flex>
+        <!-- using ng-includes to cut down on the number of lines in each html file -->
+        <ng-include ng-if="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.html'"></ng-include>
+        <ng-include ng-if="view == 'table'" src="'app/views/includes/workspace/table.html'"></ng-include>
+        <ng-include ng-if="view == 'map'" src="'app/views/includes/workspace/map.html'"></ng-include>
     </md-content>
 </div>
