@@ -1,10 +1,10 @@
-<md-sidenav layout="column" class="sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+<md-sidenav layout="column" class="sidenav md-sidenav-left md-whiteframe-z3" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
     <header class="sidenav-header">
         <div class="logo">
             <img src="assets/img/logo-ibeis.png" height="240" width="240">
         </div>
         <md-divider></md-divider>
-        <div class="tools md-whiteframe-z2" layout="row">
+        <div class="tools md-whiteframe-z1" layout="row">
             <md-button class="tools-button" flex aria-label="Upload"><i class="fa fa-upload"></i> Upload</md-button>
             <md-button class="tools-button" flex aria-label="Import"><i class="fa fa-cloud-download"></i> Import</md-button>
         </div>
@@ -21,11 +21,13 @@
             </md-button>
             <!-- <h1 hide-gt-sm>IBEIS</h1> -->
             <span flex></span>
-            <md-button ng-click="toggleSidenav('right')"
-            ng-hide="isOpenRight()"
-            class="md-primary">
-            Filter
-          </md-button>
+            <md-button ng-click="toggleSidenav('right')" ng-hide="isOpenRight()" class="md-icon-button" aria-label="Filter">
+                <i class="fa fa-filter"></i>
+                <md-tooltip>
+                    Filter
+                </md-tooltip>
+            </md-button>
+            <div class="toolbar-divider"></div>
             <md-button class="md-icon-button" aria-label="Thumbnails">
                 <i class="fa fa-picture-o"></i>
                 <md-tooltip>
@@ -47,26 +49,71 @@
         </div>
     </md-toolbar>
     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-      <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Filter Options</h1>
-      </md-toolbar>
-      <md-content ng-controller="RightCtrl" layout-padding>
-        <form>
-          <md-input-container>
-            <label for="testInput">Test input</label>
-            <input type="text" id="testInput"
-                   ng-model="data" md-autofocus>
-          </md-input-container>
-        </form>
-        <md-button ng-click="save()" class="md-primary">
-          Save Changes
-        </md-button>
-        <md-button ng-click="close()" class="md-primary">
-          Discard Changes
-        </md-button>
-      </md-content>
+        <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">Filter Options</h1>
+        </md-toolbar>
+        <md-content ng-controller="RightCtrl" layout-padding>
+            <form>
+                <md-input-container>
+                    <label for="testInput">Test input</label>
+                    <input type="text" id="testInput" ng-model="data" md-autofocus>
+                </md-input-container>
+            </form>
+            <md-button ng-click="save()" class="md-primary">
+                Save Changes
+            </md-button>
+            <md-button ng-click="close()" class="md-primary">
+                Discard Changes
+            </md-button>
+        </md-content>
     </md-sidenav>
     <md-content md-scroll-y layout-padding flex>
-    Cards here
+        <md-grid-list md-cols-sm="2" md-cols-md="2" md-cols-lg="4" md-cols-gt-lg="5" md-row-height="1:1" md-gutter="0">
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+            <md-grid-tile>
+                <md-card>
+                    <img ng-src="//placehold.it/400x400" class="md-card-image" alt="Washed Out">
+                </md-card>
+            </md-grid-tile>
+        </md-grid-list>
     </md-content>
 </div>
