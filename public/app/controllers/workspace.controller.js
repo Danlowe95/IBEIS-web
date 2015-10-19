@@ -41,6 +41,20 @@ angular.module('workspace.controller', [])
                 }
             });
         };
+
+        /* TYPE MENU */
+        $scope.types = ['images', 'annotations', 'animals'];
+        $scope.type = 'images';
+        $scope.setType = function(t) {
+            $scope.type = t;
+        };
+
+        /* VIEW MENU */
+        $scope.views = ['thumbnails', 'table', 'map'];
+        $scope.view = 'thumbnails';
+        $scope.setView = function(v) {
+            $scope.view = v;
+        };
     }])
     .controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
         $scope.close = function() {
@@ -50,5 +64,4 @@ angular.module('workspace.controller', [])
             //save information required
             $mdSidenav('right').close();
         }
-
     });

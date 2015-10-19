@@ -40,24 +40,30 @@
                 </md-tooltip>
             </md-button>
             <div class="toolbar-divider"></div>
-            <md-button class="md-icon-button" aria-label="Thumbnails">
-                <i class="fa fa-picture-o"></i>
-                <md-tooltip>
-                    Thumbnails
-                </md-tooltip>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Table">
-                <i class="fa fa-table"></i>
-                <md-tooltip>
-                    Table
-                </md-tooltip>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Map">
-                <i class="fa fa-map"></i>
-                <md-tooltip>
-                    Map
-                </md-tooltip>
-            </md-button>
+            <md-menu md-position-mode="target-right target">
+                <md-button class="md-icon-button" aria-label="Thumbnails" ng-click="$mdOpenMenu($event)">
+                    <i class="fa fa-picture-o" ng-show="view == 'thumbnails'"></i>
+                    <i class="fa fa-table" ng-show="view == 'table'"></i>
+                    <i class="fa fa-map" ng-show="view == 'map'"></i>
+                    <md-tooltip>
+                        Switch view.
+                    </md-tooltip>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-repeat="v in views">
+                        <md-button ng-click="setView(v)">
+                            <div layout="row">
+                                <p flex>
+                                    <i class="fa fa-fw fa-picture-o" ng-show="v == 'thumbnails'"></i>
+                                    <i class="fa fa-fw fa-table" ng-show="v == 'table'"></i>
+                                    <i class="fa fa-fw fa-map" ng-show="v == 'map'"></i>
+                                    &emsp;View {{v}}
+                                </p>
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </div>
     </md-toolbar>
     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
