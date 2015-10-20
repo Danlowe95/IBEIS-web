@@ -21,6 +21,7 @@ angular.module('workspace.controller', [])
             left: false,
             right: true
         };
+        //TODO comment what this does
         $scope.toastPosition = angular.extend({}, last);
         $scope.getToastPosition = function() {
             sanitizePosition();
@@ -31,6 +32,7 @@ angular.module('workspace.controller', [])
                 .join(' ');
         };
 
+        //TODO comment what this does
         function sanitizePosition() {
             var current = $scope.toastPosition;
             if (current.bottom && last.top) current.top = false;
@@ -39,6 +41,7 @@ angular.module('workspace.controller', [])
             if (current.left && last.right) current.right = false;
             last = angular.extend({}, current);
         }
+        //TODO comment what this does
         $scope.undoFilter = function() {
             var toast = $mdToast.simple()
                 .content('You undid your last filter!')
@@ -81,11 +84,19 @@ angular.module('workspace.controller', [])
             $scope.workspace = w;
         };
 
-        /* TYPE MENU */
+        //Outdated
+        // /* TYPE MENU */
+        // $scope.types = ['images', 'annotations', 'animals'];
+        // $scope.type = 'images';
+        // $scope.setType = function(t) {
+        //     $scope.type = t;
+        // };
+        // WIP Type Menu
         $scope.types = ['images', 'annotations', 'animals'];
-        $scope.type = 'images';
-        $scope.setType = function(t) {
-            $scope.type = t;
+        $scope.types_selected = {images:true, annotations:true, animals:true};
+        $scope.changeType = function(t) {
+            $scope.types_selected[t] = !$scope.types_selected[t];
+            console.log(t + " changed to " + $scope.types_selected[t]);
         };
 
         /* VIEW MENU */
