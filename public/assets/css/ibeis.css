@@ -40,3 +40,8 @@ md-checkbox.md-checked.green .md-icon {
 .nav-font {
     font-size: 14px;
 }
+
+#marker-sidenav {
+	min-width: 420px;
+	max-width: 420px;
+}
