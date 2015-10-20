@@ -18,16 +18,29 @@
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                 <md-icon aria-label="Menu" md-svg-icon="//s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
             </md-button>
-            <!-- <h1 hide-gt-sm>IBEIS</h1> -->
             <span flex></span>
-            <md-button ng-click="showShareDialog()" class="md-primary">
-                <i class="fa fa-share"></i> Share
+            <!-- share dialog buttons -->
+            <md-button ng-click="showShareDialog()" class="md-primary" hide show-gt-md>
+                <i class="fa fa-share-alt"></i> Share
                 <md-tooltip md-autohide>
                     Share the current state of your workspace.
                 </md-tooltip>
             </md-button>
-            <md-button ng-click="toggleSidenav('right')" class="md-primary" aria-label="Filter">
+            <md-button ng-click="showShareDialog()" class="md-icon-button" hide-gt-md>
+                <i class="fa fa-share-alt"></i>
+                <md-tooltip md-autohide>
+                    Share the current state of your workspace.
+                </md-tooltip>
+            </md-button>
+            <!-- filter nav buttons -->
+            <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
                 <i class="fa fa-filter"></i> Filter
+                <md-tooltip md-autohide>
+                    Apply a filter to your workspace.
+                </md-tooltip>
+            </md-button>
+            <md-button ng-click="toggleSidenav('filter')" class="md-icon-button" hide-gt-md>
+                <i class="fa fa-filter"></i>
                 <md-tooltip md-autohide>
                     Apply a filter to your workspace.
                 </md-tooltip>
@@ -87,28 +100,7 @@
             </md-menu>
         </div>
     </md-toolbar>
-    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-        <md-toolbar class="md-theme-light">
-            <h1 class="md-toolbar-tools">Filter Options</h1>
-        </md-toolbar>
-        <md-content ng-controller="RightCtrl" layout-padding>
-            <form>
-                <md-input-container>
-                    <label for="testInput">Test input</label>
-                    <input type="text" id="testInput" ng-model="data" md-autofocus>
-                </md-input-container>
-            </form>
-            <div layout="row">
-                <md-button ng-click="save()" class="md-primary" flex>
-                    Apply
-                </md-button>
-                <md-button ng-click="close()" class="md-primary" flex>
-                    Discard
-                </md-button>
-            </div>
-            <md-divider></md-divider>
-        </md-content>
-    </md-sidenav>
+    <ng-include src="'app/views/includes/workspace/filtering.html'"></ng-include>
     <md-content md-scroll-y flex>
         <!-- using ng-includes to cut down on the number of lines in each html file -->
         <ng-include ng-if="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.html'"></ng-include>

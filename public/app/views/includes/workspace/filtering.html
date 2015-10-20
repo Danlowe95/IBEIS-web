@@ -1,0 +1,22 @@
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="filter">
+        <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">Filter Options</h1>
+        </md-toolbar>
+        <md-content ng-controller="RightCtrl" layout-padding>
+            <form>
+                <md-input-container>
+                    <label for="testInput">Test input</label>
+                    <input type="text" id="testInput" ng-model="data" md-autofocus>
+                </md-input-container>
+            </form>
+            <div layout="row">
+                <md-button ng-click="save()" class="md-primary" flex>
+                    Apply
+                </md-button>
+                <md-button ng-click="close()" class="md-primary" flex>
+                    Discard
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </md-content>
+    </md-sidenav>
