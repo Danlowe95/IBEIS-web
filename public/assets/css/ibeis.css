@@ -45,3 +45,11 @@ md-checkbox.md-checked.green .md-icon {
 	min-width: 420px;
 	max-width: 420px;
 }
+#main-sidenav {
+	min-width: 400px;
+	max-width: 400px;
+}
+
+.angular-google-map-container {
+	height: 100px;
+}
