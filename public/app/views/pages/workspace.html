@@ -98,14 +98,14 @@
             <div layout="row" layout-align="center center">
             <!-- TODO this is not aligned exactly -->
                 <span class="nav-font">Include:</span>
-                <md-checkbox aria-label="images" class="green nav-font" ng-model="checkbox.images" ng-init="checkbox.images=true">
+                <md-checkbox aria-label="images" class="green nav-font" ng-model="checkbox.images" ng-init="checkbox.images=true" ng-click="changeType('images')">
                     Images
                 </md-checkbox>
-                <md-checkbox class="green nav-font" ng-model="checkbox.annotations" ng-init="checkbox.annotations=true">
+                <md-checkbox class="green nav-font" ng-model="checkbox.annotations" ng-init="checkbox.annotations=true" ng-click="changeType('annotations')">
                     Annotations
                 </md-checkbox>
-                <md-checkbox class="green nav-font" ng-model="checkbox.view" ng-init="checkbox.view=true">
-                    View
+                <md-checkbox class="green nav-font" ng-model="checkbox.view" ng-init="checkbox.view=true" ng-click="changeType('animals')">
+                    Animals
                 </md-checkbox>
             </div>
             <div class="toolbar-divider"></div>

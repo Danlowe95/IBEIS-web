@@ -84,18 +84,20 @@ angular.module('workspace.controller', [])
             $scope.workspace = w;
         };
 
-        /* TYPE MENU */
-        $scope.types = ['images', 'annotations', 'animals'];
-        $scope.type = 'images';
-        $scope.setType = function(t) {
-            $scope.type = t;
-        };
-        // WIP Type Menu
+        //Outdated
+        // /* TYPE MENU */
         // $scope.types = ['images', 'annotations', 'animals'];
-        // $scope.types_selected = [images:true, annotations:true, animals:true];
-        // $scope.changeType = function(t) {
-        //     $scope.types_selected[t] = !$scope.types_selected[t];
+        // $scope.type = 'images';
+        // $scope.setType = function(t) {
+        //     $scope.type = t;
         // };
+        // WIP Type Menu
+        $scope.types = ['images', 'annotations', 'animals'];
+        $scope.types_selected = {images:true, annotations:true, animals:true};
+        $scope.changeType = function(t) {
+            $scope.types_selected[t] = !$scope.types_selected[t];
+            console.log(t + " changed to " + $scope.types_selected[t]);
+        };
 
         /* VIEW MENU */
         $scope.views = ['thumbnails', 'table', 'map'];
