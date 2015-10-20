@@ -5,7 +5,7 @@
         </div>
         <md-divider></md-divider>
         <div class="tools md-whiteframe-z1" layout="row">
-            <md-button class="tools-button" flex aria-label="Upload"><i class="fa fa-upload"></i> Upload</md-button>
+            <md-button ng-click="showUploadDialog()" class="tools-button" flex aria-label="Upload"><i class="fa fa-upload"></i> Upload</md-button>
         </div>
     </header>
     <md-content md-scroll-y layout-padding flex>
@@ -20,7 +20,7 @@
             </md-button>
             <!-- <h1 hide-gt-sm>IBEIS</h1> -->
             <span flex></span>
-            <md-button class="md-primary">
+            <md-button ng-click="showShareDialog()" class="md-primary">
                 <i class="fa fa-share"></i> Share
                 <md-tooltip md-autohide>
                     Share the current state of your workspace.

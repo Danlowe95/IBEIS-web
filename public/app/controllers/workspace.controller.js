@@ -1,10 +1,11 @@
 angular.module('workspace.controller', [])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', function($scope, $mdSidenav, $mdToast) {
-        $scope.testItems = Array.apply(null, {length: 100}).map(Number.call, Number);
+    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', function($scope, $mdSidenav, $mdToast, $mdDialog) {
+        $scope.testItems = Array.apply(null, {
+            length: 100
+        }).map(Number.call, Number);
         $scope.toggleSidenav = function(menuId) {
             $mdSidenav(menuId).toggle();
         };
-
 
         var last = {
             bottom: false,
@@ -21,6 +22,7 @@ angular.module('workspace.controller', [])
                 })
                 .join(' ');
         };
+
         function sanitizePosition() {
             var current = $scope.toastPosition;
             if (current.bottom && last.top) current.top = false;
@@ -40,6 +42,28 @@ angular.module('workspace.controller', [])
                     alert('You redid the filter.');
                 }
             });
+        };
+
+        /* UPLOAD DIALOG */
+        $scope.showUploadDialog = function(ev) {
+            $mdDialog.show(
+                $mdDialog.alert({
+                    title: 'Upload',
+                    content: 'This is where the upload dialog will be.',
+                    ok: 'Close'
+                })
+            );
+        };
+
+        /* SHARE DIALOG */
+        $scope.showShareDialog = function(ev) {
+            $mdDialog.show(
+                $mdDialog.alert({
+                    title: 'Share',
+                    content: 'This is where the share dialog will be.',
+                    ok: 'Close'
+                })
+            );
         };
 
         /* TYPE MENU */
