@@ -4,7 +4,6 @@ $(window).load(function() {
     });
 
     var resizeMap = function() {
-        console.log('resizing');
         var total = $(window).height();
         var toolbar = $("#toolbar").height();
         $(".angular-google-map-container").css('height', total - toolbar);

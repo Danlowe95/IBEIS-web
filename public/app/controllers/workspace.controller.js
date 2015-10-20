@@ -5,12 +5,26 @@ angular.module('workspace.controller', [])
                 latitude: 45,
                 longitude: -73
             },
-            zoom: 8
+            zoom: 8,
+            options: {
+                disableDefaultUI: true,
+                draggable: true,
+                minZoom: 4,
+                zoomControl: true
+            }
+        };
+
+        $scope.currentMarker = null;
+        $scope.clickMarker = function(id) {
+            console.log("marker clicked");
+            $scope.currentMarker = id;
+            $scope.toggleSidenav('marker');
         };
 
         $scope.testItems = Array.apply(null, {
             length: 100
         }).map(Number.call, Number);
+
         $scope.toggleSidenav = function(menuId) {
             $mdSidenav(menuId).toggle();
         };
@@ -55,6 +69,11 @@ angular.module('workspace.controller', [])
             });
         };
 
+        /* SIDENAMVS */
+        $scope.close = function(id) {
+            $mdSidenav(id).close();
+        };
+
         /* UPLOAD DIALOG */
         $scope.showUploadDialog = function(ev) {
             $mdDialog.show(
@@ -93,7 +112,11 @@ angular.module('workspace.controller', [])
         // };
         // WIP Type Menu
         $scope.types = ['images', 'annotations', 'animals'];
-        $scope.types_selected = {images:true, annotations:true, animals:true};
+        $scope.types_selected = {
+            images: true,
+            annotations: true,
+            animals: true
+        };
         $scope.changeType = function(t) {
             $scope.types_selected[t] = !$scope.types_selected[t];
             console.log(t + " changed to " + $scope.types_selected[t]);
@@ -103,16 +126,7 @@ angular.module('workspace.controller', [])
         $scope.views = ['thumbnails', 'table', 'map'];
         $scope.view = 'thumbnails';
         $scope.setView = function(v) {
-            $(window).trigger('resize');
             $scope.view = v;
+            $(window).trigger('resize');
         };
-    }])
-    .controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
-        $scope.close = function() {
-            $mdSidenav('right').close();
-        };
-        $scope.save = function() {
-            //save information required
-            $mdSidenav('right').close();
-        }
-    });
+    }]);
