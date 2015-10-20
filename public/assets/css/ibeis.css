@@ -29,3 +29,10 @@
 	margin: 0 10px;
 	border-right: 1px solid #000;
 }
+
+md-checkbox.md-checked.green .md-icon {
+ background-color: rgba(0, 255, 0, 0.87);
+}
+.nav-font {
+    font-size: 14px;
+}
