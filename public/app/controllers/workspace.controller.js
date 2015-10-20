@@ -103,6 +103,7 @@ angular.module('workspace.controller', [])
         $scope.views = ['thumbnails', 'table', 'map'];
         $scope.view = 'thumbnails';
         $scope.setView = function(v) {
+            $(window).trigger('resize');
             $scope.view = v;
         };
     }])

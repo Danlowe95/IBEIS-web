@@ -1,6 +1,4 @@
 $(window).load(function() {
-    alert("window load occurred!");
-
     $(window).resize(function() {
         resizeMap();
     });
@@ -11,6 +9,4 @@ $(window).load(function() {
         var toolbar = $("#toolbar").height();
         $(".angular-google-map-container").css('height', total - toolbar);
     };
-
-    resizeMap();
 });
