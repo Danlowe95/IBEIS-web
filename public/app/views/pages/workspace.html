@@ -71,7 +71,7 @@
                 </md-tooltip>
             </md-button>
             <div class="toolbar-divider"></div>
-            <md-menu md-position-mode="target-right target">
+            <!--      <md-menu md-position-mode="target-right target">
                 <md-button class="md-icon-button" aria-label="Type Selector" ng-click="$mdOpenMenu($event)">
                     <i class="fa fa-file-image-o" ng-show="type == 'images'"></i>
                     <i class="fa fa-object-group" ng-show="type == 'annotations'"></i>
@@ -94,6 +94,21 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
+            -->
+            <div layout="row" layout-align="center center">
+            <!-- TODO this is not aligned exactly -->
+                <span class="nav-font">Include:</span>
+                <md-checkbox aria-label="images" class="green nav-font" ng-model="checkbox.images" ng-init="checkbox.images=true">
+                    Images
+                </md-checkbox>
+                <md-checkbox class="green nav-font" ng-model="checkbox.annotations" ng-init="checkbox.annotations=true">
+                    Annotations
+                </md-checkbox>
+                <md-checkbox class="green nav-font" ng-model="checkbox.view" ng-init="checkbox.view=true">
+                    View
+                </md-checkbox>
+            </div>
+            <div class="toolbar-divider"></div>
             <md-menu md-position-mode="target-right target">
                 <md-button class="md-icon-button" aria-label="View Selector" ng-click="$mdOpenMenu($event)">
                     <i class="fa fa-picture-o" ng-show="view == 'thumbnails'"></i>
