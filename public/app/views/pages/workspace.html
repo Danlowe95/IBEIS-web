@@ -18,6 +18,25 @@
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                 <md-icon aria-label="Menu" md-svg-icon="//s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
             </md-button>
+            <md-menu>
+                <md-button class="md-primary" aria-label="Workspace Selector" ng-click="$mdOpenMenu($event)">
+                    {{workspace}}
+                    <md-tooltip>
+                        Select workspace.
+                    </md-tooltip>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item ng-repeat="w in workspaces">
+                        <md-button ng-click="setWorkspace(w)">
+                            <div layout="row">
+                                <p flex>
+                                    {{w}}
+                                </p>
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
             <span flex></span>
             <!-- share dialog buttons -->
             <md-button ng-click="showShareDialog()" class="md-primary" hide show-gt-md>

@@ -66,6 +66,13 @@ angular.module('workspace.controller', [])
             );
         };
 
+        /* WORKSPACES */
+        $scope.workspace = 'ws1';
+        $scope.workspaces = ['ws1', 'ws2', 'ws3'];
+        $scope.setWorkspace = function(w) {
+            $scope.workspace = w;
+        };
+
         /* TYPE MENU */
         $scope.types = ['images', 'annotations', 'animals'];
         $scope.type = 'images';
