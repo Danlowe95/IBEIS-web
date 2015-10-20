@@ -13,7 +13,7 @@
     </md-content>
 </md-sidenav>
 <div class="layout-column flex">
-    <md-toolbar layout="row">
+    <md-toolbar layout="row" id="toolbar">
         <div class="md-toolbar-tools md-whiteframe-z1">
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                 <md-icon aria-label="Menu" md-svg-icon="//s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
@@ -137,8 +137,8 @@
     <ng-include src="'app/views/includes/workspace/filtering.html'"></ng-include>
     <md-content md-scroll-y flex>
         <!-- using ng-includes to cut down on the number of lines in each html file -->
-        <ng-include ng-if="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.html'"></ng-include>
-        <ng-include ng-if="view == 'table'" src="'app/views/includes/workspace/table.html'"></ng-include>
-        <ng-include ng-if="view == 'map'" src="'app/views/includes/workspace/map.html'"></ng-include>
+        <ng-include ng-show="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.html'" flex></ng-include>
+        <ng-include ng-show="view == 'table'" src="'app/views/includes/workspace/table.html'" flex></ng-include>
+        <ng-include ng-show="view == 'map'" src="'app/views/includes/workspace/map.html'" flex></ng-include>
     </md-content>
 </div>

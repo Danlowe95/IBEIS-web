@@ -1,5 +1,13 @@
 angular.module('workspace.controller', [])
     .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', function($scope, $mdSidenav, $mdToast, $mdDialog) {
+        $scope.map = {
+            center: {
+                latitude: 45,
+                longitude: -73
+            },
+            zoom: 8
+        };
+
         $scope.testItems = Array.apply(null, {
             length: 100
         }).map(Number.call, Number);
