@@ -1,16 +1,69 @@
 <md-sidenav id="main-sidenav" layout="column" class="sidenav md-sidenav-left md-whiteframe-z3" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-    <header class="sidenav-header">
+    <md-menu-bar class="main-menu md-whiteframe-z1">
+        <md-menu>
+            <button ng-click="$mdOpenMenu()">
+                File
+            </button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="showUploadDialog()">
+                        Upload
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="showShareDialog()">
+                        Share...
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ui-sref="login">
+                        Logout
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-menu>
+            <button ng-click="$mdOpenMenu()">
+                Options
+            </button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button>
+                        Settings
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="toggleLogo()">
+                        <span ng-show="!logoVisible()">Show Logo</span>
+                        <span ng-show="logoVisible()">Hide Logo</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </md-menu-bar>
+    <header id="logo" class="sidenav-header">
         <div class="logo">
             <img src="assets/img/logo-ibeis.png" height="240" width="240">
         </div>
-        <md-divider></md-divider>
-        <div class="tools md-whiteframe-z1" layout="row">
-            <md-button ng-click="showUploadDialog()" class="tools-button" flex aria-label="Upload"><i class="fa fa-upload"></i> Upload</md-button>
-            <md-button ng-click="showShareDialog()" class="tools-button" flex aria-label="Share"><i class="fa fa-share-alt"></i> Share</md-button>
-        </div>
     </header>
-    <md-content md-scroll-y layout-padding flex>
-        Remainder of the sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum non massa eu ultrices. Integer laoreet volutpat ullamcorper. In hac habitasse platea dictumst. In commodo, ex quis facilisis porttitor, nunc tellus vehicula lectus, vel volutpat odio ante sit amet nisl. Pellentesque et vestibulum libero. Pellentesque porta leo eros, vitae varius leo vestibulum in. Vestibulum nec massa ornare enim volutpat fermentum. Vestibulum a sodales quam. Morbi velit odio, sollicitudin id sapien tempus, varius condimentum turpis. Pellentesque tincidunt risus mollis lobortis mattis. Mauris lacinia orci vitae gravida ultrices. Pellentesque semper dictum lectus, lobortis eleifend enim suscipit ac. Nulla lectus diam, convallis ac pharetra id, lobortis vitae nisi. Quisque at ornare neque, a mattis lectus. Integer nunc nibh, fringilla ac nulla eget, varius aliquam nibh. Vestibulum vel ornare sapien. Donec finibus imperdiet nibh a blandit. Cras sed lorem mauris. Mauris feugiat elementum nunc, sit amet tristique enim eleifend vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus mauris et eros dignissim, sed dapibus magna ornare. Fusce blandit, orci egestas volutpat sagittis, sapien ligula dignissim diam, eu accumsan lorem velit eu tortor. Donec vel erat velit. Integer et ullamcorper libero. Fusce odio ante, euismod ac ullamcorper accumsan, mollis eu augue. Phasellus ornare ut nisl ac pharetra. Maecenas sollicitudin non velit ac lacinia. In urna diam, egestas vitae tortor ut, tempor fermentum urna. Sed rutrum semper luctus. Nam lorem turpis, placerat a odio vel, scelerisque vulputate justo. Phasellus ut aliquet lacus. Praesent a est eget augue dignissim eleifend at non sem. Duis sit amet convallis arcu. Curabitur ut tincidunt nisl, eget aliquam ipsum. Integer sed ornare augue. Vestibulum tempor a tortor vel facilisis. Duis sit amet sem vel erat imperdiet cursus vitae vel odio. Donec dictum vel diam a consequat. Etiam ac ex sit amet neque egestas sollicitudin. Donec ligula diam, vulputate et metus nec, cursus porttitor ante. Suspendisse eget magna quis dolor tincidunt facilisis et ut lacus. Proin vulputate, nibh vitae commodo tristique, massa tortor hendrerit libero, nec sollicitudin elit massa id ex. Sed egestas aliquam elit ac rutrum. Suspendisse potenti. Curabitur quis cursus ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla sed dapibus elit. Aliquam quis fringilla massa, at varius arcu. Phasellus ullamcorper, ex in malesuada luctus, odio nunc vulputate tortor, a mattis libero justo ut mi. Etiam aliquam mi tellus, quis accumsan turpis lobortis sed. Morbi blandit feugiat neque. Quisque quis sem suscipit, dignissim nibh eget, consequat est. Fusce eu convallis est. In vitae eleifend ipsum, tempus pharetra elit.
+    <md-divider></md-divider>
+    <md-content md-scroll-y layout-padding layout="column" flex>
+        <h2 class="ws-title">{{workspace}}</h2>
+        <h3 style="text-align: center">Placeholder for Pie Chart of States of Processing</h3>
+        <!-- Functions -->
+        <md-divider></md-divider>
+        <div class="action-container" layout="column">
+            <md-button class="md-primary md-raised sidenav-btn"><strong>Run</strong> Detection</md-button>
+            <md-button class="md-primary md-raised sidenav-btn"><strong>Review</strong> Detection</md-button>
+            <md-button class="md-primary md-raised sidenav-btn" disabled><strong>Run</strong> Identification</md-button>
+            <md-button class="md-primary md-raised sidenav-btn" disabled><strong>Review</strong> Identification</md-button>
+        </div>
+        <md-divider></md-divider>
+        <p>
+            Other workspace information.
+        </p>
     </md-content>
 </md-sidenav>
 <div class="layout-column flex">
@@ -38,13 +91,6 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-            <md-button class="md-icon-button" aria-label="Save">
-                <i class="fa fa-save"></i>
-                <md-tooltip md-autohide>
-                    Save current workspace.
-                </md-tooltip>
-            </md-button>
-            <span flex></span>
             <!-- filter nav buttons -->
             <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
                 <i class="fa fa-filter"></i> Filter
@@ -64,14 +110,18 @@
                     Undo last filter change.
                 </md-tooltip>
             </md-button>
-            <div class="toolbar-divider"></div>
+            <md-button class="md-icon-button" aria-label="Save">
+                <i class="fa fa-save"></i>
+                <md-tooltip md-autohide>
+                    Save to new workspace.
+                </md-tooltip>
+            </md-button>
+            <span flex></span>
             <md-menu md-position-mode="target-right target">
-                <md-button class="md-icon-button" aria-label="Type Selector" ng-click="$mdOpenMenu($event)">
-                    <i class="fa fa-file-image-o" ng-show="type == 'images'"></i>
-                    <i class="fa fa-object-group" ng-show="type == 'annotations'"></i>
-                    <i class="fa fa-users" ng-show="type == 'animals'"></i>
+                <md-button aria-label="View Selector" ng-click="$mdOpenMenu($event)">
+                    VIEW
                     <md-tooltip md-direction="left" md-autohide>
-                        Viewing {{type}}.
+                        Viewing {{type}} in {{view}} mode.
                     </md-tooltip>
                 </md-button>
                 <md-menu-content width="3">
@@ -79,45 +129,21 @@
                         <md-button ng-click="setType(t)">
                             <div layout="row">
                                 <p flex>
-                                    <i class="fa fa-fw fa-file-image-o" ng-show="v == 'images'"></i>
-                                    <i class="fa fa-fw fa-object-group" ng-show="v == 'annotations'"></i>
-                                    <i class="fa fa-fw fa-users" ng-show="v == 'animals'"></i> &emsp;View {{t}}
+                                    <i class="fa fa-fw fa-file-image-o" ng-show="t == 'images'"></i>
+                                    <i class="fa fa-fw fa-object-group" ng-show="t == 'annotations'"></i>
+                                    <i class="fa fa-fw fa-users" ng-show="t == 'animals'"></i> &emsp;view {{t}}
                                 </p>
                             </div>
                         </md-button>
                     </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <!-- <div layout="row" layout-align="center center">
-                <span class="nav-font">Include:</span>
-                <md-checkbox aria-label="images" class="green nav-font" ng-model="checkbox.images" ng-init="checkbox.images=true" ng-click="changeType('images')">
-                    Images
-                </md-checkbox>
-                <md-checkbox class="green nav-font" ng-model="checkbox.annotations" ng-init="checkbox.annotations=true" ng-click="changeType('annotations')">
-                    Annotations
-                </md-checkbox>
-                <md-checkbox class="green nav-font" ng-model="checkbox.view" ng-init="checkbox.view=true" ng-click="changeType('animals')">
-                    Animals
-                </md-checkbox>
-            </div>
-            <div class="toolbar-divider"></div> -->
-            <md-menu md-position-mode="target-right target">
-                <md-button class="md-icon-button" aria-label="View Selector" ng-click="$mdOpenMenu($event)">
-                    <i class="fa fa-picture-o" ng-show="view == 'thumbnails'"></i>
-                    <i class="fa fa-table" ng-show="view == 'table'"></i>
-                    <i class="fa fa-map" ng-show="view == 'map'"></i>
-                    <md-tooltip md-direction="left" md-autohide>
-                        In {{view}} mode.
-                    </md-tooltip>
-                </md-button>
-                <md-menu-content width="3">
+                    <md-divider></md-divider>
                     <md-menu-item ng-repeat="v in views">
                         <md-button ng-click="setView(v)">
                             <div layout="row">
                                 <p flex>
                                     <i class="fa fa-fw fa-picture-o" ng-show="v == 'thumbnails'"></i>
                                     <i class="fa fa-fw fa-table" ng-show="v == 'table'"></i>
-                                    <i class="fa fa-fw fa-map" ng-show="v == 'map'"></i> &emsp;View {{v}}
+                                    <i class="fa fa-fw fa-map" ng-show="v == 'map'"></i> &emsp;{{v}} mode
                                 </p>
                             </div>
                         </md-button>

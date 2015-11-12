@@ -1,5 +1,5 @@
 #toolbar {
-	background: #84AD5F;
+	/*background: #84AD5F;*/
 }
 
 .sidenav {
@@ -8,15 +8,13 @@
 
 .sidenav-header {
     flex-shrink: 0;
-    z-index: 2;
 }
 
 .logo {
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 24px;
+    padding: 12px 0;
+    background: white;
+    /*border-top: 1px solid rgba(0,0,0,0.12);*/
 }
 
 .tools {
@@ -46,10 +44,74 @@ md-checkbox.md-checked.green .md-icon {
 	max-width: 420px;
 }
 #main-sidenav {
-	min-width: 400px;
-	max-width: 400px;
+	min-width: 360px;
+	max-width: 360px;
 }
 
 .angular-google-map-container {
-	height: 100px;
+	height: 1000px;
+}
+
+md-menu-content {
+    z-index: 100;
+}
+
+.sidenav-btn {
+    text-align: left;
+    padding-left: 15px;
+}
+
+.action-container {
+    margin: 20px;
+}
+
+.main-menu {
+    background: #448AFF;
+}
+
+.main-menu > md-menu > button {
+    color: white;
+    font-weight: 600;
+}
+
+.ws-title {
+    text-align: center;
+}
+
+/* Table Styles */
+table {
+    overflow: scroll;
+}
+
+th {
+    text-align: left;
+    padding: 20px 0 20px 10px;
+}
+
+tr:hover > th {
+    cursor: default !important;
+}
+
+tr > th {
+    border-bottom: 1px solid #ddd;
+}
+
+tr {
+    
+}
+
+tr:nth-child(odd) {
+    background-color: #eee;
+}
+
+tr:hover {
+    cursor: pointer;
+}
+
+.image-card:hover {
+    cursor: pointer;
+}
+
+td {
+    padding-left: 10px;
 }

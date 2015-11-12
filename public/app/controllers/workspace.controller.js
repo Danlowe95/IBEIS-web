@@ -128,4 +128,22 @@ angular.module('workspace.controller', [])
             $scope.view = v;
             $(window).trigger('resize');
         };
+
+        $scope.toggleLogo = function() {
+            var logo = $('#logo');
+            if (logo.css('display') === 'none') {
+                logo.show();
+            } else {
+                logo.hide();
+            }
+        };
+
+        $scope.logoVisible = function() {
+            var logo = $('#logo');
+            if (logo.css('display') === 'none') {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }]);

@@ -1,9 +1,14 @@
-<div layout-padding flex>
+<div flex>
     <table style="width:100%">
-        <tr ng-repeat="i in testItems">
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
+    	<tr>
+			<th>Thumbnail</th>
+			<th>Name</th>
+			<th>Other</th>
+    	</tr>
+        <tr ng-repeat="i in testItems" ng-click="toggleSidenav('marker')">
+            <td><img src="http://placehold.it/100x100"></td>
+            <td>IBS_ZEBRA_1</td>
+            <td>Something</td>
         </tr>
     </table>
 </div>
