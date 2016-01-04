@@ -1,5 +1,28 @@
 angular.module('workspace.controller', [])
     .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', function($scope, $mdSidenav, $mdToast, $mdDialog) {
+        /* PHOTOSWIPE VARIABLES */
+
+        $scope.slides = [{
+            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+            w: 964,
+            h: 1024
+        }, {
+            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+            w: 1024,
+            h: 683
+        }];
+
+        // define options (if needed)
+        $scope.opts = {
+            // history & focus options are disabled on CodePen
+            history: false,
+            focus: false,
+
+            showAnimationDuration: 0,
+            hideAnimationDuration: 0
+
+        };
+
         $scope.map = {
             center: {
                 latitude: 45,
@@ -109,17 +132,6 @@ angular.module('workspace.controller', [])
         $scope.setType = function(t) {
             $scope.type = t;
         };
-        // WIP Type Menu
-        // $scope.types = ['images', 'annotations', 'animals'];
-        // $scope.types_selected = {
-        //     images: true,
-        //     annotations: true,
-        //     animals: true
-        // };
-        // $scope.changeType = function(t) {
-        //     $scope.types_selected[t] = !$scope.types_selected[t];
-        //     console.log(t + " changed to " + $scope.types_selected[t]);
-        // };
 
         /* VIEW MENU */
         $scope.views = ['thumbnails', 'table', 'map'];

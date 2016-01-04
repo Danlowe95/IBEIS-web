@@ -8,7 +8,7 @@ angular.module('ibeis', [
         'yaru22.md', // markdown display (for help maybe)
         'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps
-        'ngPhotoswipe'
+        'ngPhotoswipe' // photoswipe
     ])
     // setup theme
     .config(function($mdThemingProvider) {
