@@ -1,0 +1,14 @@
+Recommended steps to establish ground truth of a dataset:
+This assumes a starting point where all annotations have been created on animals and reviewed for accuracy.
+    1. Use IBEIS to auto-group by time and encounter utiulize the paramters. This helps you to easily find pictures of the same animal and link them together. Go through each grouping and name same animals within each group.
+    2. After each group has been processed and named, run identification (we used intra-encounter) on entire dataset. Go through the matches one at a time and review the match. If you determine it to be a correct match, select true, else, select false.  Merge animal names where necessary (this will happen often). Continue until satisfied with results.
+
+    Tips:
+    -at a certain point, all matches shown will be obvious non-matches, due to the results being sorted from most-likely to least likely.  The user can stop when they feel their results are fully accurate.
+    -You can use keyboard buttons to speed up your process.  Use your up and down arrow keys to move down the table, and click T for true, and F for false.
+    -It can be helpful to re-run the identification as you progress. By doing this, you take into account the new links between images you have created, and get more accurate matches as a result to work with.
+
+
+
+Does WIBEIS need this functionality?
+    -Should IBEIS implement all-against-all matching (all encounters vs all encounters)? Most likely
