@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var morgan = require('morgan');
 var path = require('path');
-
 // set the static files location
 app.use(express.static(__dirname + '/public'));
 
