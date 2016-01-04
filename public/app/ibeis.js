@@ -7,14 +7,15 @@ angular.module('ibeis', [
         'ngMaterial', // angular material
         'yaru22.md', // markdown display (for help maybe)
         'ncy-angular-breadcrumb', // breadcrumbs made easy
-        'uiGmapgoogle-maps' // angular google maps
+        'uiGmapgoogle-maps', // angular google maps
+        'ngPhotoswipe'
     ])
     // setup theme
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
-            // Available palettes: red, pink, purple, deep-purple, 
-            //   indigo, blue, light-blue, cyan, teal, green, light-green, 
-            //   lime, yellow, amber, orange, deep-orange, brown, grey, 
+            // Available palettes: red, pink, purple, deep-purple,
+            //   indigo, blue, light-blue, cyan, teal, green, light-green,
+            //   lime, yellow, amber, orange, deep-orange, brown, grey,
             //   blue-grey
             .primaryPalette('green')
             .accentPalette('blue');

@@ -1,10 +1,6 @@
 $(document).ready (function (){
 
 
-    var openPhotoSwipe = function() {
-    var pswpElement = document.querySelectorAll('.pswp')[0];
-
-    // build items array
     var items = [
         {
             src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
@@ -28,14 +24,5 @@ $(document).ready (function (){
         hideAnimationDuration: 0
 
     };
-
-    var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
-    gallery.init();
-};
-
-openPhotoSwipe();
-
-document.getElementById('btn').onclick = openPhotoSwipe;
-
-
 })
+
