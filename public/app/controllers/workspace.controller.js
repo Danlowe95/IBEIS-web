@@ -4,13 +4,21 @@ angular.module('workspace.controller', [])
         /* PHOTOSWIPE VARIABLES */
 
         $scope.slides = [{
+            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+            w: 500,
+            h: 500,
+        }, {
             src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 964,
-            h: 1024
+            w: 500,
+            h: 500
         }, {
             src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 1024,
-            h: 683
+            w: 500,
+            h: 500
+        }, {
+            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+            w: 500,
+            h: 500
         }];
 
         // define options (if needed)
