@@ -1,5 +1,6 @@
 angular.module('workspace.controller', [])
     .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', function($scope, $mdSidenav, $mdToast, $mdDialog) {
+
         /* PHOTOSWIPE VARIABLES */
 
         $scope.slides = [{
@@ -20,7 +21,13 @@ angular.module('workspace.controller', [])
 
             showAnimationDuration: 0,
             hideAnimationDuration: 0
+        };
 
+        $scope.startEvent = 'START_GALLERY';
+
+        $scope.showGallery = function(i) {
+            $scope.opts.index = i || $scope.opts.index;
+            $scope.$broadcast($scope.startEvent);
         };
 
         $scope.map = {

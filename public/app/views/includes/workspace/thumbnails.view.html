@@ -1,2 +1,7 @@
-<ng-photoswipe slides="slides" options="opts" flex>
+<ul class="slide-list">
+    <li ng-repeat="s in slides track by $index" ng-click="showGallery($index)">
+        <img ng-src="{{ s.src }}" alt="slide number {{ $index }}" />
+    </li>
+</ul>
+<ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
 </ng-photoswipe>
