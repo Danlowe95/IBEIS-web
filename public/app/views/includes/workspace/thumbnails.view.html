@@ -4,7 +4,10 @@
 <ul class="dynamic-grid" angular-grid="slides" grid-width="250" gutter-size="10" angular-grid-id="gallery" refresh-on-img-load="true" >
 <li data-ng-repeat="slide in slides" class="grid" ng-click="showGallery($index)">
         <div class="grid">
-         <img src="{{slide.src}}" style="max-height: 250px; max-width: 250px; width: auto"/>
+            <column>
+         <img src="{{slide.src}}" style="max-height: 200px; max-width: 200px; width: auto"/>
+         <h4 style="margin: 0; text-align: center">Image Info</h4>
+         </column>
          </div>
      </li>
 </ul>
