@@ -1,5 +1,29 @@
 <!-- Note: This gallery uses test data and we will have to design a new one when we find out how the IBEIS API will send us image data -->
-<div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery" ng-click="showGallery($index)">
+
+<div class="grid-container">
+<ul class="dynamic-grid" angular-grid="slides" grid-width="250" gutter-size="10" angular-grid-id="gallery" refresh-on-img-load="true" >
+<li data-ng-repeat="slide in slides" class="grid" ng-click="showGallery($index)">
+        <div class="grid">
+         <img src="{{slide.src}}" style="max-height: 250px; max-width: 250px; width: auto"/>
+         </div>
+     </li>
+</ul>
+<div>
+
+
+
+
+<!-- <div deckgrid source="slides" class="deckgrid" ng-click="showGallery($index)">
+    <div class="a-card">
+    <figure>
+        <h1>{{card.title}}</h1>
+        <img src="" data-ng-src="{{card.src}}" height="200px" width="200px" itemprop="contentUrl">
+        </figure>
+        </div>
+
+
+</div> -->
+<!-- <div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery" ng-click="showGallery($index)">
     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
         <img src="https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg" itemprop="contentUrl" data-size="1024x1024"/>
         <figcaption itemprop="caption description">Image caption 1</figcaption>
@@ -20,10 +44,6 @@
         <figcaption itemprop="caption description">Image caption 4</figcaption>
     </figure>
 </div>
-<!-- <ul class="slide-list">
-    <li ng-repeat="s in slides track by $index" ng-click="showGallery($index)">
-        <img ng-src="{{ s.src }}" alt="slide number {{ $index }}" />
-    </li>
-</ul> -->
+ -->
 <ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
 </ng-photoswipe>

@@ -2,9 +2,10 @@ angular.module('ibeis', [
         // routes
         'ibeis.routes',
         // controllers
-        'workspace.controller',
+        'workspace-app',
         // imports
         'ngMaterial', // angular material
+        // 'ngMessages', //angular messages - used with cards?
         'yaru22.md', // markdown display (for help maybe)
         'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps
