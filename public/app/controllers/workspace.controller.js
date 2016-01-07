@@ -1,5 +1,6 @@
 angular.module('workspace-app', ['ngFlowGrid'])
     .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', 'fgDelegate', function($scope, $mdSidenav, $mdToast, $mdDialog, fgDelegate) {
+        //fgdelegate is used for ngFlowGrid
 
         /* PHOTOSWIPE VARIABLES */
         $scope.slides = [{
@@ -34,7 +35,7 @@ angular.module('workspace-app', ['ngFlowGrid'])
             index: 4
         }];
 
-        // define options (if needed)
+        // define options
         $scope.opts = {
             // history & focus options are disabled on CodePen
             history: false,
@@ -43,11 +44,10 @@ angular.module('workspace-app', ['ngFlowGrid'])
             showAnimationDuration: 0,
             hideAnimationDuration: 0
         };
-        //test ngFlowGrid objects
+        //ngFlowGrid Method (what does it do?)
         $scope.updateGrid = function(){
         var homePageGrid = fgDelegate.getFlow('homePageGrid');
 
-        // then you can:
         homePageGrid.minItemWidth += 20;
         homePageGrid.refill(true);
     }
@@ -55,7 +55,7 @@ angular.module('workspace-app', ['ngFlowGrid'])
 
 
 
-
+        //Options relating to photoswipe
         $scope.startEvent = 'START_GALLERY';
 
         $scope.showGallery = function(i) {
@@ -77,6 +77,7 @@ angular.module('workspace-app', ['ngFlowGrid'])
             }
         };
 
+        //Map
         $scope.currentMarker = null;
         $scope.clickMarker = function(id) {
             console.log("marker clicked");
