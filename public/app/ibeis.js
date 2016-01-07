@@ -6,6 +6,7 @@ angular.module('ibeis', [
         // imports
         'ngMaterial', // angular material
         // 'ngMessages', //angular messages - used with cards?
+        'ngFlowGrid',
         'yaru22.md', // markdown display (for help maybe)
         'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps

@@ -1,5 +1,5 @@
-angular.module('workspace-app', ['angularGrid'])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', function($scope, $mdSidenav, $mdToast, $mdDialog) {
+angular.module('workspace-app', ['ngFlowGrid'])
+    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', 'fgDelegate', function($scope, $mdSidenav, $mdToast, $mdDialog, fgDelegate) {
 
         /* PHOTOSWIPE VARIABLES */
         $scope.slides = [{
@@ -43,6 +43,18 @@ angular.module('workspace-app', ['angularGrid'])
             showAnimationDuration: 0,
             hideAnimationDuration: 0
         };
+        //test ngFlowGrid objects
+        $scope.updateGrid = function(){
+        var homePageGrid = fgDelegate.getFlow('homePageGrid');
+
+        // then you can:
+        homePageGrid.minItemWidth += 20;
+        homePageGrid.refill(true);
+    }
+
+
+
+
 
         $scope.startEvent = 'START_GALLERY';
 
