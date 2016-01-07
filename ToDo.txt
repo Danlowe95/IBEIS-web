@@ -1,0 +1,12 @@
+Image Viewer:
+	Important: Find out how image data will be given to us, and how to properly pass that data into photoswipe
+	-Create a grid system for photoswipe images, with openphotoswipe(index) as the onclicks
+
+    questions:
+        -what data do we have associated with the actual image?
+        -Can we easily get the dimensions of the image (photoswipe requires this- if not, we can use a different, similar viewer.  Photoswipe is best option though)
+
+
+    GET US TEST DATA
+
+

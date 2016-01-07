@@ -7,6 +7,7 @@ angular.module('ibeis', [
         'ngMaterial', // angular material
         // 'ngMessages', //angular messages - used with cards?
         'ngFlowGrid',
+        'smart-table',
         'yaru22.md', // markdown display (for help maybe)
         'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps

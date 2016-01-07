@@ -1,14 +1,19 @@
+
 <div flex>
-    <table style="width:100%">
-    	<tr>
+    <table st-table="slides" class="table" style="width: 100%">
+    	<thead>
+        <tr>
 			<th>Thumbnail</th>
-			<th>Name</th>
-			<th>Other</th>
+			<th st-sort="title">Name</th>
+			<th st-sort="index">Index</th>
     	</tr>
-        <tr ng-repeat="i in testItems" ng-click="toggleSidenav('marker')">
-            <td><img src="http://placehold.it/100x100"></td>
-            <td>IBS_ZEBRA_1</td>
-            <td>Something</td>
+        </thead>
+        <tbody>
+        <tr ng-repeat="slide in slides" ng-click="toggleSidenav('image')">
+            <td><img ng-src="{{slide.src}}" style="max-height: 150px; max-width: 150px; width: auto" /></td>
+            <td>{{slide.title}}</td>
+            <td>{{slide.index}}</td>
         </tr>
+        </tbody>
     </table>
 </div>

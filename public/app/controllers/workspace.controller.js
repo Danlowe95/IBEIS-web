@@ -6,33 +6,88 @@ angular.module('workspace-app', ['ngFlowGrid'])
         $scope.slides = [{
             title: 'title1',
             src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-            w: 500,
-            h: 500,
-            index: 0
+            w: 539,
+            h: 539,
+            index: 1
         }, {
             title: 'title2',
             src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 500,
-            h: 500,
-            index: 1
+            w: 507,
+            h: 539,
+            index: 2
         }, {
             src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 500,
-            h: 500,
-            index: 2,
-            title: 'title3'
+            w: 808,
+            h: 539,
+            index: 3,
+            title: 'title3',
+            gps: 'n/a'
         }, {
             title: 'title4',
             src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 500,
-            h: 500,
-            index: 3
+            w: 718,
+            h: 539,
+            index: 4,
+            gps: 'n/a'
         }, {
+            title: 'title1',
+            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+            w: 539,
+            h: 539,
+            index: 1
+        }, {
+            title: 'title2',
+            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+            w: 507,
+            h: 539,
+            index: 2
+        }, {
+            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+            w: 808,
+            h: 539,
+            index: 3,
+            title: 'title3',
+            gps: 'n/a'
+        }, {
+            title: 'title4',
+            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+            w: 718,
+            h: 539,
+            index: 4,
+            gps: 'n/a'
+        },{
+            title: 'title1',
+            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+            w: 539,
+            h: 539,
+            index: 1
+        }, {
+            title: 'title2',
+            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+            w: 507,
+            h: 539,
+            index: 2
+        }, {
+            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+            w: 808,
+            h: 539,
+            index: 3,
+            title: 'title3',
+            gps: 'n/a'
+        }, {
+            title: 'title4',
+            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+            w: 718,
+            h: 539,
+            index: 4,
+            gps: 'n/a'
+        },{
             title: 'title5',
             src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 500,
-            h: 500,
-            index: 4
+            w: 718,
+            h: 539,
+            index: 5,
+            gps: 'n/a'
         }];
 
         // define options

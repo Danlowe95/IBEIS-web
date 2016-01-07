@@ -1,18 +1,19 @@
 <!-- Note: This gallery uses test data and we will have to design a new one when we find out how the IBEIS API will send us image data -->
 <div class="grid-container">
-    <ul class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250" refresh-on-img-load="true">
-        <li data-ng-repeat="slide in slides" class="flowGridItem" ng-click="showGallery($index)">
+    <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250" >
+        <div ng-repeat="slide in slides" class="flowGridItem" ng-click="showGallery($index)">
             <div class="grid">
                 <column>
-                    <img src="{{slide.src}}" style="max-height: 200px; max-width: 200px; width: auto" />
-                    <h4 class="image-information">Image Info</h4>
+                    <a href=""><img ng-src="{{slide.src}}" style="max-height: 200px; max-width: 200px; width: auto" /></a>
+                    <h4 class="image-information">{{slide.title}}</h4>
                 </column>
             </div>
-        </li>
-    </ul>
+        </div>
+    </div>
     <div>
 
 
 
 <ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
 </ng-photoswipe>
+
