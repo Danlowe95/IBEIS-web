@@ -5,13 +5,13 @@ angular.module('ibeis', [
         'workspace-app',
         // imports
         'ngMaterial', // angular material
-        // 'ngMessages', //angular messages - used with cards?
         'ngFlowGrid',
         'smart-table',
         'yaru22.md', // markdown display (for help maybe)
         'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps
-        'ngPhotoswipe' // photoswipe
+        'ngPhotoswipe', // photoswipe
+        'flow' // file upload
     ])
     // setup theme
     .config(function($mdThemingProvider) {

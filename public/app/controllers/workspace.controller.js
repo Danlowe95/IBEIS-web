@@ -55,7 +55,7 @@ angular.module('workspace-app', ['ngFlowGrid'])
             h: 539,
             index: 4,
             gps: 'n/a'
-        },{
+        }, {
             title: 'title1',
             src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
             w: 539,
@@ -81,7 +81,7 @@ angular.module('workspace-app', ['ngFlowGrid'])
             h: 539,
             index: 4,
             gps: 'n/a'
-        },{
+        }, {
             title: 'title5',
             src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
             w: 718,
@@ -100,12 +100,12 @@ angular.module('workspace-app', ['ngFlowGrid'])
             hideAnimationDuration: 0
         };
         //ngFlowGrid Method (what does it do?)
-        $scope.updateGrid = function(){
-        var homePageGrid = fgDelegate.getFlow('homePageGrid');
+        $scope.updateGrid = function() {
+            var homePageGrid = fgDelegate.getFlow('homePageGrid');
 
-        homePageGrid.minItemWidth += 20;
-        homePageGrid.refill(true);
-    }
+            homePageGrid.minItemWidth += 20;
+            homePageGrid.refill(true);
+        }
 
 
 
@@ -195,13 +195,17 @@ angular.module('workspace-app', ['ngFlowGrid'])
 
         /* UPLOAD DIALOG */
         $scope.showUploadDialog = function(ev) {
-            $mdDialog.show(
-                $mdDialog.alert({
-                    title: 'Upload',
-                    content: 'This is where the upload dialog will be.',
-                    ok: 'Close'
-                })
-            );
+            $mdDialog.show({
+                clickOutsideToClose: true,
+                scope: $scope,
+                preserveScope: true,
+                templateUrl: 'app/views/includes/workspace/upload.dialog.html',
+                controller: function DialogController($scope, $mdDialog) {
+                    $scope.closeDialog = function() {
+                        $mdDialog.hide();
+                    }
+                }
+            });
         };
 
         /* SHARE DIALOG */

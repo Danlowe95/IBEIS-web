@@ -1,6 +1,6 @@
 <!-- Note: This gallery uses test data and we will have to design a new one when we find out how the IBEIS API will send us image data -->
 <div class="grid-container">
-    <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250" >
+    <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250">
         <div ng-repeat="slide in slides" class="flowGridItem" ng-click="showGallery($index)">
             <div class="grid">
                 <column>
@@ -10,10 +10,6 @@
             </div>
         </div>
     </div>
-    <div>
-
-
-
+</div>
 <ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
 </ng-photoswipe>
-
