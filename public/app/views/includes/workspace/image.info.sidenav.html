@@ -1,10 +1,20 @@
+<!-- Should the Sidenav be changed to some other form of window? Should it take up the entire space of the viewer? half? 1/4? -->
 <md-sidenav id="image-info-sidenav" class="md-sidenav-right md-whiteframe-z2" md-component-id="image">
     <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Image Info: find out how to load info here</h1>
+        <h1 class="md-toolbar-tools">Image Information</h1>
     </md-toolbar>
     <md-content layout-padding>
-        <div layout="row">
-            <span flex></span>
+        <div layout="column" class="sidebar">
+            <img ng-src="{{slides[image_index].src}}" style="max-width: 90%; width: auto" ng-click="showGallery(image_index)" />
+            <span flex>
+
+            {{slides[image_index].title}}
+
+        Image Processing Status Here
+
+        Options to add/remove metadata
+
+        <p></span>
             <md-button ng-click="close('image')" class="md-primary">
                 Close
             </md-button>
@@ -12,3 +22,5 @@
         <md-divider></md-divider>
     </md-content>
 </md-sidenav>
+<ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
+</ng-photoswipe>

@@ -1,7 +1,21 @@
 <!-- Note: This gallery uses test data and we will have to design a new one when we find out how the IBEIS API will send us image data -->
 <div class="grid-container">
-    <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250">
-        <div ng-repeat="slide in slides" class="flowGridItem" ng-click="showGallery($index)">
+    <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250" max-item-width="250">
+    <!-- This is most likely useless, database format is changing -->
+       <!--  <div ng-repeat="encounter in test_data">
+
+            <div ng-repeat="data in encounter.images" >
+            <div class="flowGridItem" ng-click="showGallery($index)">
+                <div class="grid">
+                    <column>
+                        <a href=""><img ng-src="{{data.thumbUrl}}" style="max-height: 200px; max-width: 200px; width: auto" /></a>
+                        <h6 class="image-information">{{data.dataCollectionEventID}}</h6>
+                    </column>
+                </div>
+            </div>
+            </div>
+        </div> -->
+        <div ng-repeat="slide in slides" class="flowGridItem" ng-click="toggleImageSidenav($index)">
             <div class="grid">
                 <column>
                     <a href=""><img ng-src="{{slide.src}}" style="max-height: 200px; max-width: 200px; width: auto" /></a>
@@ -11,5 +25,3 @@
         </div>
     </div>
 </div>
-<ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
-</ng-photoswipe>
