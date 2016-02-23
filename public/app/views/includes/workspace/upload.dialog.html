@@ -1,0 +1,42 @@
+<md-dialog ng-cloak flow-init="{target: '/upload'}" flow-files-submitted="$flow.upload()" flow-file-success="$file.msg = $message">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Upload Images</h2>
+                <span flex></span>
+                <md-button ng-click="closeDialog()" class="md-icon-button">
+                    <i class="fa fa-close"></i>
+                    <md-tooltip md-autohide>
+                        Close Upload Dialog
+                    </md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="column">
+                    <div class="drop" layout="row" flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style">
+                        <div layout="column">
+                            <md-button flow-btn>Upload Files</md-button>
+                            <md-button flow-btn flow-directory>Upload Folder</md-button>
+                        </div>
+                        <div>
+                            Or drag and drop your images here.
+                        </div>
+                    </div>
+                    <md-divider></md-divider>
+                    <div layout="row">
+                        <md-card ng-repeat="file in $flow.files" flex="25">
+                            <img-eng flow-img="file" w="200" h="200" m="letterbox_000000_100"></img-eng>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button class="md-icon-button" aria-label="Cancel" ng-click="file.cancel()">
+                                    <i class="fa fa-times"></i>
+                                </md-button>
+                            </md-card-actions>
+                        </md-card>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

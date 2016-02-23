@@ -1,26 +1,74 @@
 angular.module('workspace-app', ['ngFlowGrid'])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', 'fgDelegate', function($scope, $mdSidenav, $mdToast, $mdDialog, fgDelegate) {
+    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', 'fgDelegate', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, fgDelegate) {
         //fgdelegate is used for ngFlowGrid
 
         /* PHOTOSWIPE VARIABLES */
-        $scope.test_data = [{"submitterProject":"Faxafloi Bay Whale Distribution and Behavior","patterningCode":"3","numSpotsRight":52,
-"spotImageFileName":"extract0a496f37-de71-4f01-94a8-188f3569b3b5.jpg","submitterAddress":"","photographerPhone":"",
-"catalogNumber":"0a496f37-de71-4f01-94a8-188f3569b3b5","recordedBy":"Linda Rudin","submitterOrganization":"Elding Whale Watch",
-"year":2014,"specificEpithet":"novaeangliae","submitterEmail":"linda_rudin@gmx.ch","distinguishingScar":"",
-"class":"org.ecocean.Encounter","submitterPhone":"","hashedSubmitterEmail":"bb170d37a5e2c961b8c665a7a29335b2",
-"modified":"2016-01-09","_sanitized":true,"measurements":[],"hasImages":true,"metalTags":[],"numSpotsLeft":52,
-"month":4,
+        $scope.test_data = [{
+            "submitterProject": "Faxafloi Bay Whale Distribution and Behavior",
+            "patterningCode": "3",
+            "numSpotsRight": 52,
+            "spotImageFileName": "extract0a496f37-de71-4f01-94a8-188f3569b3b5.jpg",
+            "submitterAddress": "",
+            "photographerPhone": "",
+            "catalogNumber": "0a496f37-de71-4f01-94a8-188f3569b3b5",
+            "recordedBy": "Linda Rudin",
+            "submitterOrganization": "Elding Whale Watch",
+            "year": 2014,
+            "specificEpithet": "novaeangliae",
+            "submitterEmail": "linda_rudin@gmx.ch",
+            "distinguishingScar": "",
+            "class": "org.ecocean.Encounter",
+            "submitterPhone": "",
+            "hashedSubmitterEmail": "bb170d37a5e2c961b8c665a7a29335b2",
+            "modified": "2016-01-09",
+            "_sanitized": true,
+            "measurements": [],
+            "hasImages": true,
+            "metalTags": [],
+            "numSpotsLeft": 52,
+            "month": 4,
 
-"images":[
-{"_sanitized":true,"thumbUrl":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e970002.jpg","dataCollectionEventID":"518aca4e48f5889a0148f5904e970002","url":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e970002.jpg"},
-{"_sanitized":true,"thumbUrl":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e980003.jpg",
-"dataCollectionEventID":"518aca4e48f5889a0148f5904e980003",
-"url":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e980003.jpg"},
-{"_sanitized":true,"thumbUrl":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e990004.jpg",
-"dataCollectionEventID":"518aca4e48f5889a0148f5904e990004","url":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e990004.jpg"},
-{"_sanitized":true,"thumbUrl":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9a0005.jpg","dataCollectionEventID":"518aca4e48f5889a0148f5904e9a0005","url":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9a0005.jpg"},
-{"_sanitized":true,"thumbUrl":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9c0006.jpg","dataCollectionEventID":"518aca4e48f5889a0148f5904e9c0006","url":"http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9c0006.jpg"}],"day":21,"okExposeViaTapirLink":false,"dwcDateAdded":"2014-10-09","hashedPhotographerEmail":"","submitterID":"LindaR","dwcImageURL":"http://flukebook.org:80/encounters/encounter.jsp?number=0a496f37-de71-4f01-94a8-188f3569b3b5","photographerEmail":"","sex":"unknown","state":"approved","dateInMilliseconds":1398038400000,"photographerName":"","rightSpotImageFileName":"extract0a496f37-de71-4f01-94a8-188f3569b3b5.jpg","photographerAddress":"","minutes":"20","individualID":"2014-04-21","releaseDateLong":1412812800000,"size_guess":"no estimate provided","livingStatus":"alive","hour":14,"genus":"Megaptera","tissueSamples":[],"occurrenceRemarks":"","guid":"Flukebook:0a496f37-de71-4f01-94a8-188f3569b3b5","dwcDateAddedLong":1412812800000,"identificationRemarks":"Unmatched first encounter"}
-];
+            "images": [
+                { "_sanitized": true, "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e970002.jpg", "dataCollectionEventID": "518aca4e48f5889a0148f5904e970002", "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e970002.jpg" }, {
+                    "_sanitized": true,
+                    "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e980003.jpg",
+                    "dataCollectionEventID": "518aca4e48f5889a0148f5904e980003",
+                    "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e980003.jpg"
+                }, {
+                    "_sanitized": true,
+                    "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e990004.jpg",
+                    "dataCollectionEventID": "518aca4e48f5889a0148f5904e990004",
+                    "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e990004.jpg"
+                },
+                { "_sanitized": true, "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9a0005.jpg", "dataCollectionEventID": "518aca4e48f5889a0148f5904e9a0005", "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9a0005.jpg" },
+                { "_sanitized": true, "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9c0006.jpg", "dataCollectionEventID": "518aca4e48f5889a0148f5904e9c0006", "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9c0006.jpg" }
+            ],
+            "day": 21,
+            "okExposeViaTapirLink": false,
+            "dwcDateAdded": "2014-10-09",
+            "hashedPhotographerEmail": "",
+            "submitterID": "LindaR",
+            "dwcImageURL": "http://flukebook.org:80/encounters/encounter.jsp?number=0a496f37-de71-4f01-94a8-188f3569b3b5",
+            "photographerEmail": "",
+            "sex": "unknown",
+            "state": "approved",
+            "dateInMilliseconds": 1398038400000,
+            "photographerName": "",
+            "rightSpotImageFileName": "extract0a496f37-de71-4f01-94a8-188f3569b3b5.jpg",
+            "photographerAddress": "",
+            "minutes": "20",
+            "individualID": "2014-04-21",
+            "releaseDateLong": 1412812800000,
+            "size_guess": "no estimate provided",
+            "livingStatus": "alive",
+            "hour": 14,
+            "genus": "Megaptera",
+            "tissueSamples": [],
+            "occurrenceRemarks": "",
+            "guid": "Flukebook:0a496f37-de71-4f01-94a8-188f3569b3b5",
+            "dwcDateAddedLong": 1412812800000,
+            "identificationRemarks": "Unmatched first encounter"
+        }];
 
         $scope.slides = [{
             title: 'title1',
@@ -221,9 +269,11 @@ angular.module('workspace-app', ['ngFlowGrid'])
         };
 
         /* UPLOAD DIALOG */
+        $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
         $scope.showUploadDialog = function(ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 scope: $scope,
                 preserveScope: true,
                 templateUrl: 'app/views/includes/workspace/upload.dialog.html',
@@ -231,7 +281,13 @@ angular.module('workspace-app', ['ngFlowGrid'])
                     $scope.closeDialog = function() {
                         $mdDialog.hide();
                     }
-                }
+                },
+                fullscreen: useFullScreen
+            });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
             });
         };
 
