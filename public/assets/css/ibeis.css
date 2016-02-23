@@ -212,3 +212,6 @@ tr:nth-child(odd) td { background: #FEFEFE; }
 
 /*tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */*/
 
+.drop {
+    border: 3px dashed gray;
+}
