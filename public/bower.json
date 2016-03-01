@@ -1,19 +1,20 @@
 {
-    "name": "ibeis front-end",
-    "dependencies": {
-        "angular-material": "~0.11.4",
-        "angular-ui-router": "~0.2.15",
-        "angular-animate": "~1.4.7",
-        "angular-aria": "~1.4.7",
-        "angular": "~1.4.7",
-        "jquery": "~2.1.4",
-        "font-awesome": "fontawesome#~4.4.0",
-        "angular-google-maps": "~2.2.1",
-        "photoswipe": "~4.1.1",
-        "ng-photoswipe": "~0.0.8",
-        "angular-deckgrid": "~0.5.0",
-        "ngFlowGrid": "~1.0.2",
-        "angular-smart-table": "~2.1.6",
-        "ng-flow": "~2"
-    }
+  "name": "ibeis front-end",
+  "dependencies": {
+    "angular-material": "~0.11.4",
+    "angular-ui-router": "~0.2.15",
+    "angular-animate": "~1.4.7",
+    "angular-aria": "~1.4.7",
+    "angular": "~1.4.7",
+    "jquery": "~2.1.4",
+    "font-awesome": "fontawesome#~4.4.0",
+    "angular-google-maps": "~2.2.1",
+    "photoswipe": "~4.1.1",
+    "ng-photoswipe": "~0.0.8",
+    "angular-deckgrid": "~0.5.0",
+    "ngFlowGrid": "~1.0.2",
+    "angular-smart-table": "~2.1.6",
+    "ng-flow": "~2",
+    "angular-fullscreen": "^1.0.1"
+  }
 }

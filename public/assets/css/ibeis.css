@@ -214,4 +214,9 @@ tr:nth-child(odd) td { background: #FEFEFE; }
 
 .drop {
     border: 3px dashed gray;
+    box-sizing: border-box;
+}
+
+.drop-hover {
+    border: 3px solid green;
 }

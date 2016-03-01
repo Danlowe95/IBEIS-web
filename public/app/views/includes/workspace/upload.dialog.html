@@ -1,4 +1,4 @@
-<md-dialog ng-cloak flow-init="{target: '/upload'}" flow-files-submitted="$flow.upload()" flow-file-success="$file.msg = $message">
+<md-dialog ng-cloak flow-init="{target: '/upload'}" flow-files-submitted="$flow.upload()" flow-file-success="$file.msg = $message" flow-drag-enter="dropClass='drop-hover'" flow-drag-leave="dropClass=''">
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -15,7 +15,7 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div layout="column">
-                    <div class="drop" layout="row" flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style">
+                    <div class="drop" layout="row" flow-drop ng-class="dropClass">
                         <div layout="column">
                             <md-button flow-btn>Upload Files</md-button>
                             <md-button flow-btn flow-directory>Upload Folder</md-button>
@@ -25,15 +25,16 @@
                         </div>
                     </div>
                     <md-divider></md-divider>
-                    <div layout="row">
-                        <md-card ng-repeat="file in $flow.files" flex="25">
-                            <img-eng flow-img="file" w="200" h="200" m="letterbox_000000_100"></img-eng>
-                            <md-card-actions layout="row" layout-align="end center">
-                                <md-button class="md-icon-button" aria-label="Cancel" ng-click="file.cancel()">
-                                    <i class="fa fa-times"></i>
-                                </md-button>
-                            </md-card-actions>
-                        </md-card>
+                    <div layout="row" md-scroll-y flex>
+                        <md-list>
+                            <md-list-item class="md-2-line" ng-repeat="file in $flow.files">
+                                <img class="md-avatar" flow-img="file" fullscreen></img>
+                                <div class="md-list-item-text" layout="column" flex>
+                                    <p>{{file.name}}</p>
+                                    <md-progress-linear md-mode="determinate" value="60"></md-progress-linear>
+                                </div>
+                            </md-list-item>
+                        </md-list>
                     </div>
                 </div>
             </div>

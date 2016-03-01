@@ -11,7 +11,8 @@ angular.module('ibeis', [
         'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
-        'flow' // file upload
+        'flow', // file upload
+        'FBAngular'
     ])
     // setup theme
     .config(function($mdThemingProvider) {
