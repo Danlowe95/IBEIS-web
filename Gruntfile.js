@@ -38,6 +38,13 @@ module.exports = function(grunt) {
         livereload: true,
         spawn: false
       }
+    },
+    gitpull: {
+    	run: {
+    		options: {
+    			verbose: true
+    		}
+    	}
     }
   });
 
@@ -45,7 +52,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-git');
 
-  grunt.registerTask('default', ['bower:install', 'express', 'watch']);
-  grunt.registerTask('test', []);
+  grunt.registerTask('build', ['gitpull:run', 'bower:install'])
+  grunt.registerTask('develop', ['bower:install', 'express', 'watch']);
+  grunt.registerTask('test', ['bower:install']);
 };

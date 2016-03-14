@@ -8,7 +8,7 @@
     "url": "https://github.com/Danlowe95/IBEIS-web"
   },
   "scripts": {
-    "start": "nodejs server.js",
+    "start": "grunt develop",
     "test": "grunt test"
   },
   "author": "Danlowe95",
@@ -26,6 +26,7 @@
     "grunt-bower-task": "^0.4.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-express-server": "^0.5.2",
+    "grunt-git": "^0.3.7",
     "grunt-wiredep": "^2.0.0",
     "mocha": "^2.4.5"
   }
