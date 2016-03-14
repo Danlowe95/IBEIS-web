@@ -1,5 +1,5 @@
 angular.module('workspace-app', [])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', 'fgDelegate', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, fgDelegate) {
+    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia) {
         //fgdelegate is used for ngFlowGrid
 
         /* PHOTOSWIPE VARIABLES */

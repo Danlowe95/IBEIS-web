@@ -12,5 +12,8 @@
     "angular-google-maps": "^2.3.2",
     "ng-photoswipe": "^0.0.9",
     "ng-flow": "^2.7.1"
+  },
+  "resolutions": {
+    "angular": "^1.5.0"
   }
 }
