@@ -1,18 +1,15 @@
 angular.module('ibeis', [
-        // routes
+        // // routes
         'ibeis.routes',
-        // controllers
+        // // controllers
         'workspace-app',
-        // imports
+        // // imports
         'ngMaterial', // angular material
-        'ngFlowGrid',
         'smart-table',
         'yaru22.md', // markdown display (for help maybe)
-        'ncy-angular-breadcrumb', // breadcrumbs made easy
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
         'flow', // file upload
-        'FBAngular'
     ])
     // setup theme
     .config(function($mdThemingProvider) {
