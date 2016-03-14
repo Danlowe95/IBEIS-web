@@ -19,10 +19,9 @@ module.exports = function(grunt) {
     	}
     },
     wiredep: {
-    	cwd: 'public/',
       task: {
         src: [
-          'public/app/views/index.html'
+          'public/index.html'
         ]
       }
     },
@@ -55,7 +54,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-git');
 
-  grunt.registerTask('build', ['gitpull:run', 'bower:install'])
+  grunt.registerTask('build', ['gitpull:run', 'bower:install', 'wiredep'])
   grunt.registerTask('develop', ['bower:install', 'express', 'watch']);
   grunt.registerTask('test', ['bower:install']);
 };
