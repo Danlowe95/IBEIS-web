@@ -19,6 +19,7 @@ module.exports = function(grunt) {
     	}
     },
     wiredep: {
+    	cwd: 'public/',
       task: {
         src: [
           'public/app/views/index.html'
