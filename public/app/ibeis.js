@@ -1,5 +1,6 @@
 angular.module('ibeis', [
         // routes
+        'ngRoute',
         'ibeis.routes',
         // controllers
         'workspace-app',
