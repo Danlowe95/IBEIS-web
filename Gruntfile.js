@@ -45,6 +45,15 @@ module.exports = function(grunt) {
     			verbose: true
     		}
     	}
+    },
+    clean: ['node_modules'],
+    auto_install: {
+    	local: {
+    		options: {
+    			bower: false,
+    			stdout: false
+    		}
+    	}
     }
   });
 
@@ -53,8 +62,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-auto-install');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('build', ['gitpull:run', 'bower:install', 'wiredep'])
-  grunt.registerTask('develop', ['bower:install', 'express', 'watch']);
-  grunt.registerTask('test', ['bower:install']);
+
+  grunt.registerTask('build', ['clean', 'auto_install', 'gitpull:run', 'bower:install', 'wiredep'])
+  grunt.registerTask('serve', ['express', 'watch']);
+  grunt.registerTask('test', ['clean', 'auto_install', 'bower:install', 'wiredep']);
 };
