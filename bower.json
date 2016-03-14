@@ -5,15 +5,33 @@
     "angular": "^1.5.0",
     "angular-material": "^1.0.6",
     "angular-ui-router": "^0.2.18",
-    "ngFlowGrid": "^1.0.2",
     "angular-smart-table": "^2.1.7",
     "angular-md": "^1.0.0",
     "font-awesome": "^4.5.0",
     "angular-google-maps": "^2.3.2",
     "ng-photoswipe": "^0.0.9",
+    "marked": "0.3.0",
+    "angular-mocks": "1.2.10",
     "ng-flow": "^2.7.1"
   },
   "resolutions": {
-    "angular": "^1.5.0"
+    "angular": "1.5.0"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
+    },
+    "marked": {
+      "main": [
+        "lib/marked.js"
+      ]
+    },
+    "angular-md": {
+      "main": [
+        "dist/angular-md.min.js"
+      ]
+    }
   }
 }
