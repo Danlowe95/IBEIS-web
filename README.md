@@ -1,9 +1,9 @@
 # IBEIS-web
 Web interface and API for IBEIS.
-# IBEIS-web
-Web interface and API for IBEIS.
 
-
+[![Build Status](https://travis-ci.org/Danlowe95/IBEIS-web.svg?branch=master)](https://travis-ci.org/Danlowe95/IBEIS-web)
+[![Dependency Status](https://david-dm.org/Danlowe95/IBEIS-web.svg)](https://david-dm.org/Danlowe95/IBEIS-web)
+[![devDependency Status](https://david-dm.org/Danlowe95/IBEIS-web/dev-status.svg)](https://david-dm.org/Danlowe95/IBEIS-web#info=devDependencies)
 
 Features to add and To Do:              (second row pulls from top row)
 -Add options for grouping and sorting: Occurences /Images      /Group of Animals
