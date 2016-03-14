@@ -66,7 +66,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
 
-  grunt.registerTask('build', ['clean', 'auto_install', 'gitpull:run', 'bower:install', 'wiredep'])
+  grunt.registerTask('build', ['gitpull:run', 'auto_install', 'clean', 'auto_install', 'bower:install', 'wiredep']);
   grunt.registerTask('serve', ['express', 'watch']);
   grunt.registerTask('test', ['clean', 'auto_install', 'bower:install', 'wiredep']);
 };
