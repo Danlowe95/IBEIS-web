@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/Danlowe95/IBEIS-web"
   },
+  "scripts": {
+    "start": "nodejs server.js",
+    "test": "grunt test"
+  },
   "author": "Danlowe95",
   "license": "  Apache-2.0",
   "bugs": {
