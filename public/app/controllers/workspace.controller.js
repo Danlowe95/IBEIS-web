@@ -1,4 +1,4 @@
-angular.module('workspace-app', ['ngFlowGrid'])
+angular.module('workspace-app', [])
     .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', 'fgDelegate', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, fgDelegate) {
         //fgdelegate is used for ngFlowGrid
 

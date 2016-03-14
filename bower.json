@@ -1,23 +1,16 @@
 {
   "name": "IBEIS-ui",
   "dependencies": {
-    "angular-material": "~0.11.4",
-    "angular-animate": "~1.4.7",
-    "angular-aria": "~1.4.7",
-    "angular": "~1.4.7",
-    "font-awesome": "fontawesome#~4.4.0",
-    "angular-google-maps": "~2.2.1",
-    "photoswipe": "~4.1.1",
-    "ng-photoswipe": "~0.0.8",
-    "angular-deckgrid": "~0.5.0",
-    "ngFlowGrid": "~1.0.2",
-    "angular-smart-table": "~2.1.6",
-    "ng-flow": "~2",
-    "angular-fullscreen": "^1.0.1",
-    "angular-route": "^1.5.0",
-    "jquery": "^2.2.1"
-  },
-  "resolutions": {
-    "angular": "^1.2"
+    "jquery": "^2.2.1",
+    "angular": "^1.5.0",
+    "angular-material": "^1.0.6",
+    "angular-ui-router": "^0.2.18",
+    "ngFlowGrid": "^1.0.2",
+    "angular-smart-table": "^2.1.7",
+    "angular-md": "^1.0.0",
+    "font-awesome": "^4.5.0",
+    "angular-google-maps": "^2.3.2",
+    "ng-photoswipe": "^0.0.9",
+    "ng-flow": "^2.7.1"
   }
 }
