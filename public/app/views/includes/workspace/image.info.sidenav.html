@@ -5,16 +5,13 @@
     </md-toolbar>
     <md-content layout-padding>
         <div layout="column" class="sidebar">
-            <img ng-src="{{currentSlides[image_index].src}}" style="max-width: 90%; width: auto" ng-click="showGallery(image_index)" />
-            <span flex>
+        <div>
+            <img ng-src="{{currentSlides[image_index].src}}" style="max-height: 500px; max-width: 500px; width: auto" ng-click="showGallery(image_index)" />
+        </div>
+        <div>
 
             {{currentSlides[image_index].title}}
-
-        Image Processing Status Here
-
-        Options to add/remove metadata
-
-        <p></span>
+            </div><div>
             <md-button ng-click="close('image')" class="md-primary">
                 Close
             </md-button>

@@ -154,30 +154,33 @@ td {
 }
 
 
-
-
-*{box-sizing: border-box;}
-.flowGrid:before,.flowGrid:after{
-    content: "";
-    display: table;
-}
-.flowGrid:after{
-    clear:both;
-}
-.flowGridItem{ margin-bottom:10px;}
-.flowGridItem img{width:100%;}
-.flowGridColumn{
-    -webkit-transition: opacity 0.6s ease-out;
-    transition: opacity 0.6s ease-out;
-    float: left;
-    padding-left: 10px;
-}
-.flowGridColumn:last-of-type{
-    padding-right: 10px;
+.card-img-parent {
+    width: 200px;
+    height: 100%;
+    border: 1px solid black;
+    overflow: hidden;
+    background: gray;
+    text-align:center;
 }
 
+}
+.card-img {
+   height: 100%; width: auto;
+}
+.img-text {
+    vertical-align: middle;
+}
+.gridListdemoBasicUsage md-grid-list {
+  margin: 8px;
+}
 
+.gridListdemoBasicUsage .gray {
+  background: #f5f5f5;
+}
 
+.gridListdemoBasicUsage md-grid-tile {
+  transition: all 400ms ease-out 50ms;
+}
 /*table stuff*/
 table {
 color: #333;

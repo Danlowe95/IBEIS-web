@@ -400,8 +400,9 @@ angular.module('workspace-app', ['ngFlowGrid'])
         /* TYPE MENU */
         $scope.types = ['images', 'annotations', 'animals'];
         $scope.type = 'images';
-        //This runs on first page load. This is definitely not smart. This just sets the proper workspace to load
+        //This runs on first page load.This just sets the proper workspace to load
         $scope.chooseTestDatabase();
+        
         $scope.setType = function(t) {
             if($scope.type != t){
                 $scope.type = t;
@@ -415,7 +416,7 @@ angular.module('workspace-app', ['ngFlowGrid'])
         $scope.view = 'thumbnails';
         $scope.setView = function(v) {
             $scope.view = v;
-            $(window).trigger('resize');
+            // $(window).trigger('resize');
         };
 
         $scope.toggleLogo = function() {

@@ -1,5 +1,5 @@
 <!-- Note: This gallery uses test data and we will have to design a new one when we find out how the IBEIS API will send us image data -->
-<div class="grid-container">
+<!-- <div class="grid-container">
     <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250" max-item-width="250">
         <div ng-repeat="slide in currentSlides" class="flowGridItem" ng-click="toggleImageSidenav($index)">
             <div class="grid">
@@ -10,4 +10,28 @@
             </div>
         </div>
     </div>
+</div>
+
+ -->
+<div class="gridListdemoBasicUsage">
+  <div class='md-padding' layout="row" layout-wrap>
+        <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="slide in currentSlides" ng-click="toggleImageSidenav($index)">
+        <div >
+        <!--     <p class="card-img"> Test Text </p> -->
+          <img class="card-img" ng-src="{{slide.src}}">
+          <md-card-actions layout="row" layout-align="center" class="img-text">
+          <h4>{{slide.title}}</h4 >
+          </md-card-actions>
+         <!--  <md-card-content>
+            
+          </md-card-content> -->
+      <!--     <div class="md-actions" layout="row" layout-align="end center">
+            <md-button>Save</md-button>
+            <md-button>View</md-button>
+          </div> -->
+          </div>
+        </md-card>
+      </div>
+    </div>
+  </div>
 </div>
