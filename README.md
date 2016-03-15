@@ -31,3 +31,7 @@ This repository is purely for the development of an angular front-end. All node 
 - `grunt develop`: refresh all of the dependencies
 - `grunt serve`: preview the site in a browser
 - `grunt test`: run the test suite
+
+##### Code Coverage
+
+By running `grunt test` a *coverage* folder will be generated in the root directory of this project. Open `index.html` to view code coverage.
