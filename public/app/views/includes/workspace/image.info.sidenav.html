@@ -5,18 +5,28 @@
     </md-toolbar>
     <md-content layout-padding>
         <div layout="column" class="sidebar">
-        <div>
-            <img ng-src="{{currentSlides.annotations[image_index].mediaAsset.url}}" style="max-height: 500px; max-width: 500px; width: auto" ng-click="showGallery(image_index)" />
-        </div>
-        <div>
-
-            {{currentSlides[image_index].title}}
-            </div><div>
-            <md-button ng-click="close('image')" class="md-primary">
-                Close
-            </md-button>
-        </div>
-        <md-divider></md-divider>
+            <div>
+                <img ng-src="{{currentSlides.annotations[image_index].mediaAsset.url}}" style="max-height: 500px; max-width: 500px; width: auto" ng-click="showGallery(image_index)" />
+            </div>
+            <div>
+                <table width="400">
+                    <tr>
+                        <th style="max-width: 150px;">Key</th>
+                        <th style="max-width: 150px;">Value</th>
+                    </tr>
+                    <tr ng-repeat="(k,v) in currentSlides">
+                        <td style="max-width: 150px;">{{k}}</td>
+                        <td style="max-width: 150px;">{{v}}</td>
+                    </tr>
+                </table>
+                {{currentSlides.annotations[image_index].title}}
+            </div>
+            <div>
+                <md-button ng-click="close('image')" class="md-primary">
+                    Close
+                </md-button>
+            </div>
+            <md-divider></md-divider>
     </md-content>
 </md-sidenav>
 <ng-photoswipe slides="slides" options="opts" start-on="{{ startEvent }}">
