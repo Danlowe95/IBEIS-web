@@ -17,50 +17,74 @@
 
  -->
         <!-- ng-app ng-controller="QuestionController" -->
-        <div>
-            <form name="myForm">
+        <form>
+            <div>
                 <ul ng-repeat="field in filtering_tests['org.ecocean.Encounter'].fields">
                     <div ng-if="field.values">
                         <li>
                             <md-input-container>
                                 <label>{{field.name}}</label>
                                 <md-select ng-model="filterData[field.tag]">
-                                <md-option ng-repeat="option in field.values" value="{{option}}">{{option}}</md-option>
-                                    <md-option name="blank" ng-value="">----</md-option>
+                                <md-option name="blank" ng-value="none">----</md-option>
+                                    <md-option ng-repeat="option in field.values" value="{{option}}">{{option}}</md-option>
+                                    
                                 </md-select>
                             </md-input-container>
                         </li>
                     </div>
                     <div ng-if="field.dataType === 'string' && !field.values">
                         <li>
-                            <div>{{field.name}}</div>
-                            dropdown here
-                            <!-- <select name="test" ng-model="field.name" ng-options="option for option in field.values"> -->
-                            <!-- </select> -->
-                            <br>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="sm-block" flex-gt-sm>
+                                    <label>{{field.name}}</label>
+                                    <input ng-model="filterData[field.tag]">
+                                </md-input-container>
                         </li>
-                    </div>
-                    <div ng-if="field.dataType === 'number'">
-                        <li>
-                            <div>{{field.name}}</div>
-                            numbers box here
-                            <!-- <select name="test" ng-model="field.name" ng-options="option for option in field.values"> -->
-                            <!-- </select> -->
-                            <br>
+                        </div>
+                        <div ng-if="field.dataType === 'number'">
+                             <li>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="sm-block" flex-gt-sm>
+                                    <label>{{field.name}}</label>
+                                    <input required ng-pattern="/[0-9]*$/" ng-model="filterData[field.tag]">
+                                </md-input-container>
                         </li>
-                    </div>
+                        </div>
                 </ul>
-            </form>
-        </div>
-        {{sex.tag}} is stored as {{filterData["sex"]}}
-        <div layout="row">
-            <md-button ng-click="submitFilters()" class="md-primary" flex>
-                Apply
-            </md-button>
-            <md-button ng-click="close('filter')" class="md-primary" flex>
-                Discard
-            </md-button>
-        </div>
+                </div>
+                <div layout="row">
+                    <md-button ng-click="submitFilters()" class="md-primary" flex>
+                        Apply
+                    </md-button>
+                    <md-button ng-click="close('filter')" class="md-primary" flex>
+                        Discard
+                    </md-button>
+                </div>
+        </form>
         <md-divider></md-divider>
     </md-content>
 </md-sidenav>
+<!-- // $.fn.serializeObject = function()
+// {
+//     var o = {};
+//     var a = this.serializeArray();
+//     $.each(a, function() {
+//         if (o[this.name] !== undefined) {
+//             if (!o[this.name].push) {
+//                 o[this.name] = [o[this.name]];
+//             }
+//             o[this.name].push(this.value || '');
+//         } else {
+//             o[this.name] = this.value || '';
+//         }
+//     });
+//     console.log("seria object was run");
+//     return o;
+// };
+
+// $(function() {
+//     $('form').submit(function() {
+//         $('#result').text(JSON.stringify($('form').serializeObject()));
+//         return false;
+//     });
+// }); -->

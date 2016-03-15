@@ -5,11 +5,11 @@ var myApp = angular.module('workspace-app', [])
 
         $scope.fluke_data = null;
         $http.get('assets/json/fluke_annotations.json').success(function(data) {
-           $scope.currentSlides = data;
+            $scope.currentSlides = data;
         });
         $scope.filtering_tests = null;
         $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
-           $scope.filtering_tests = data;
+            $scope.filtering_tests = data;
         });
         // /* PHOTOSWIPE VARIABLES */
 
@@ -153,11 +153,11 @@ var myApp = angular.module('workspace-app', [])
         //     index: 5,
         //     gps: 'n/a'
         // }];
-        $scope.secondaryTestImages = [{title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0}];
-        $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0}];
+        $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
+        $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
         /* Variables workspace pulls from */
-        
+
         // define options
         $scope.opts = {
             // history & focus options are disabled on CodePen
@@ -175,13 +175,13 @@ var myApp = angular.module('workspace-app', [])
             homePageGrid.refill(true);
         }
 
-        $scope.refreshGrid = function(){
+        $scope.refreshGrid = function() {
             var homePageGrid = fgDelegate.getFlow('ImageGrid');
             homePageGrid.itemsChanged();
             homePageGrid.refill(true);
         };
 
-        
+
         //Attempting to use for indexing when focusing an image (image_info_Sidenav)
         $scope.image_index = -1
 
@@ -274,9 +274,9 @@ var myApp = angular.module('workspace-app', [])
         //used to catch all form data for filtering and send in for query
         $scope.filterData = [];
         $scope.submitFilters = function() {
-                console.log($scope.filterData);
-                $scope.close('filter');
-              };
+            console.log($scope.filterData);
+            $scope.close('filter');
+        };
 
 
         /* SIDENAVS */
@@ -322,8 +322,8 @@ var myApp = angular.module('workspace-app', [])
 
         /* WORKSPACES */
         //to be deleted when we get real data
-        $scope.chooseTestDatabase = function(){
-            if($scope.workspace == 'Secondary' && $scope.type == 'images') $scope.currentSlides = $scope.secondaryTestImages;
+        $scope.chooseTestDatabase = function() {
+            if ($scope.workspace == 'Secondary' && $scope.type == 'images') $scope.currentSlides = $scope.secondaryTestImages;
             else if ($scope.workspace == 'Secondary') $scope.currentSlides = $scope.secondaryTestAnnotations;
             else if ($scope.workspace == 'Primary' && $scope.type == 'images') $scope.currentSlides = $scope.fluke_data;
             else if ($scope.workspace == 'Primary') $scope.currentSlides = $scope.primaryTestAnnotations;
@@ -342,27 +342,27 @@ var myApp = angular.module('workspace-app', [])
             $scope.chooseTestDatabase();
         };
         //Used when new data needs to be requeried
-        $scope.populateWorkspace = function(){
+        $scope.populateWorkspace = function() {
             //Decide what data to get
             //Get new Data
             //Parse Data?
             //set workspace to data
             $scope.refreshGrid();
 
-            };
-            
+        };
+
         /* TYPE MENU */
         $scope.types = ['images', 'annotations', 'animals'];
         $scope.type = 'images';
         //This runs on first page load.This just sets the proper workspace to load
         $scope.chooseTestDatabase();
-        
+
         $scope.setType = function(t) {
-            if($scope.type != t){
+            if ($scope.type != t) {
                 $scope.type = t;
                 $scope.chooseTestDatabase();
                 $scope.populateWorkspace();
-        }
+            }
         };
 
         /* VIEW MENU */
@@ -394,10 +394,10 @@ var myApp = angular.module('workspace-app', [])
 
     }])
     .directive('ibsFiltering', function() {
-          return {
+        return {
             scope: {
-              name: '='
+                name: '='
             },
             templateUrl: 'assets/directives/ibs-filtering-iso.html'
-          };
+        };
     });;
