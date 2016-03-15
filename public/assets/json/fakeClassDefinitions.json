@@ -1,0 +1,145 @@
+
+{
+  "org.ecocean.Encounter" :
+  {
+    "name" : "Encounter",
+    "fields" : [
+      {
+        "name" : "Sex",
+        "property" : "sex",
+        "dataType" : "string",
+        "values" : [ "male", "female", null ],
+        "labels" : [ "male", "female", "unknown"]
+      },
+      {
+        "name" : "Living Status",
+        "property" : "livingStatus",
+        "dataType" : "string",
+        "values" : [ "alive", "dead", null ],
+        "labels" : [ "alive", "dead", "unknown" ]
+      },
+      {
+        "name" : "Location ID",
+        "property" : "locationID",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Location",
+        "property": "location",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Latitude",
+        "property": "decimalLatitude",
+        "dataType" : "number"
+      },
+      {
+        "name" : "Longitude",
+        "property": "decimalLongitude",
+        "dataType" : "number"
+      },
+      {
+        "name" : "Photographer",
+        "property": "photographerName",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Size",
+        "property": "size",
+        "dataType" : "number"
+      },
+      {
+        "name" : "Catalog Number",
+        "property" : "catalogNumber",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Individual ID",
+        "property" : "individualID",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Occurrence ID",
+        "property" : "occurenceID",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Date",
+        "property" : "dateInMilliseconds",
+        "dataType" : "number"
+      },
+      {
+        "name" : "Date Added",
+        "property" : "dwcDateAddedLong",
+        "dataType" : "number"
+      }
+    ],
+    "permissions" : []
+  },
+  "org.ecocean.MarkedIndividual" :
+  {
+    "name" : "MarkedIndividual",
+    "fields" : [
+      {
+        "name" : "Individual ID",
+        "property" : "individualID",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Sex",
+        "property" : "sex",
+        "dataType" : "string",
+        "values" : [ "male", "female", null ],
+        "labels" : [ "male", "female", "unknown" ]
+      },
+      {
+        "name" : "Living Status",
+        "property" : "livingStatus",
+        "dataType" : "string",
+        "values" : [ "alive", "dead", null ],
+        "labels" : [ "alive", "dead", "unknown" ]
+      },
+
+      {
+        "name" : "Nickname",
+        "property" : "nickname",
+        "dataType" : "string"
+      },
+      {
+        "name" : "Number of Encounters",
+        "property" : "numberEncounters",
+        "dataType" : "number"
+      },
+      {
+        "name" : "Number of Locations",
+        "property" : "numberLocations",
+        "dataType" : "number"
+      },
+      {
+        "name" : "Max years between sightings",
+        "property" : "maxYearsBetweenResightings",
+        "dataType" : "number"
+      }
+    ],
+    "permissions" : []
+  },
+
+  "org.ecocean.Annotation" :
+  {
+    "name" : "Annotation",
+    "fields" : [
+      {
+        "name" : "Species",
+        "property" : "species",
+        "dataType" : "string"
+      }
+    ],
+    "permissions" : []
+  },
+  "org.ecocean.MediaAsset" :
+  {
+    "name" : "MediaAsset",
+    "fields" : [],
+    "permissions" : []
+  }
+}
