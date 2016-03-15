@@ -1,28 +1,30 @@
 module.exports = function(grunt) {
+  require('time-grunt')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     bower: {
-    	install: {
-    		options: {
-    			targetDir: 'public/bower_components',
-    			layout: 'byType',
-    			install: true,
-    			verbose: false,
-    			copy: false,
-    			cleanTargetDir: true,
-    			cleanBowerDir: false,
-    			bowerOptions: {
-    				forceLatest: true
-    			}
-    		}
-    	}
+      install: {
+        options: {
+          targetDir: 'public/bower_components',
+          layout: 'byType',
+          install: true,
+          verbose: false,
+          copy: false,
+          cleanTargetDir: true,
+          cleanBowerDir: false,
+          bowerOptions: {
+            forceLatest: true
+          }
+        }
+      }
     },
     wiredep: {
-      task: {
-        src: [
-          'public/index.html'
-        ]
+      build: {
+        src: 'public/index.html'
+      },
+      test: {
+        src: 'karma.conf.js'
       }
     },
     express: {
@@ -40,20 +42,29 @@ module.exports = function(grunt) {
       }
     },
     gitpull: {
-    	run: {
-    		options: {
-    			verbose: true
-    		}
-    	}
+      run: {
+        options: {
+          verbose: true
+        }
+      }
     },
     clean: ['node_modules'],
     auto_install: {
-    	local: {
-    		options: {
-    			bower: false,
-    			stdout: false
-    		}
-    	}
+      local: {
+        options: {
+          bower: false,
+          stdout: false
+        }
+      }
+    },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js',
+        singleRun: true,
+        options: {
+          files: ['public/{app,components}/**/*.{spec,mock}.js']
+        }
+      }
     }
   });
 
@@ -63,10 +74,23 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-auto-install');
-	grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-karma');
 
-
-  grunt.registerTask('build', ['gitpull:run', 'auto_install', 'clean', 'auto_install', 'bower:install', 'wiredep']);
+  grunt.registerTask('build', ['gitpull:run', 'auto_install', 'clean', 'auto_install', 'bower:install', 'wiredep:build']);
+  grunt.registerTask('develop', ['clean', 'auto_install', 'bower:install', 'wiredep']);
   grunt.registerTask('serve', ['express', 'watch']);
-  grunt.registerTask('test', ['clean', 'auto_install', 'bower:install', 'wiredep']);
+  grunt.registerTask('test', function(target, option) {
+    if (target === 'build') {
+      return grunt.task.run([
+        'clean',
+        'auto_install',
+        'bower:install',
+        'wiredep',
+        'karma'
+      ]);
+    } else {
+      return grunt.task.run(['karma'])
+    }
+  });
 };
