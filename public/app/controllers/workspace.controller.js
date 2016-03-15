@@ -3,14 +3,19 @@ var myApp = angular.module('workspace-app', [])
 
 
 
-        $scope.fluke_data = null;
-        $http.get('assets/json/fluke_annotations.json').success(function(data) {
-            $scope.currentSlides = data;
-        });
+        // $scope.fluke_data = null;
+        // $http.get('assets/json/fluke_annotations.json').success(function(data) {
+        //     $scope.currentSlides = data;
+        // });
         $scope.filtering_tests = null;
         $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
             $scope.filtering_tests = data;
         });
+        // $scope.filtering_tests = null;
+        $http.get('assets/json/image_tests.json').success(function(data) {
+            $scope.currentSlides= data;
+        });
+        
 
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
@@ -142,7 +147,14 @@ var myApp = angular.module('workspace-app', [])
                 })
             );
         };
-
+        $scope.convertDateTime = function(dateTime){
+            try{
+                return new Date(dateTime).toISOString().substring(0, 10);
+            }catch(e){
+                return "No Date Provided";
+            }
+            
+        };
         /* WORKSPACES */
         //to be deleted when we get real data
         $scope.chooseTestDatabase = function() {

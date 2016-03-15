@@ -1,14 +1,14 @@
-
+<!-- 
 <div flex>
     <table st-table="slides" class="table" style="width: 100%">
-    	<thead>
+        <thead>
         <tr>
-			<th>Thumbnail</th>
+            <th>Thumbnail</th>
             <th st-sort="id">Annotation ID</th>
             <th st-sort="location">Location</th>
-			<th st-sort="submetterOrganization">Organization</th>
-			<th st-sort="recordedBy">recordedBy</th>
-    	</tr>
+            <th st-sort="submetterOrganization">Organization</th>
+            <th st-sort="recordedBy">recordedBy</th>
+        </tr>
         </thead>
         <tbody>
         <tr ng-repeat="slide in currentSlides.annotations" ng-click="toggleImageSidenav($index)">
@@ -18,6 +18,31 @@
             <td>{{currentSlides.submitterOrganization}}</td>
             <td>{{currentSlides.recordedBy}}</td>
         </tr>
+        </tbody>
+    </table>
+</div>
+ -->
+<div flex>
+    <table st-table="slides" class="table" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Thumbnail</th>
+                <th st-sort="id">Annotation ID</th>
+                <th st-sort="dateTime">Date</th>
+                <th st-sort="submetterOrganization">Organization</th>
+                <th st-sort="recordedBy">recordedBy</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="slide in currentSlides" ng-click="toggleImageSidenav($index)">
+                <td><img ng-src="{{slide.url}}" style="max-height: 150px; max-width: 150px; width: auto" /></td>
+                <td>{{slide.id}}</td>
+                <td>
+                    {{convertDateTime(slide.dateTime)}}
+                </td>
+                <td>{{currentSlides.submitterOrganization}}</td>
+                <td>{{currentSlides.recordedBy}}</td>
+            </tr>
         </tbody>
     </table>
 </div>
