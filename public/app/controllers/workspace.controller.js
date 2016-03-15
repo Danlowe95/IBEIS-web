@@ -11,148 +11,7 @@ var myApp = angular.module('workspace-app', [])
         $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
             $scope.filtering_tests = data;
         });
-        // /* PHOTOSWIPE VARIABLES */
-
-        // $scope.primaryTestImages = [{
-        //     title: 'title1',
-        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-        //     w: 539,
-        //     h: 539,
-        //     index: 1
-        // }, {
-        //     title: 'title2',
-        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-        //     w: 507,
-        //     h: 539,
-        //     index: 2
-        // }, {
-        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-        //     w: 808,
-        //     h: 539,
-        //     index: 3,
-        //     title: 'title3',
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title4',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 4,
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title1',
-        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-        //     w: 539,
-        //     h: 539,
-        //     index: 1
-        // }, {
-        //     title: 'title2',
-        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-        //     w: 507,
-        //     h: 539,
-        //     index: 2
-        // }, {
-        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-        //     w: 808,
-        //     h: 539,
-        //     index: 3,
-        //     title: 'title3',
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title4',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 4,
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title1',
-        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-        //     w: 539,
-        //     h: 539,
-        //     index: 1
-        // }, {
-        //     title: 'title2',
-        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-        //     w: 507,
-        //     h: 539,
-        //     index: 2
-        // }, {
-        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-        //     w: 808,
-        //     h: 539,
-        //     index: 3,
-        //     title: 'title3',
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title4',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 4,
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title5',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 5,
-        //     gps: 'n/a'
-        // }];
-        // $scope.primaryTestAnnotations = [{
-        //     title: 'title2',
-        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-        //     w: 507,
-        //     h: 539,
-        //     index: 2
-        // }, {
-        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-        //     w: 808,
-        //     h: 539,
-        //     index: 3,
-        //     title: 'title3',
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title4',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 4,
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title1',
-        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-        //     w: 539,
-        //     h: 539,
-        //     index: 1
-        // }, {
-        //     title: 'title2',
-        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-        //     w: 507,
-        //     h: 539,
-        //     index: 2
-        // }, {
-        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-        //     w: 808,
-        //     h: 539,
-        //     index: 3,
-        //     title: 'title3',
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title4',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 4,
-        //     gps: 'n/a'
-        // }, {
-        //     title: 'title5',
-        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-        //     w: 718,
-        //     h: 539,
-        //     index: 5,
-        //     gps: 'n/a'
-        // }];
+        
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
@@ -330,7 +189,6 @@ var myApp = angular.module('workspace-app', [])
 
         }
         $scope.workspace = 'Primary';
-
         $scope.workspaces = ['Primary', 'Secondary'];
         $scope.setWorkspace = function(w) {
             $scope.workspace = w;
@@ -353,7 +211,7 @@ var myApp = angular.module('workspace-app', [])
 
         /* TYPE MENU */
         $scope.types = ['images', 'annotations', 'animals'];
-        $scope.type = 'images';
+        $scope.type = $scope.types[0];
         //This runs on first page load.This just sets the proper workspace to load
         $scope.chooseTestDatabase();
 
@@ -367,10 +225,17 @@ var myApp = angular.module('workspace-app', [])
 
         /* VIEW MENU */
         $scope.views = ['thumbnails', 'table', 'map'];
-        $scope.view = 'thumbnails';
+        $scope.view = $scope.views[0];
         $scope.setView = function(v) {
             $scope.view = v;
             // $(window).trigger('resize');
+        };
+
+        // $scope.modes = ['workspace', 'upload'];
+        $scope.mode = 'workspace';
+        $scope.setMode = function(m) {
+            $scope.mode = m;
+            console.log($scope.mode);
         };
 
         $scope.toggleLogo = function() {

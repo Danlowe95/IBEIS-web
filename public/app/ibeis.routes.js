@@ -1,13 +1,9 @@
 angular.module('ibeis.routes', ['ui.router'])
     .config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider
-            .otherwise('');
+            .otherwise('/login');
 
         $stateProvider
-            .state('home', {
-                url: '',
-                templateUrl: 'app/views/pages/home.html'
-            })
             .state('login', {
                 url: '/login',
                 templateUrl: 'app/views/pages/login.html'
