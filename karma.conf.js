@@ -42,8 +42,7 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     reporters: ['spec', 'coverage'],
     preprocessors: {
-      'public/{app,components}/**/*.js': ['coverage'],
-      // 'public/{app,components}/**/*.controller.js': ['coverage']
+      'public/{app,components}/**/!(*.spec|*.mock).js': ['coverage']
     },
     coverageReporter: {
       type: 'html',
