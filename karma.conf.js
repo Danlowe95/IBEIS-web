@@ -33,12 +33,22 @@ module.exports = function(config) {
       "public/app/ibeis.routes.js",
       "public/{app,components}/**/*.js",
       "public/{app,components}/**/*.controller.js",
-      "public/{app,components}/**/**.html"
+      "public/{app,components}/**/**.html",
+      // tests
+      'public/{app,components}/**/*.{spec,mock}.js'
     ],
     exclude: [],
     port: 9090,
     logLevel: config.LOG_INFO,
-    reporters: ['spec'],
+    reporters: ['spec', 'coverage'],
+    preprocessors: {
+      'public/{app,components}/**/*.js': ['coverage'],
+      // 'public/{app,components}/**/*.controller.js': ['coverage']
+    },
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage/'
+    },
     autoWatch: false,
     browsers: ['PhantomJS'],
     singleRun: false
