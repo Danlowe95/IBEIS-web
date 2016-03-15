@@ -54,7 +54,7 @@
 </md-sidenav>
 <div class="layout-column flex">
   <md-toolbar layout="row" id="toolbar">
-    <ng-include src="'app/views/includes/workspace/workspace.top.html'" flex></ng-include>
+    <ng-include ng-if="mode == 'workspace'" src="'app/views/includes/workspace/workspace.top.html'" flex></ng-include>
   </md-toolbar>
   <ng-include src="'app/views/includes/workspace/filter.sidenav.html'"></ng-include>
   <ng-include src="'app/views/includes/workspace/location.sidenav.html'"></ng-include>
