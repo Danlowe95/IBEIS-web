@@ -1,9 +1,9 @@
 angular.module('ibeis', [
-        // // routes
+        // routes
         'ibeis.routes',
-        // // controllers
+        // controllers
         'workspace-app',
-        // // imports
+        // imports
         'ngMaterial', // angular material
         'smart-table',
         'yaru22.md', // markdown display (for help maybe)

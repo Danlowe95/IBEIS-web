@@ -15,7 +15,7 @@ app.use(morgan('dev'));
 
 // main catchall route
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // start the server
