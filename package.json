@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "grunt develop",
-    "test": "grunt test:build"
+    "test": "grunt test:travis"
   },
   "author": "Danlowe95",
   "license": "  Apache-2.0",

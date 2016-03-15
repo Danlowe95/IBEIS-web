@@ -78,6 +78,13 @@ module.exports = function(grunt) {
   grunt.registerTask('develop', ['clean', 'auto_install', 'bower:install', 'wiredep']);
   grunt.registerTask('serve', ['express', 'watch']);
   grunt.registerTask('test', function(target, option) {
+    if (target === 'travis') {
+      return grunt.task.run([
+        'bower:install',
+        'wiredep',
+        'karma'
+      ]);
+    }
     if (target === 'build') {
       return grunt.task.run([
         'clean',
