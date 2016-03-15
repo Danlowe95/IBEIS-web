@@ -1,34 +1,12 @@
-<!-- Note: This gallery uses test data and we will have to design a new one when we find out how the IBEIS API will send us image data -->
-<!-- <div class="grid-container">
-    <div class="flowGrid" ng-flow-grid="ImageGrid" min-item-width="250" max-item-width="250">
-        <div ng-repeat="slide in currentSlides" class="flowGridItem" ng-click="toggleImageSidenav($index)">
-            <div class="grid">
-                <column>
-                    <a href=""><img ng-src="{{slide.src}}" style="max-height: 200px; max-width: 200px; width: auto" /></a>
-                    <h4 class="image-information">{{slide.title}}</h4>
-                </column>
-            </div>
-        </div>
-    </div>
-</div>
 
- -->
 <div class="gridListdemoBasicUsage">
   <div class='md-padding' layout="row" layout-wrap>
         <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="slide in currentSlides.annotations" ng-click="toggleImageSidenav($index)">
         <div >
-        <!--     <p class="card-img"> Test Text </p> -->
           <img class="card-img" ng-src="{{slide.mediaAsset.url}}">
           <md-card-actions layout="row" layout-align="center" class="img-text">
           <h4>{{slide.title}}</h4 >
           </md-card-actions>
-         <!--  <md-card-content>
-            
-          </md-card-content> -->
-      <!--     <div class="md-actions" layout="row" layout-align="end center">
-            <md-button>Save</md-button>
-            <md-button>View</md-button>
-          </div> -->
           </div>
         </md-card>
       </div>
