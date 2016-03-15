@@ -1,220 +1,163 @@
-angular.module('workspace-app', [])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia) {
-        //fgdelegate is used for ngFlowGrid
+var myApp = angular.module('workspace-app', [])
+    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http) {
 
-        /* PHOTOSWIPE VARIABLES */
-        $scope.test_data = [{
-            "submitterProject": "Faxafloi Bay Whale Distribution and Behavior",
-            "patterningCode": "3",
-            "numSpotsRight": 52,
-            "spotImageFileName": "extract0a496f37-de71-4f01-94a8-188f3569b3b5.jpg",
-            "submitterAddress": "",
-            "photographerPhone": "",
-            "catalogNumber": "0a496f37-de71-4f01-94a8-188f3569b3b5",
-            "recordedBy": "Linda Rudin",
-            "submitterOrganization": "Elding Whale Watch",
-            "year": 2014,
-            "specificEpithet": "novaeangliae",
-            "submitterEmail": "linda_rudin@gmx.ch",
-            "distinguishingScar": "",
-            "class": "org.ecocean.Encounter",
-            "submitterPhone": "",
-            "hashedSubmitterEmail": "bb170d37a5e2c961b8c665a7a29335b2",
-            "modified": "2016-01-09",
-            "_sanitized": true,
-            "measurements": [],
-            "hasImages": true,
-            "metalTags": [],
-            "numSpotsLeft": 52,
-            "month": 4,
 
-            "images": [
-                { "_sanitized": true, "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e970002.jpg", "dataCollectionEventID": "518aca4e48f5889a0148f5904e970002", "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e970002.jpg" }, {
-                    "_sanitized": true,
-                    "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e980003.jpg",
-                    "dataCollectionEventID": "518aca4e48f5889a0148f5904e980003",
-                    "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e980003.jpg"
-                }, {
-                    "_sanitized": true,
-                    "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e990004.jpg",
-                    "dataCollectionEventID": "518aca4e48f5889a0148f5904e990004",
-                    "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e990004.jpg"
-                },
-                { "_sanitized": true, "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9a0005.jpg", "dataCollectionEventID": "518aca4e48f5889a0148f5904e9a0005", "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9a0005.jpg" },
-                { "_sanitized": true, "thumbUrl": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9c0006.jpg", "dataCollectionEventID": "518aca4e48f5889a0148f5904e9c0006", "url": "http://52.32.240.124/wildbook_data_dir/encounters/0/a/0a496f37-de71-4f01-94a8-188f3569b3b5/518aca4e48f5889a0148f5904e9c0006.jpg" }
-            ],
-            "day": 21,
-            "okExposeViaTapirLink": false,
-            "dwcDateAdded": "2014-10-09",
-            "hashedPhotographerEmail": "",
-            "submitterID": "LindaR",
-            "dwcImageURL": "http://flukebook.org:80/encounters/encounter.jsp?number=0a496f37-de71-4f01-94a8-188f3569b3b5",
-            "photographerEmail": "",
-            "sex": "unknown",
-            "state": "approved",
-            "dateInMilliseconds": 1398038400000,
-            "photographerName": "",
-            "rightSpotImageFileName": "extract0a496f37-de71-4f01-94a8-188f3569b3b5.jpg",
-            "photographerAddress": "",
-            "minutes": "20",
-            "individualID": "2014-04-21",
-            "releaseDateLong": 1412812800000,
-            "size_guess": "no estimate provided",
-            "livingStatus": "alive",
-            "hour": 14,
-            "genus": "Megaptera",
-            "tissueSamples": [],
-            "occurrenceRemarks": "",
-            "guid": "Flukebook:0a496f37-de71-4f01-94a8-188f3569b3b5",
-            "dwcDateAddedLong": 1412812800000,
-            "identificationRemarks": "Unmatched first encounter"
-        }];
 
-        $scope.primaryTestImages = [{
-            title: 'title1',
-            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-            w: 539,
-            h: 539,
-            index: 1
-        }, {
-            title: 'title2',
-            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 507,
-            h: 539,
-            index: 2
-        }, {
-            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 808,
-            h: 539,
-            index: 3,
-            title: 'title3',
-            gps: 'n/a'
-        }, {
-            title: 'title4',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 4,
-            gps: 'n/a'
-        }, {
-            title: 'title1',
-            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-            w: 539,
-            h: 539,
-            index: 1
-        }, {
-            title: 'title2',
-            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 507,
-            h: 539,
-            index: 2
-        }, {
-            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 808,
-            h: 539,
-            index: 3,
-            title: 'title3',
-            gps: 'n/a'
-        }, {
-            title: 'title4',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 4,
-            gps: 'n/a'
-        }, {
-            title: 'title1',
-            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-            w: 539,
-            h: 539,
-            index: 1
-        }, {
-            title: 'title2',
-            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 507,
-            h: 539,
-            index: 2
-        }, {
-            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 808,
-            h: 539,
-            index: 3,
-            title: 'title3',
-            gps: 'n/a'
-        }, {
-            title: 'title4',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 4,
-            gps: 'n/a'
-        }, {
-            title: 'title5',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 5,
-            gps: 'n/a'
-        }];
-        $scope.primaryTestAnnotations = [{
-            title: 'title2',
-            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 507,
-            h: 539,
-            index: 2
-        }, {
-            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 808,
-            h: 539,
-            index: 3,
-            title: 'title3',
-            gps: 'n/a'
-        }, {
-            title: 'title4',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 4,
-            gps: 'n/a'
-        }, {
-            title: 'title1',
-            src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
-            w: 539,
-            h: 539,
-            index: 1
-        }, {
-            title: 'title2',
-            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
-            w: 507,
-            h: 539,
-            index: 2
-        }, {
-            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
-            w: 808,
-            h: 539,
-            index: 3,
-            title: 'title3',
-            gps: 'n/a'
-        }, {
-            title: 'title4',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 4,
-            gps: 'n/a'
-        }, {
-            title: 'title5',
-            src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
-            w: 718,
-            h: 539,
-            index: 5,
-            gps: 'n/a'
-        }];
+        $scope.fluke_data = null;
+        $http.get('assets/json/fluke_annotations.json').success(function(data) {
+           $scope.currentSlides = data;
+        });
+        $scope.filtering_tests = null;
+        $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
+           $scope.filtering_tests = data;
+        });
+        // /* PHOTOSWIPE VARIABLES */
+
+        // $scope.primaryTestImages = [{
+        //     title: 'title1',
+        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+        //     w: 539,
+        //     h: 539,
+        //     index: 1
+        // }, {
+        //     title: 'title2',
+        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+        //     w: 507,
+        //     h: 539,
+        //     index: 2
+        // }, {
+        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+        //     w: 808,
+        //     h: 539,
+        //     index: 3,
+        //     title: 'title3',
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title4',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 4,
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title1',
+        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+        //     w: 539,
+        //     h: 539,
+        //     index: 1
+        // }, {
+        //     title: 'title2',
+        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+        //     w: 507,
+        //     h: 539,
+        //     index: 2
+        // }, {
+        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+        //     w: 808,
+        //     h: 539,
+        //     index: 3,
+        //     title: 'title3',
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title4',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 4,
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title1',
+        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+        //     w: 539,
+        //     h: 539,
+        //     index: 1
+        // }, {
+        //     title: 'title2',
+        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+        //     w: 507,
+        //     h: 539,
+        //     index: 2
+        // }, {
+        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+        //     w: 808,
+        //     h: 539,
+        //     index: 3,
+        //     title: 'title3',
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title4',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 4,
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title5',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 5,
+        //     gps: 'n/a'
+        // }];
+        // $scope.primaryTestAnnotations = [{
+        //     title: 'title2',
+        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+        //     w: 507,
+        //     h: 539,
+        //     index: 2
+        // }, {
+        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+        //     w: 808,
+        //     h: 539,
+        //     index: 3,
+        //     title: 'title3',
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title4',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 4,
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title1',
+        //     src: 'https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg',
+        //     w: 539,
+        //     h: 539,
+        //     index: 1
+        // }, {
+        //     title: 'title2',
+        //     src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+        //     w: 507,
+        //     h: 539,
+        //     index: 2
+        // }, {
+        //     src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+        //     w: 808,
+        //     h: 539,
+        //     index: 3,
+        //     title: 'title3',
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title4',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 4,
+        //     gps: 'n/a'
+        // }, {
+        //     title: 'title5',
+        //     src: 'https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg',
+        //     w: 718,
+        //     h: 539,
+        //     index: 5,
+        //     gps: 'n/a'
+        // }];
         $scope.secondaryTestImages = [{title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0}];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0}];
 
         /* Variables workspace pulls from */
-        $scope.currentSlides = $scope.testSlides;
+        
         // define options
         $scope.opts = {
             // history & focus options are disabled on CodePen
@@ -324,6 +267,17 @@ angular.module('workspace-app', [])
                 }
             });
         };
+        //unfinished
+
+
+        /* FILTERING */
+        //used to catch all form data for filtering and send in for query
+        $scope.filterData = [];
+        $scope.submitFilters = function() {
+                console.log($scope.filterData);
+                $scope.close('filter');
+              };
+
 
         /* SIDENAVS */
         $scope.close = function(id) {
@@ -371,7 +325,7 @@ angular.module('workspace-app', [])
         $scope.chooseTestDatabase = function(){
             if($scope.workspace == 'Secondary' && $scope.type == 'images') $scope.currentSlides = $scope.secondaryTestImages;
             else if ($scope.workspace == 'Secondary') $scope.currentSlides = $scope.secondaryTestAnnotations;
-            else if ($scope.workspace == 'Primary' && $scope.type == 'images') $scope.currentSlides = $scope.primaryTestImages;
+            else if ($scope.workspace == 'Primary' && $scope.type == 'images') $scope.currentSlides = $scope.fluke_data;
             else if ($scope.workspace == 'Primary') $scope.currentSlides = $scope.primaryTestAnnotations;
 
         }
@@ -436,4 +390,14 @@ angular.module('workspace-app', [])
                 return true;
             }
         }
-    }]);
+        $scope.sex = { name: 'Sex', dataType: 'string', tag: 'sex' };
+
+    }])
+    .directive('ibsFiltering', function() {
+          return {
+            scope: {
+              name: '='
+            },
+            templateUrl: 'assets/directives/ibs-filtering-iso.html'
+          };
+    });;

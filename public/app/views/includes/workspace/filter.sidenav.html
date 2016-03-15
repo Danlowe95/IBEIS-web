@@ -3,14 +3,58 @@
         <h1 class="md-toolbar-tools">Filter Options</h1>
     </md-toolbar>
     <md-content layout-padding>
-        <form>
-            <md-input-container>
-                <label for="testInput">Test input</label>
-                <input type="text" id="testInput" ng-model="data" md-autofocus>
-            </md-input-container>
-        </form>
+        <!--  "name" : "Sex",
+        "tag" : "sex",
+        "dataType" : "string",
+        "values" : [ "male", "female" ]
+     -->
+        <!-- <ibs-filtering name="sex">sfd</ibs-filtering>
+
+ -->
+        <!--     <addbuttonsbutton></addbuttonsbutton>
+    <div id="space-for-buttons"></div>
+
+
+ -->
+        <!-- ng-app ng-controller="QuestionController" -->
+        <div>
+            <form name="myForm">
+                <ul ng-repeat="field in filtering_tests['org.ecocean.Encounter'].fields">
+                    <div ng-if="field.values">
+                        <li>
+                            <md-input-container>
+                                <label>{{field.name}}</label>
+                                <md-select ng-model="filterData[field.tag]">
+                                <md-option ng-repeat="option in field.values" value="{{option}}">{{option}}</md-option>
+                                    <md-option name="blank" ng-value="">----</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </li>
+                    </div>
+                    <div ng-if="field.dataType === 'string' && !field.values">
+                        <li>
+                            <div>{{field.name}}</div>
+                            dropdown here
+                            <!-- <select name="test" ng-model="field.name" ng-options="option for option in field.values"> -->
+                            <!-- </select> -->
+                            <br>
+                        </li>
+                    </div>
+                    <div ng-if="field.dataType === 'number'">
+                        <li>
+                            <div>{{field.name}}</div>
+                            numbers box here
+                            <!-- <select name="test" ng-model="field.name" ng-options="option for option in field.values"> -->
+                            <!-- </select> -->
+                            <br>
+                        </li>
+                    </div>
+                </ul>
+            </form>
+        </div>
+        {{sex.tag}} is stored as {{filterData["sex"]}}
         <div layout="row">
-            <md-button ng-click="close('filter')" class="md-primary" flex>
+            <md-button ng-click="submitFilters()" class="md-primary" flex>
                 Apply
             </md-button>
             <md-button ng-click="close('filter')" class="md-primary" flex>
