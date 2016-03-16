@@ -1,54 +1,56 @@
 <md-sidenav id="main-sidenav" layout="column" class="sidenav md-sidenav-left md-whiteframe-z3" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-  <md-menu-bar class="main-menu md-whiteframe-z1">
-    <md-menu>
-      <button ng-click="$mdOpenMenu()">
-        File
-      </button>
-      <md-menu-content>
-        <md-menu-item>
-          <md-button ng-click="setMode('upload')" ng-disabled="mode == 'upload'">
-            Upload Images
-          </md-button>
-        </md-menu-item>
-        <md-menu-item>
-          <md-button ng-click="showShareDialog()" ng-disabled="mode == 'upload'">
-            Share Current Workspace
-          </md-button>
-        </md-menu-item>
-        <md-divider></md-divider>
-        <md-menu-item>
-          <md-button ui-sref="login">
-            Logout
-          </md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
-    <md-menu>
-      <button ng-click="$mdOpenMenu()">
-        Options
-      </button>
-      <md-menu-content>
-        <md-menu-item>
-          <md-button>
-            Settings
-          </md-button>
-        </md-menu-item>
-        <md-divider></md-divider>
-        <md-menu-item>
-          <md-button ng-click="toggleLogo()">
-            <span ng-show="!logoVisible()">Show Logo</span>
-            <span ng-show="logoVisible()">Hide Logo</span>
-          </md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
-  </md-menu-bar>
-  <header id="logo" class="sidenav-header">
-    <div class="logo">
-      <img src="assets/img/logo-ibeis.png" height="240" width="240">
-    </div>
-  </header>
-  <md-divider></md-divider>
+  <div class="sidenav-header">
+    <md-menu-bar class="main-menu md-whiteframe-z1">
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          File
+        </button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-button ng-click="setMode('upload')" ng-disabled="mode == 'upload'">
+              Upload Images
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="showShareDialog()" ng-disabled="mode == 'upload'">
+              Share Current Workspace
+            </md-button>
+          </md-menu-item>
+          <md-divider></md-divider>
+          <md-menu-item>
+            <md-button ui-sref="login">
+              Logout
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          Options
+        </button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-button>
+              Settings
+            </md-button>
+          </md-menu-item>
+          <md-divider></md-divider>
+          <md-menu-item>
+            <md-button ng-click="toggleLogo()">
+              <span ng-show="!logoVisible()">Show Logo</span>
+              <span ng-show="logoVisible()">Hide Logo</span>
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </md-menu-bar>
+    <header id="logo">
+      <div class="logo">
+        <img src="assets/img/logo-ibeis.png" height="240" width="240">
+      </div>
+    </header>
+    <md-divider></md-divider>
+  </div>
   <ng-include ng-if="mode == 'upload'" src="'app/views/includes/workspace/upload.left.html'"></ng-include>
   <ng-include ng-if="mode == 'workspace'" src="'app/views/includes/workspace/workspace.left.html'"></ng-include>
 </md-sidenav>

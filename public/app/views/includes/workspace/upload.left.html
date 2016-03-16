@@ -1,8 +1,24 @@
-<md-content md-scroll-y layout-padding layout="column" flex>
+<md-content md-scroll-y layout-padding layout="column" flex ng-controller="upload-controller">
   <div class="action-container" layout="column">
-    <md-button class="md-primary md-raised sidenav-btn">Upload <strong>Images</strong></md-button>
-    <md-button class="md-primary md-raised sidenav-btn">Upload <strong>Metadata</strong></md-button>
-    <md-button class="md-secondary md-raised sidenav-btn">Find <strong>Occurences</strong></md-button>
+    <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" file-model="upImages">
+    <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('img-upload-btn')">
+      Upload <strong>Images</strong>
+    </md-button>
+    <input type="file" directory class="file-input" id="dir-upload-btn" file-model="upImages">
+    <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('dir-upload-btn')">
+      Upload <strong>Folder</strong>
+    </md-button>
+    <input type="file" accept=".zip" class="file-input" id="zip-upload-btn" file-model="upImages">
+    <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('zip-upload-btn')">
+      Upload <strong>Compressed</strong>
+    </md-button>
+    <input type="file" class="file-input" id="meta-upload-btn">
+    <md-button class="md-secondary md-raised sidenav-btn" ng-click="proxy('meta-upload-btn')">
+      Upload <strong>Metadata</strong>
+    </md-button>
+    <md-button class="md-secondary md-raised sidenav-btn" ng-click="test()">
+      Find <strong>Occurences</strong>
+    </md-button>
   </div>
   <md-button class="md-warn md-raised sidenav-btn" ng-click="setMode('workspace')">Cancel Upload</md-button>
 </md-content>
