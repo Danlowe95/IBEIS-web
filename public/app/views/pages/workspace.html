@@ -55,8 +55,8 @@
         <!-- Functions -->
         <md-divider></md-divider>
         <div class="action-container" layout="column">
-            <md-button class="md-primary md-raised sidenav-btn"><strong>Run</strong> Detection</md-button>
-            <md-button class="md-primary md-raised sidenav-btn"><strong>
+            <md-button class="md-primary md-raised sidenav-btn" ng-click="showIBEISContainer($event)"><strong>Run</strong> Detection</md-button>
+            <md-button class="md-primary md-raised sidenav-btn" ng-click="showIBEISContainer($event)"><strong>
             Review</strong> Detection</md-button>
             <md-button class="md-primary md-raised sidenav-btn" disabled><strong>Run</strong> Identification</md-button>
             <md-button class="md-primary md-raised sidenav-btn" disabled><strong>Review</strong> Identification</md-button>
@@ -152,6 +152,7 @@
     <ng-include src="'app/views/includes/workspace/image.info.sidenav.html'"></ng-include>
     <md-content md-scroll-y flex>
         <!-- using ng-includes to cut down on the number of lines in each html file -->
+
         <ng-include ng-show="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.view.html'" flex></ng-include>
         <ng-include ng-show="view == 'table'" src="'app/views/includes/workspace/table.view.html'" flex></ng-include>
         <ng-include ng-show="view == 'map'" src="'app/views/includes/workspace/map.view.html'" flex></ng-include>

@@ -170,7 +170,13 @@ td {
 .img-text {
     vertical-align: middle;
 }
-
+md-dialog.fullscreen-dialog {
+    max-width: 90%;
+    max-height: 90%;
+    width: 90%;
+    height: 90%;
+    border-radius: 0;
+}
 
 .gridListdemoBasicUsage md-grid-list {
   margin: 8px;

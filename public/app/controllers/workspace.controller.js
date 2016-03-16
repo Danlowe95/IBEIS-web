@@ -13,14 +13,14 @@ var myApp = angular.module('workspace-app', [])
         });
         // $scope.filtering_tests = null;
         $http.get('assets/json/image_tests.json').success(function(data) {
-            $scope.currentSlides= data;
+            $scope.currentSlides = data;
         });
-        
+
 
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
-        
+
         $scope.map = {
             center: {
                 latitude: 45,
@@ -147,14 +147,60 @@ var myApp = angular.module('workspace-app', [])
                 })
             );
         };
-        $scope.convertDateTime = function(dateTime){
-            try{
+        $scope.convertDateTime = function(dateTime) {
+            try {
                 return new Date(dateTime).toISOString().substring(0, 10);
-            }catch(e){
+            } catch (e) {
                 return "No Date Provided";
             }
-            
+
         };
+        /* IBEIS */
+        $scope.showIBEISContainer = function(ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+            $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'app/views/includes/workspace/detection.dialog.html',
+                    // parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true,
+                
+                })
+                .then(function(answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    $scope.confirmDialog('You cancelled the process.');
+                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        };
+        $scope.confirmDialog = function(string) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title('Cancelled')
+                .textContent(string)
+                .ariaLabel('Alert')
+                .ok('OK')
+            );
+        }
+
+        function DialogController($scope, $mdDialog) {
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+            $scope.answer = function(answer) {
+                $mdDialog.hide(answer);
+            };
+        }
         /* WORKSPACES */
         //to be deleted when we get real data
         $scope.chooseTestDatabase = function() {
