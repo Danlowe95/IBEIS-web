@@ -1,5 +1,5 @@
 var myApp = angular.module('workspace-app', [])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http) {
+    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce) {
 
 
 
@@ -155,12 +155,12 @@ var myApp = angular.module('workspace-app', [])
             }
 
         };
-        /* IBEIS */
-        $scope.showIBEISContainer = function(ev) {
+
+        $scope.showDetectionReview = function(ev) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
                     controller: DialogController,
-                    templateUrl: 'app/views/includes/workspace/detection.dialog.html',
+                    templateUrl: 'app/views/includes/workspace/detection.review.html',
                     // parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
@@ -170,7 +170,29 @@ var myApp = angular.module('workspace-app', [])
                 .then(function(answer) {
                     $scope.status = 'You said the information was "' + answer + '".';
                 }, function() {
-                    $scope.confirmDialog('You cancelled the process.');
+                    // $scope.confirmDialog('You cancelled the process.');
+                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        };
+        $scope.showDetection = function(ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+            $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'app/views/includes/workspace/detection.html',
+                    // parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true,
+                
+                })
+                .then(function(answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    // $scope.confirmDialog('You cancelled the process.');
                 });
             $scope.$watch(function() {
                 return $mdMedia('xs') || $mdMedia('sm');

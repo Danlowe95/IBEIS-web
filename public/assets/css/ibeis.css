@@ -1,3 +1,4 @@
+
 #toolbar {
 	/*background: #84AD5F;*/
 }
@@ -162,7 +163,10 @@ td {
     background: gray;
     text-align:center;
 }
-
+/*.ibeis-div{
+    max-width: 100;
+    max-height: 90;
+}*/
 }
 .card-img {
    height: 100%; width: auto;
