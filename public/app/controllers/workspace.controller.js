@@ -100,9 +100,9 @@ var myApp = angular.module('workspace-app', [])
 
         /* FILTERING */
         //used to catch all form data for filtering and send in for query
-        $scope.filterData = [];
+        $scope.filterData = {};
         $scope.submitFilters = function() {
-            console.log($scope.filterData);
+            console.log( JSON.stringify($scope.filterData) );
             $scope.close('filter');
         };
 
