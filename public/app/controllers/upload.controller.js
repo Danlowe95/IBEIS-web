@@ -21,8 +21,14 @@ var upload = angular.module('upload', [])
 
       $scope.test = function() {
         console.log($scope.uploadedImages);
-        console.log(AWS.config);
       };
+
+      AWS.config.update({
+        accessKeyId: 'AKIAJFVBLOTSKZ5554EA',
+        secretAccessKey: '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'
+      });
+      AWS.config.region = 'us-west-2';
+      $scope.uploader = new AWS.S3({ params: { Bucket: 'flukebook-dev-upload-tmp' } });
 
       $scope.uploadedImages = [];
       $scope.upload = function(element) {
@@ -41,14 +47,7 @@ var upload = angular.module('upload', [])
             }
             scope.uploadedImages.push(newFiles[i]);
 
-            AWS.config.update({
-              accessKeyId: 'AKIAJFVBLOTSKZ5554EA',
-              secretAccessKeyId: 'MWaPEpplIlHNeZspL6krTKh/muAa3l6rru5fIiMn'
-            });
-            AWS.config.region = 'us-west-2';
-            // console.log(AWS.config);
-            var uploader = new AWS.S3({ params: { Bucket: 'flukebook-dev-upload-tmp' } });
-            uploader.upload(params, function(err, data) {
+            scope.uploader.upload(params, function(err, data) {
               if (err) {
                 console.error(err);
               } else {
