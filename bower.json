@@ -13,7 +13,8 @@
     "marked": "0.3.0",
     "angular-mocks": "1.2.10",
     "flow.js": "^2.10.1",
-    "aws-sdk": "aws-sdk-js#^2.2.44"
+    "aws-sdk": "aws-sdk-js#^2.2.44",
+    "underscore": "^1.8.3"
   },
   "resolutions": {
     "angular": "1.5.0"

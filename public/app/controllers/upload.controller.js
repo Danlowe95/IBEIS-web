@@ -1,41 +1,66 @@
 var upload = angular.module('upload', [])
   .controller('upload-controller', [
     '$scope',
-    function($scope) {
+    '$http',
+    function($scope, $http) {
 
-    	$scope.testlist=["1", "2", "3"];
+      // $http.get('app/controllers/s3.json').success(function(data) {
+      //   AWS.config.update({
+      //     accessKeyId: data.s3_accessKeyId,
+      //     secretAccessKeyId: data.s3_secretAccessKey
+      //   });
+      //   AWS.config.region = data.s3_region;
+      //   $scope.uploader = new AWS.S3({ params: { Bucket: data.s3_bucket } });
+      // });
 
       /* An intermediate function to link an md-button to a
       hidden file input */
       $scope.proxy = function(id) {
-        console.log('clickarino');
         angular.element($('#' + id)).click();
       };
 
       $scope.test = function() {
-        var bucket = new AWS.S3();
-        console.log(bucket);
         console.log($scope.uploadedImages);
         console.log($scope.previews);
+        console.log(AWS.config);
       };
 
       $scope.uploadedImages = [];
       $scope.previews = [];
       $scope.$watch("upImages", function(newValue, oldValue) {
+        var newValue = _.clone(newValue);
         var justValues = $.map(newValue, function(val, key) {
           return val;
-        });
-        $scope.uploadedImages = $.extend(true, $scope.uploadedImages, justValues);
-        for (var i in $scope.uploadedImages) {
-          if ($scope.uploadedImages[i].src === undefined) {
-            // set src using FileReader
-            var r = new FileReader();
-            r.onload = function(e) {
-              $scope.previews.push(e.target.result);
-            };
-            r.readAsDataURL($scope.uploadedImages[i]);
+        }, true);
+        var files = _.difference(justValues, $scope.uploadedImages);
+        for (i in files) {
+          var params = {
+            Key: files[i].name,
+            ContentType: files[i].type,
+            Body: files[i]
           }
+          
+          AWS.config.update({
+            accessKeyId: 'AKIAJFVBLOTSKZ5554EA',
+            secretAccessKeyId: 'MWaPEpplIlHNeZspL6krTKh/muAa3l6rru5fIiMn'
+          });
+          AWS.config.region = 'us-west-2';
+          console.log(AWS.config);
+          var uploader = new AWS.S3({ params: { Bucket: 'flukebook-dev-upload-tmp' } });
+          uploader.upload(params, function(err, data) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log("COMPLETED UPLOAD");
+            }
+          }).on('httpUploadProgress', function(progress) {
+            console.log(Math.round(progress.loaded / progress.total * 100));
+          });
         }
+        // $scope.uploadedImages = $.extend(true, $scope.uploadedImages, justValues);
+        // for (var i in $scope.uploadedImages) {
+
+        // }
       });
 
     }

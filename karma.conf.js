@@ -28,6 +28,7 @@ module.exports = function(config) {
       'public/bower_components/ng-photoswipe/angular-photoswipe.min.js',
       'public/bower_components/flow.js/dist/flow.js',
       'public/bower_components/aws-sdk/dist/aws-sdk.js',
+      'public/bower_components/underscore/underscore.js',
       // endbower
       "public/app/ibeis.js",
       "public/app/ibeis.routes.js",
