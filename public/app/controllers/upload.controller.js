@@ -21,12 +21,10 @@ var upload = angular.module('upload', [])
 
       $scope.test = function() {
         console.log($scope.uploadedImages);
-        console.log($scope.previews);
         console.log(AWS.config);
       };
 
       $scope.uploadedImages = [];
-      $scope.previews = [];
       $scope.$watch("upImages", function(newValue, oldValue) {
         var newValue = _.clone(newValue);
         var justValues = $.map(newValue, function(val, key) {
@@ -52,15 +50,12 @@ var upload = angular.module('upload', [])
               console.log(err);
             } else {
               console.log("COMPLETED UPLOAD");
+              $scope.uploadedImages.push(files[i]);
             }
           }).on('httpUploadProgress', function(progress) {
             console.log(Math.round(progress.loaded / progress.total * 100));
           });
         }
-        // $scope.uploadedImages = $.extend(true, $scope.uploadedImages, justValues);
-        // for (var i in $scope.uploadedImages) {
-
-        // }
       });
 
     }
