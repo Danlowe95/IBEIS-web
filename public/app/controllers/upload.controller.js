@@ -25,56 +25,39 @@ var upload = angular.module('upload', [])
       };
 
       $scope.uploadedImages = [];
-      $scope.$watch("upImages", function(newValue, oldValue) {
-        var newValue = _.clone(newValue);
-        var justValues = $.map(newValue, function(val, key) {
+      $scope.upload = function(element) {
+      	console.log(element.files);
+      	var justFiles = $.map(element.files, function(val, key) {
           return val;
         }, true);
-        var files = _.difference(justValues, $scope.uploadedImages);
-        for (i in files) {
-          var params = {
-            Key: files[i].name,
-            ContentType: files[i].type,
-            Body: files[i]
+  			console.log(justFiles);
+  			var newFiles = _.difference(justFiles, $scope.uploadedImages);
+  			for (i in newFiles) {
+  				var params = {
+            Key: newFiles[i].name,
+            ContentType: newFiles[i].type,
+            Body: newFiles[i]
           }
-          
+          $scope.uploadedImages.push(newFiles[i]);
+
           AWS.config.update({
             accessKeyId: 'AKIAJFVBLOTSKZ5554EA',
             secretAccessKeyId: 'MWaPEpplIlHNeZspL6krTKh/muAa3l6rru5fIiMn'
           });
           AWS.config.region = 'us-west-2';
-          console.log(AWS.config);
+          // console.log(AWS.config);
           var uploader = new AWS.S3({ params: { Bucket: 'flukebook-dev-upload-tmp' } });
           uploader.upload(params, function(err, data) {
             if (err) {
-              console.log(err);
+              console.error(err);
             } else {
               console.log("COMPLETED UPLOAD");
-              $scope.uploadedImages.push(files[i]);
             }
           }).on('httpUploadProgress', function(progress) {
             console.log(Math.round(progress.loaded / progress.total * 100));
           });
-        }
-      });
-
-    }
-  ])
-  .directive('fileModel', [
-    '$parse',
-    function($parse) {
-      return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-          var model = $parse(attrs.fileModel);
-          var modelSetter = model.assign;
-
-          element.bind('change', function() {
-            scope.$apply(function() {
-              modelSetter(scope, element[0].files);
-            });
-          });
-        }
+  			}
       };
+
     }
   ]);

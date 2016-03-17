@@ -1,16 +1,8 @@
 <md-content md-scroll-y layout-padding layout="column" flex ng-controller="upload-controller">
   <div class="action-container" layout="column">
-    <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" file-model="upImages">
+    <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().upload(this)" ng-model-instant>
     <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('img-upload-btn')">
       Upload <strong>Images</strong>
-    </md-button>
-    <input type="file" directory class="file-input" id="dir-upload-btn" file-model="upImages">
-    <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('dir-upload-btn')">
-      Upload <strong>Folder</strong>
-    </md-button>
-    <input type="file" accept=".zip" class="file-input" id="zip-upload-btn" file-model="upImages">
-    <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('zip-upload-btn')">
-      Upload <strong>Compressed</strong>
     </md-button>
     <input type="file" class="file-input" id="meta-upload-btn">
     <md-button class="md-secondary md-raised sidenav-btn" ng-click="proxy('meta-upload-btn')">
