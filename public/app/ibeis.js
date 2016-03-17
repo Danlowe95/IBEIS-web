@@ -7,7 +7,6 @@ angular.module('ibeis', [
         // imports
         'ngMaterial', // angular material
         'smart-table',
-        'yaru22.md', // markdown display (for help maybe)
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
     ])
