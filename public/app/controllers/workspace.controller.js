@@ -200,6 +200,31 @@ var myApp = angular.module('workspace-app', [])
                 $scope.customFullscreen = (wantsFullScreen === true);
             });
         };
+        $scope.showImageInfo = function(ev, index) {
+            $scope.image_index = index;
+            // $mdSidenav('image').toggle();
+            // var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+            $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'app/views/includes/workspace/image.info.html',
+                    // parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true,
+                    locals: {image_index: $scope.image_index, currentSlides: $scope.currentSlides}
+
+                })
+                .then(function(answer) {
+                    // $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    // $scope.confirmDialog('You cancelled the process.');
+                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        };
         $scope.confirmDialog = function(string) {
             $mdDialog.show(
                 $mdDialog.alert()
@@ -212,7 +237,9 @@ var myApp = angular.module('workspace-app', [])
             );
         }
 
-        function DialogController($scope, $mdDialog) {
+        function DialogController($scope, $mdDialog, image_index, currentSlides) {
+            $scope.image_index = image_index;
+            $scope.currentSlides = currentSlides;
             $scope.hide = function() {
                 $mdDialog.hide();
             };
