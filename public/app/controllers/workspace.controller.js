@@ -16,7 +16,6 @@ var myApp = angular.module('workspace-app', [])
             $scope.currentSlides = data;
         });
 
-
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
@@ -42,6 +41,7 @@ var myApp = angular.module('workspace-app', [])
             $scope.currentMarker = id;
             $scope.toggleSidenav('marker');
         };
+
         //what's this?
         $scope.testItems = Array.apply(null, {
             length: 100
@@ -271,10 +271,24 @@ var myApp = angular.module('workspace-app', [])
         /* VIEW MENU */
         $scope.views = ['thumbnails', 'table', 'map'];
         $scope.view = 'thumbnails';
+        //use this when we auto set views as well so map is displayed
         $scope.setView = function(v) {
             $scope.view = v;
-            // $(window).trigger('resize');
+            if (v == 'map') {
+                $(window).trigger('resize');
+            }
         };
+
+        $(window).resize(function() {
+            $scope.resizeMap();
+        });
+
+        $scope.resizeMap = function() {
+            var total = $(window).height();
+            var toolbar = $("#toolbar").height();
+            $(".leaflet-container").css('height', total - toolbar);
+        };
+
 
         $scope.toggleLogo = function() {
             var logo = $('#logo');

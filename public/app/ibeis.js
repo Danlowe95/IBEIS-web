@@ -10,6 +10,7 @@ angular.module('ibeis', [
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
         'flow', // file upload
+        'ui-leaflet',
     ])
     // setup theme
     .config(function($mdThemingProvider) {

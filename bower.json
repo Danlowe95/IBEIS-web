@@ -12,7 +12,8 @@
     "ng-photoswipe": "^0.0.9",
     "marked": "0.3.0",
     "angular-mocks": "1.2.10",
-    "ng-flow": "^2.7.1"
+    "ng-flow": "^2.7.1",
+    "leaflet": "^0.7.7"
   },
   "resolutions": {
     "angular": "1.5.0"
