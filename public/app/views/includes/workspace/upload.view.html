@@ -1,10 +1,10 @@
 <div layout-padding flex ng-controller="upload-controller">
-<ul>
-<li ng-repeat="im in uploadedImages">{{im.name}}</li>
-</ul>
-  <!-- <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="img in previews">
+  <md-card ng-repeat="im in images.selected" class="card-img-parent" style="width: 200px; height: 200px;" >
     <div>
-      <img class="card-img" ng-src="img">
+      <img class="card-img" ng-src="{{im.imageSrc}}">
+      <md-card-actions layout="row" layout-align="center" class="img-text">
+        <h4>{{im.name}}</h4>
+      </md-card-actions>
     </div>
-  </md-card> -->
+  </md-card>
 </div>

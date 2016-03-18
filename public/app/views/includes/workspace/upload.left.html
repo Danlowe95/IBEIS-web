@@ -1,7 +1,10 @@
 <md-content md-scroll-y layout-padding layout="column" flex ng-controller="upload-controller">
   <div class="action-container" layout="column">
-    <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().upload(this)" ng-model-instant>
+    <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().select(this)">
     <md-button class="md-primary md-raised sidenav-btn" ng-click="proxy('img-upload-btn')">
+      Select <strong>Images</strong>
+    </md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-click="upload()">
       Upload <strong>Images</strong>
     </md-button>
     <input type="file" class="file-input" id="meta-upload-btn">

@@ -11,6 +11,7 @@ angular.module('ibeis.routes', ['ui.router'])
             .state('workspace', {
                 url: '/workspace',
                 templateUrl: 'app/views/pages/workspace.html',
-                controller: 'workspace-controller'
+                controller: 'workspace-controller',
+                controllerAs: 'wsCtrl'
             });
     });
