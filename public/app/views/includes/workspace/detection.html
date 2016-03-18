@@ -1,0 +1,22 @@
+<md-dialog class="fullscreen-dialog" aria-label="detectionDialog" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Detection</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" aria-label="Cancel" ng-click="cancel()">
+                    <i class="fa fa-remove"></i>
+                    <md-tooltip md-autohide>
+                        Return to workspace
+                    </md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-height: 100%;">
+            <script>
+            $("#ibeis-process").load("http://52.33.105.88:5000/test/review/detect/cnn/yolo/");
+            </script>
+            <div layout-padding flex class="ibeis-div" id="ibeis-process"></div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
