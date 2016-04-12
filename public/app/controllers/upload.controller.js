@@ -6,6 +6,13 @@ var upload = angular.module('upload', [])
     'reader-factory',
     function($rootScope, $scope, $http, readerFactory) {
 
+      // stages:
+      //  - 0 = select
+      //  - 1 = upload
+      //  - 2 = occurence
+      //  - 3 = complete
+      $scope.stage = 0;
+
       // $http.get('app/controllers/s3.json').success(function(data) {
       //   AWS.config.update({
       //     accessKeyId: data.s3_accessKeyId,
@@ -36,52 +43,56 @@ var upload = angular.module('upload', [])
         selected: [],
         uploaded: []
       };
-      $scope.previews = [];
       $scope.select = function(element) {
-        $scope.$apply(function() {
-          var selectedImages = _.clone($rootScope.images.selected); // get current copy of $scope.selectedImages
-          var justFiles = $.map(element.files, function(val, key) {
-            return val;
-          }, true);
+        console.log("Selecting images");
+        var selectedImages = _.clone($rootScope.images.selected); // get current copy of $scope.selectedImages
+        var justFiles = $.map(element.files, function(val, key) {
+          return val;
+        }, true);
 
-          var fileEquality = function(f1, f2) {
-            if (f1.name != f2.name) return false;
-            if (f1.size != f2.size) return false;
-            if (f1.type != f2.type) return false;
-            if (f1.lastModified != f2.lastModified) return false;
-            return true;
-          }
+        var fileEquality = function(f1, f2) {
+          if (f1.name != f2.name) return false;
+          if (f1.size != f2.size) return false;
+          if (f1.type != f2.type) return false;
+          if (f1.lastModified != f2.lastModified) return false;
+          return true;
+        }
 
-          for (i in justFiles) {
-            var contains = false;
-            var file = justFiles[i];
-            for (i in selectedImages) {
-              if (fileEquality(file, selectedImages[i])) {
-                contains = true;
-                break;
-              }
-            }
-            if (!contains) {
-              readerFactory.readAsDataUrl(file, $scope)
-                .then(function(result) {
-                	console.log(file.name + " has image");
-                  file.imageSrc = result;
-                });
-              selectedImages.push(file);
+        for (i in justFiles) {
+          var contains = false;
+          var file = justFiles[i];
+          for (i in selectedImages) {
+            if (fileEquality(file, selectedImages[i])) {
+              contains = true;
+              break;
             }
           }
+          console.log(file.name);
+          if (!contains) {
+            readerFactory.readAsDataUrl(file, $scope)
+              .then(function(result) {
+                console.log(file.name + " has image");
+                file.imageSrc = result;
+              });
+            selectedImages.push(file);
+          }
+        }
 
-          $rootScope.images.selected = selectedImages;
+        $rootScope.images.selected = selectedImages;
+        console.log($rootScope.images.selected);
+      };
 
-        });
+      $scope.remove = function(i) {
+        $rootScope.images.selected.splice(i, i + 1);
       };
 
       $scope.upload = function() {
+        $scope.stage = 1;
         var images = _.clone($rootScope.images.selected);
         for (i in images) {
 
-        	// remove the preview src before uploading the file
-        	delete images[i].imageSrc
+          // remove the preview src before uploading the file
+          delete images[i].imageSrc
 
           var params = {
             Key: images[i].name,
@@ -96,14 +107,12 @@ var upload = angular.module('upload', [])
               console.log("COMPLETED UPLOAD");
             }
           }).on('httpUploadProgress', function(progress) {
-          	var progress = Math.round(progress.loaded / progress.total * 100);
-            console.log(images[i].name + ": " + progress + "%");
+            var progress = Math.round(progress.loaded / progress.total * 100);
             $rootScope.images.selected[i].progress = progress;
+            console.log($rootScope.images.selected);
           });
         }
-
       };
-
     }
   ])
   .factory('reader-factory', ['$q', function($q) {
