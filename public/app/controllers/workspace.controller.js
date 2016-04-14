@@ -17,30 +17,81 @@ var myApp = angular.module('workspace-app', [])
         // });
 
         // Start of real querying
-        var testQuery = { class: 'org.ecocean.media.MediaAsset', range: 10 };
+        $scope.queryWorkspace = function(params) {
+                // $http({
+                //     url: 'http://springbreak.wildbook.org/TranslateQuery',
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                //     transformRequest: function(obj) {
+                //         var str = [];
+                //         for (var p in obj)
+                //             str.push(p + "=" + (obj[p]));
+
+                //         console.log(str.join("&"));
+                //         return str.join("&");
+                //     },
+                //     data: params
+                // }).then(function(data) {
+                //     // this callback will be called asynchronously
+                //     // when the response is available
+                //     $scope.currentSlides = data.data;
+                //     console.log($scope.currentSlides);
+                // }, function errorCallback(response) {
+                //     console.log("ERROR");
+                //     // called asynchronously if an error occurs
+                //     // or server returns response with an error status.
+                // });
+                console.log(params);
+                $.ajax({
+                    type: "POST",
+                    url: 'http://springbreak.wildbook.org/TranslateQuery',
+                    data: params,
+                    dataType: "json"
+                }).then(function(data) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    $scope.$apply(function() {
+                        // $scpoe.currentSlides = data;
+                        $scope.currentSlides = data[0].assets;
+                        console.log($scope.currentSlides);
+                    });
+                });
+
+
+                //temp
+                // $http({
+                //     url: 'http://springbreak.wildbook.org/rest/org.ecocean.media.MediaAssetSet/63443752-066c-440c-b53c-eda29e48f96a',
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                //     transformRequest: function(obj) {
+                //         var str = [];
+                //         for (var p in obj)
+                //             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                //         return str.join("&");
+                //     },
+                //     data: params
+                // }).then(function(data) {
+                //     // this callback will be called asynchronously
+                //     // when the response is available
+                //     $scope.currentSlides = data.data;
+                //     console.log($scope.currentSlides);
+                // }, function errorCallback(response) {
+                //     console.log("ERROR");
+                //     // called asynchronously if an error occurs
+                //     // or server returns response with an error status.
+                // });
+            }
+            //         var testQuery = { class:'org.ecocean.media.MediaAsset',
+            // range:10};
+        var testQuery = {
+            class: 'org.ecocean.media.MediaAssetSet',
+            query: "{id: '63443752-066c-440c-b53c-eda29e48f96a' }"
+        };
+        $scope.queryWorkspace(testQuery);
         // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}, range: 30, rangeMin:15};
         // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}};
-        $http({
-            url: 'http://springbreak.wildbook.org/TranslateQuery',
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj)
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data: testQuery
-        }).then(function(data) {
-            // this callback will be called asynchronously
-            // when the response is available
-            $scope.currentSlides = data.data;
-            console.log($scope.currentSlides);
-        }, function errorCallback(response) {
-            console.log("ERROR");
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-        });
+
+
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
@@ -127,8 +178,11 @@ var myApp = angular.module('workspace-app', [])
         //used to catch all form data for filtering and send in for query
         $scope.filterData = {};
         $scope.submitFilters = function() {
-            console.log(JSON.stringify($scope.filterData));
+            var params = JSON.stringify($scope.filterData);
+            console.log(params);
+            $scope.queryWorkspace(params);
             $scope.close('filter');
+
         };
 
 
@@ -204,6 +258,32 @@ var myApp = angular.module('workspace-app', [])
                 $scope.customFullscreen = (wantsFullScreen === true);
             });
         };
+        $scope.startDetection = function(index) {
+            var detect = { detect: [31233] }
+            $http({
+                url: 'http://springbreak.wildbook.org/ia',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                transformRequest: function(obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: detect
+            }).then(function(data) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.job_id = data.data.sendDetect.response;
+                console.log(data.data);
+            }, function errorCallback(response) {
+                console.log("ERROR");
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
+
+        };
+
         $scope.showDetection = function(ev) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
