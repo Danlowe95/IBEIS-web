@@ -11,11 +11,36 @@ var myApp = angular.module('workspace-app', [])
         $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
             $scope.filtering_tests = data;
         });
-        // $scope.filtering_tests = null;
-        $http.get('assets/json/image_tests.json').success(function(data) {
-            $scope.currentSlides = data;
-        });
+        // // $scope.filtering_tests = null;
+        // $http.get('assets/json/image_tests.json').success(function(data) {
+        //     $scope.currentSlides = data;
+        // });
 
+        // Start of real querying
+        var testQuery = { class: 'org.ecocean.media.MediaAsset', range: 10 };
+        // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}, range: 30, rangeMin:15};
+        // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}};
+        $http({
+            url: 'http://springbreak.wildbook.org/TranslateQuery',
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: testQuery
+        }).then(function(data) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $scope.currentSlides = data.data;
+            console.log($scope.currentSlides);
+        }, function errorCallback(response) {
+            console.log("ERROR");
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
@@ -165,6 +190,7 @@ var myApp = angular.module('workspace-app', [])
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
+                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides }
 
                 })
                 .then(function(answer) {
@@ -187,6 +213,7 @@ var myApp = angular.module('workspace-app', [])
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
+                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides }
 
                 })
                 .then(function(answer) {
@@ -211,7 +238,7 @@ var myApp = angular.module('workspace-app', [])
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
-                    locals: {image_index: $scope.image_index, currentSlides: $scope.currentSlides}
+                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides }
 
                 })
                 .then(function(answer) {
@@ -253,10 +280,10 @@ var myApp = angular.module('workspace-app', [])
         /* WORKSPACES */
         //to be deleted when we get real data
         $scope.chooseTestDatabase = function() {
-            if ($scope.workspace == 'Secondary' && $scope.type == 'images') $scope.currentSlides = $scope.secondaryTestImages;
-            else if ($scope.workspace == 'Secondary') $scope.currentSlides = $scope.secondaryTestAnnotations;
-            else if ($scope.workspace == 'Primary' && $scope.type == 'images') $scope.currentSlides = $scope.fluke_data;
-            else if ($scope.workspace == 'Primary') $scope.currentSlides = $scope.primaryTestAnnotations;
+            // if ($scope.workspace == 'Secondary' && $scope.type == 'images') $scope.currentSlides = $scope.secondaryTestImages;
+            // else if ($scope.workspace == 'Secondary') $scope.currentSlides = $scope.secondaryTestAnnotations;
+            // else if ($scope.workspace == 'Primary' && $scope.type == 'images') $scope.currentSlides = $scope.fluke_data;
+            // else if ($scope.workspace == 'Primary') $scope.currentSlides = $scope.primaryTestAnnotations;
 
         }
         $scope.workspace = 'Primary';
