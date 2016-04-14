@@ -6,31 +6,18 @@
     "angular-material": "^1.0.6",
     "angular-ui-router": "^0.2.18",
     "angular-smart-table": "^2.1.7",
-    "angular-md": "^1.0.0",
     "font-awesome": "^4.5.0",
     "angular-google-maps": "^2.3.2",
     "ng-photoswipe": "^0.0.9",
-    "marked": "0.3.0",
-    "angular-mocks": "1.2.10",
-    "ng-flow": "^2.7.1"
-  },
-  "resolutions": {
-    "angular": "1.5.0"
+    "flow.js": "^2.10.1",
+    "aws-sdk": "aws-sdk-js#^2.2.44",
+    "underscore": "^1.8.3",
+    "d3": "^3.5.16"
   },
   "overrides": {
     "font-awesome": {
       "main": [
         "css/font-awesome.css"
-      ]
-    },
-    "marked": {
-      "main": [
-        "lib/marked.js"
-      ]
-    },
-    "angular-md": {
-      "main": [
-        "dist/angular-md.min.js"
       ]
     }
   }

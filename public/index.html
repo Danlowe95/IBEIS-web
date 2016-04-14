@@ -2,48 +2,49 @@
 <html ng-app="ibeis">
 
 <head>
-    <!-- METADATA -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>IBEIS</title>
-    <!-- CSS -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="bower_components/photoswipe/dist/photoswipe.css" />
-    <link rel="stylesheet" href="bower_components/photoswipe/dist/default-skin/default-skin.css" />
-    <!-- endbower -->
-    <link rel="stylesheet" href="assets/css/ibeis.css">
-    <!-- JS -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-messages/angular-messages.js"></script>
-    <script src="bower_components/angular-material/angular-material.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script src="bower_components/marked/lib/marked.js"></script>
-    <script src="bower_components/angular-md/dist/angular-md.min.js"></script>
-    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
-    <script src="bower_components/lodash/lodash.js"></script>
-    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
-    <script src="bower_components/photoswipe/dist/photoswipe.js"></script>
-    <script src="bower_components/photoswipe/dist/photoswipe-ui-default.js"></script>
-    <script src="bower_components/ng-photoswipe/angular-photoswipe.min.js"></script>
-    <script src="bower_components/flow.js/dist/flow.js"></script>
-    <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.4/d3.min.js"></script>
-    <script src="assets/js/d3pie.min.js"></script>
-    <!-- endbower -->
-    <script src="assets/js/ibeis.js"></script>
-    <!-- controllers -->
-    <script src="app/controllers/workspace.controller.js"></script>
-    <!-- angular app -->
-    <script src="app/ibeis.routes.js"></script>
-    <script src="app/ibeis.js"></script>
+  <!-- METADATA -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>IBEIS</title>
+  <base href="." target="_blank">
+  <!-- CSS -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/photoswipe/dist/photoswipe.css" />
+  <link rel="stylesheet" href="bower_components/photoswipe/dist/default-skin/default-skin.css" />
+  <!-- endbower -->
+  <link rel="stylesheet" href="assets/css/ibeis.css">
+  <link rel="stylesheet" href="assets/css/upload.css">
+  <!-- JS -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-messages/angular-messages.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
+  <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
+  <script src="bower_components/lodash/lodash.js"></script>
+  <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+  <script src="bower_components/photoswipe/dist/photoswipe.js"></script>
+  <script src="bower_components/photoswipe/dist/photoswipe-ui-default.js"></script>
+  <script src="bower_components/ng-photoswipe/angular-photoswipe.min.js"></script>
+  <script src="bower_components/flow.js/dist/flow.js"></script>
+  <script src="bower_components/aws-sdk/dist/aws-sdk.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/d3/d3.js"></script>
+  <!-- endbower -->
+  <script src="assets/js/ibeis.js"></script>
+  <script src="assets/js/upload.js"></script>
+  <!-- controllers -->
+  <script src="app/controllers/workspace.controller.js"></script>
+  <script src="app/controllers/upload.controller.js"></script>
+  <!-- angular app -->
+  <script src="app/ibeis.routes.js"></script>
+  <script src="app/ibeis.js"></script>
 </head>
 
 <body class="layout-row" ui-view>

@@ -1,0 +1,80 @@
+<div class="md-toolbar-tools md-whiteframe-z1" flex>
+  <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+    <md-icon aria-label="Menu" md-svg-icon="//s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+  </md-button>
+  <md-menu>
+    <md-button class="md-primary" aria-label="Workspace Selector" ng-click="$mdOpenMenu($event)">
+      {{workspace}}
+      <md-tooltip>
+        Select workspace.
+      </md-tooltip>
+    </md-button>
+    <md-menu-content width="4">
+      <md-menu-item ng-repeat="w in workspaces">
+        <md-button ng-click="setWorkspace(w)">
+          <div layout="row">
+            <p flex>
+              {{w}}
+            </p>
+          </div>
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+  <!-- filter nav buttons -->
+  <md-button ng-click="toggleSidenav('filter')" hide-gt-sm class="md-icon-button">
+    <i class="fa fa-filter"></i>
+  </md-button>
+  <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
+    <i class="fa fa-filter"></i> Filter
+    <md-tooltip md-autohide>
+      Apply a filter to your workspace.
+    </md-tooltip>
+  </md-button>
+  <md-button class="md-icon-button" aria-label="Undo" ng-click="undoFilter()">
+    <i class="fa fa-undo"></i>
+    <md-tooltip md-autohide>
+      Undo last filter change.
+    </md-tooltip>
+  </md-button>
+  <md-button class="md-icon-button" aria-label="Save">
+    <i class="fa fa-save"></i>
+    <md-tooltip md-autohide>
+      Save to new workspace.
+    </md-tooltip>
+  </md-button>
+  <span flex></span>
+  <md-menu md-position-mode="target-right target">
+    <md-button aria-label="View Selector" ng-click="$mdOpenMenu($event)">
+      VIEW
+      <md-tooltip md-direction="left" md-autohide>
+        Viewing {{type}} in {{view}} mode.
+      </md-tooltip>
+    </md-button>
+    <md-menu-content width="3">
+      <md-menu-item ng-repeat="t in types">
+        <md-button ng-click="setType(t)">
+          <div layout="row">
+            <p flex>
+              <i class="fa fa-fw fa-file-image-o" ng-show="t == 'images'"></i>
+              <i class="fa fa-fw fa-object-group" ng-show="t == 'annotations'"></i>
+              <i class="fa fa-fw fa-users" ng-show="t == 'animals'"></i> &emsp;view {{t}}
+            </p>
+          </div>
+        </md-button>
+      </md-menu-item>
+      <md-divider></md-divider>
+      <md-menu-item ng-repeat="v in views">
+        <md-button ng-click="setView(v)">
+          <div layout="row">
+            <p flex>
+              <i class="fa fa-fw fa-picture-o" ng-show="v == 'thumbnails'"></i>
+              <i class="fa fa-fw fa-table" ng-show="v == 'table'"></i>
+              <i class="fa fa-fw fa-map" ng-show="v == 'map'"></i> &emsp;{{v}} mode
+            </p>
+          </div>
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+</div>

@@ -1,0 +1,13 @@
+/* Hide file inputs */
+.file-input {
+  display: none;
+}
+
+.upload-card {
+	width: 250px;
+}
+
+.upload-card img {
+	width: 250px;
+	height: 200px;
+}

@@ -2,14 +2,13 @@ angular.module('ibeis', [
         // routes
         'ibeis.routes',
         // controllers
-        'workspace-app',
+        'workspace',
+        'upload',
         // imports
         'ngMaterial', // angular material
         'smart-table',
-        'yaru22.md', // markdown display (for help maybe)
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
-        'flow', // file upload
     ])
     // setup theme
     .config(function($mdThemingProvider) {
