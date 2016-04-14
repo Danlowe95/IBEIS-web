@@ -18,71 +18,24 @@ var myApp = angular.module('workspace-app', [])
 
         // Start of real querying
         $scope.queryWorkspace = function(params) {
-                // $http({
-                //     url: 'http://springbreak.wildbook.org/TranslateQuery',
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                //     transformRequest: function(obj) {
-                //         var str = [];
-                //         for (var p in obj)
-                //             str.push(p + "=" + (obj[p]));
-
-                //         console.log(str.join("&"));
-                //         return str.join("&");
-                //     },
-                //     data: params
-                // }).then(function(data) {
-                //     // this callback will be called asynchronously
-                //     // when the response is available
-                //     $scope.currentSlides = data.data;
-                //     console.log($scope.currentSlides);
-                // }, function errorCallback(response) {
-                //     console.log("ERROR");
-                //     // called asynchronously if an error occurs
-                //     // or server returns response with an error status.
-                // });
-                console.log(params);
-                $.ajax({
-                    type: "POST",
-                    url: 'http://springbreak.wildbook.org/TranslateQuery',
-                    data: params,
-                    dataType: "json"
-                }).then(function(data) {
-                    // this callback will be called asynchronously
-                    // when the response is available
-                    $scope.$apply(function() {
-                        // $scpoe.currentSlides = data;
-                        $scope.currentSlides = data[0].assets;
-                        console.log($scope.currentSlides);
-                    });
+            $.ajax({
+                type: "POST",
+                url: 'http://springbreak.wildbook.org/TranslateQuery',
+                data: params,
+                dataType: "json"
+            }).then(function(data) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.$apply(function() {
+                    // $scpoe.currentSlides = data;
+                    $scope.currentSlides = data[0].assets;
+                    console.log($scope.currentSlides);
                 });
+            });
+        }
 
-
-                //temp
-                // $http({
-                //     url: 'http://springbreak.wildbook.org/rest/org.ecocean.media.MediaAssetSet/63443752-066c-440c-b53c-eda29e48f96a',
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                //     transformRequest: function(obj) {
-                //         var str = [];
-                //         for (var p in obj)
-                //             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                //         return str.join("&");
-                //     },
-                //     data: params
-                // }).then(function(data) {
-                //     // this callback will be called asynchronously
-                //     // when the response is available
-                //     $scope.currentSlides = data.data;
-                //     console.log($scope.currentSlides);
-                // }, function errorCallback(response) {
-                //     console.log("ERROR");
-                //     // called asynchronously if an error occurs
-                //     // or server returns response with an error status.
-                // });
-            }
-            //         var testQuery = { class:'org.ecocean.media.MediaAsset',
-            // range:10};
+        //         var testQuery = { class:'org.ecocean.media.MediaAsset',
+        // range:10};
         var testQuery = {
             class: 'org.ecocean.media.MediaAssetSet',
             query: "{id: '63443752-066c-440c-b53c-eda29e48f96a' }"
@@ -258,29 +211,55 @@ var myApp = angular.module('workspace-app', [])
                 $scope.customFullscreen = (wantsFullScreen === true);
             });
         };
-        $scope.startDetection = function(index) {
-            var detect = { detect: [31233] }
-            $http({
+        $scope.startDetection = function(index, ev) {
+            //create javascript for loop to get all ids, send all ids to 
+            image_ids = [];
+            var i;
+            for (i = 0; i < 1; i++){
+                image_ids.push($scope.currentSlides[i].id);
+            }
+            var detect_data = "{detect: ["+image_ids+"]}";
+            console.log(detect_data);
+            $.ajax({
+                type: "POST",
                 url: 'http://springbreak.wildbook.org/ia',
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                transformRequest: function(obj) {
-                    var str = [];
-                    for (var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                },
-                data: detect
+                data: detect_data,
+                dataType: "json",
+                contentType: 'application/javascript'
             }).then(function(data) {
                 // this callback will be called asynchronously
                 // when the response is available
-                $scope.job_id = data.data.sendDetect.response;
-                console.log(data.data);
-            }, function errorCallback(response) {
-                console.log("ERROR");
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
+                $scope.$apply(function() {
+                    // $scpoe.currentSlides = data;
+                    $scope.job_id = data
+                    console.log(data);
+                    // $scope.currentSlides = data[0].assets;
+                    // console.log($scope.currentSlides);
+                });
             });
+
+            $scope.showDetection(ev);
+            // $http({
+            //     url: 'http://springbreak.wildbook.org/ia',
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            //     transformRequest: function(obj) {
+            //         var str = [];
+            //         for (var p in obj)
+            //             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            //         return str.join("&");
+            //     },
+            //     data: detect
+            // }).then(function(data) {
+            //     // this callback will be called asynchronously
+            //     // when the response is available
+            //     $scope.job_id = data.data.sendDetect.response;
+            //     console.log(data.data);
+            // }, function errorCallback(response) {
+            //     console.log("ERROR");
+            //     // called asynchronously if an error occurs
+            //     // or server returns response with an error status.
+            // });
 
         };
 
