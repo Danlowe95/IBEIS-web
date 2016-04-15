@@ -1,13 +1,13 @@
+
 <div class="gridListdemoBasicUsage">
   <div class='md-padding' layout="row" layout-wrap>
-
-    <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="slide in currentSlides.annotations" ng-click="toggleImageSidenav($index)">
-      <div>
-        <img class="card-img" ng-src="{{slide.mediaAsset.url}}">
-        <md-card-actions layout="row" layout-align="center" class="img-text">
-          <h4>{{slide.title}}</h4>
-        </md-card-actions>
-      </div>
-    </md-card>
+        <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="slide in currentSlides" ng-click="showImageInfo($event, $index)">
+        <div >
+          <img class="card-img" ng-src="{{slide.url}}">
+          <md-card-actions layout="row" layout-align="center" class="img-text">
+          <h4>{{slide.title}}</h4 >
+          </md-card-actions>
+          </div>
+        </md-card>
   </div>
 </div>
