@@ -282,7 +282,7 @@ var workspace = angular.module('workspace', [])
             // $mdSidenav('image').toggle();
             // var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
-                    controller: DialogController,
+                    controller: ImageDialogController,
                     templateUrl: 'app/views/includes/workspace/image.info.html',
                     // parent: angular.element(document.body),
                     targetEvent: ev,
@@ -306,13 +306,14 @@ var workspace = angular.module('workspace', [])
         $scope.showDetectionReview = function(ev) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
-                    controller: DialogController,
+                    controller: DetectionDialogController,
                     templateUrl: 'app/views/includes/workspace/detection.review.html',
                     // parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
-                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides }
+                    //if we are going to a specific detection review, last_jobid can be changed to stored job id of the image in question
+                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides, jobid: $scope.last_jobid }
 
                 })
                 .then(function(answer) {
@@ -329,7 +330,7 @@ var workspace = angular.module('workspace', [])
         $scope.showDetection = function(ev) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
-                    controller: DialogController,
+                    controller: DetectionDialogController,
                     templateUrl: 'app/views/includes/workspace/detection.html',
                     // parent: angular.element(document.body),
                     targetEvent: ev,
@@ -350,7 +351,7 @@ var workspace = angular.module('workspace', [])
             });
         };
 
-        function DialogController($scope, $mdDialog, image_index, currentSlides, jobid) {
+        function DetectionDialogController($scope, $mdDialog, image_index, currentSlides, jobid) {
             $scope.image_index = image_index;
             $scope.currentSlides = currentSlides;
             $scope.last_jobid = jobid;
@@ -367,6 +368,19 @@ var workspace = angular.module('workspace', [])
             };
         }
 
+        function ImageDialogController($scope, $mdDialog, image_index, currentSlides) {
+            $scope.image_index = image_index;
+            $scope.currentSlides = currentSlides;
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+            $scope.answer = function(answer) {
+                $mdDialog.hide(answer);
+            };
+        }
 
 
         /* SIDENAVS */
