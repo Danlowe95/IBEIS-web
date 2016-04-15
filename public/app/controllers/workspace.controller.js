@@ -132,7 +132,6 @@ var workspace = angular.module('workspace', [])
             alert('You redid the filter.');
           }
         });
-<<<<<<< HEAD
       };
       //unfinished
 
@@ -162,6 +161,8 @@ var workspace = angular.module('workspace', [])
       $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
 
 
+
+
       $scope.map = {
         center: {
           latitude: 45,
@@ -173,48 +174,20 @@ var workspace = angular.module('workspace', [])
           draggable: true,
           minZoom: 4,
           zoomControl: true
-=======
-
-        $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
-        $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
-
-
-        $scope.map = {
-            center: {
-                latitude: 45,
-                longitude: -73
-            },
-            zoom: 8,
-            options: {
-                disableDefaultUI: true,
-                draggable: true,
-                minZoom: 4,
-                zoomControl: true
-            }
-        };
-
-        //Map
-        $scope.currentMarker = null;
-        $scope.clickMarker = function(id) {
-            console.log("marker clicked");
-            $scope.currentMarker = id;
-            $scope.toggleSidenav('marker');
-        };
-
-        //what's this?
-        $scope.testItems = Array.apply(null, {
-            length: 100
-        }).map(Number.call, Number);
-        $scope.image_index = -1;
-        $scope.toggleSidenav = function(menuId) {
-            $mdSidenav(menuId).toggle();
-        };
-        $scope.toggleImageSidenav = function(index) {
-            $scope.image_index = index;
-            $mdSidenav('image').toggle();
-
->>>>>>> 7f0c2ed327b4bed5f13f9cffecd7add1a5c9595b
         }
+      };
+
+      //what's this?
+      $scope.testItems = Array.apply(null, {
+        length: 100
+      }).map(Number.call, Number);
+      $scope.image_index = -1;
+      $scope.toggleSidenav = function(menuId) {
+        $mdSidenav(menuId).toggle();
+      };
+      $scope.toggleImageSidenav = function(index) {
+        $scope.image_index = index;
+        $mdSidenav('image').toggle();
       };
 
       //Map
@@ -487,185 +460,5 @@ var workspace = angular.module('workspace', [])
           return true;
         }
       };
-
-<<<<<<< HEAD
-      
     }
   ]);
-=======
-        $scope.workspaces = ['Primary', 'Secondary'];
-        $scope.setWorkspace = function(w) {
-            $scope.workspace = w;
-            //query new workspace to get data
-
-            //set the view to the new data. In the future this will just be a 
-            //"Are we viewing images, annotations, or animals, and set the view by that"
-            //for now, these if statements deal with swapping test databases based on viewing selections    
-            $scope.chooseTestDatabase();
-        };
-        //Used when new data needs to be requeried
-        $scope.populateWorkspace = function() {
-            //Decide what data to get
-            //Get new Data
-            //Parse Data?
-            //set workspace to data
-            $scope.refreshGrid();
-
-        };
-
-        /* TYPE MENU */
-        $scope.types = ['images', 'annotations', 'animals'];
-        $scope.type = 'images';
-        //This runs on first page load.This just sets the proper workspace to load
-        $scope.chooseTestDatabase();
-
-        $scope.setType = function(t) {
-            if ($scope.type != t) {
-                $scope.type = t;
-                $scope.chooseTestDatabase();
-                $scope.populateWorkspace();
-            }
-        };
-
-        /* VIEW MENU */
-        $scope.views = ['thumbnails', 'table', 'map'];
-        $scope.view = 'thumbnails';
-        //use this when we auto set views as well so map is displayed
-        $scope.setView = function(v) {
-            $scope.view = v;
-            if (v == 'map') {
-                $(window).trigger('resize');
-            }
-        };
-
-        $(window).resize(function() {
-            $scope.resizeMap();
-        });
-
-        $scope.resizeMap = function() {
-            var total = $(window).height();
-            var toolbar = $("#toolbar").height();
-            $(".leaflet-container").css('height', total - toolbar);
-        };
-
-
-        $scope.toggleLogo = function() {
-            var logo = $('#logo');
-            if (logo.css('display') === 'none') {
-                logo.show();
-            } else {
-                logo.hide();
-            }
-        };
-
-        $scope.logoVisible = function() {
-            var logo = $('#logo');
-            if (logo.css('display') === 'none') {
-                return false;
-            } else {
-                return true;
-            }
-        }
-        $scope.sex = { name: 'Sex', dataType: 'string', tag: 'sex' };
-        var pie = new d3pie("pieChart", {
-            "header": {
-                "title": {
-                    "text": "States of Processing",
-                    "fontSize": 24,
-                    "font": "open sans"
-                },
-                "subtitle": {
-                    "color": "#999999",
-                    "fontSize": 12,
-                    "font": "open sans"
-                },
-                "titleSubtitlePadding": 7
-            },
-            "footer": {
-                "color": "#999999",
-                "fontSize": 10,
-                "font": "open sans",
-                "location": "bottom-left"
-            },
-            "size": {
-                "canvasHeight": 300,
-                "canvasWidth": 300,
-                "pieOuterRadius": "100%"
-            },
-            "data": {
-                "sortOrder": "value-desc",
-                "content": [{
-                    "label": "Detection",
-                    "value": 20,
-                    "color": "#cc9fb0"
-                }, {
-                    "label": "Detection Review",
-                    "value": 30,
-                    "color": "#7b37c0"
-                }, {
-                    "label": "Identification",
-                    "value": 5,
-                    "color": "#44b9ae"
-                }, {
-                    "label": "Identification Review 3",
-                    "value": 3,
-                    "color": "#e65314"
-                }, {
-                    "label": "Completed",
-                    "value": 56,
-                    "color": "#228835"
-                }]
-            },
-            "labels": {
-                "outer": {
-                    "format": "none",
-                    "pieDistance": 32
-
-                },
-                "inner": {
-                    "format": "label",
-                    "hideWhenLessThanPercentage": 7
-                },
-                "mainLabel": {
-                    "fontSize": 11
-                },
-                "percentage": {
-                    "color": "#ffffff",
-                    "decimalPlaces": 0
-                },
-                "value": {
-                    "color": "#adadad",
-                    "fontSize": 11
-                },
-                "lines": {
-                    "enabled": true
-                },
-                "truncation": {
-                    "enabled": true
-                }
-            },
-            "tooltips": {
-                "enabled": true,
-                "type": "placeholder",
-                "string": "{label}: {value}, {percentage}%",
-                "styles": {
-                    "fadeInSpeed": 584,
-                    "backgroundOpacity": 0.62
-                }
-            },
-            "effects": {
-                "pullOutSegmentOnClick": {
-                    "effect": "none",
-                    "speed": 400,
-                    "size": 8
-                }
-            },
-            "misc": {
-                "gradient": {
-                    "enabled": true,
-                    "percentage": 100
-                }
-            }
-        });
-    }]);
->>>>>>> 7f0c2ed327b4bed5f13f9cffecd7add1a5c9595b

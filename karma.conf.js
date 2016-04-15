@@ -27,6 +27,8 @@ module.exports = function(config) {
       'public/bower_components/aws-sdk/dist/aws-sdk.js',
       'public/bower_components/underscore/underscore.js',
       'public/bower_components/d3/d3.js',
+      'public/bower_components/leaflet/dist/leaflet-src.js',
+      'public/bower_components/ui-leaflet/dist/ui-leaflet.js',
       // endbower
       "public/app/ibeis.js",
       "public/app/ibeis.routes.js",

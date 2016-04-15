@@ -9,11 +9,7 @@ angular.module('ibeis', [
         'smart-table',
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
-<<<<<<< HEAD
-=======
-        'flow', // file upload
         'ui-leaflet',
->>>>>>> 7f0c2ed327b4bed5f13f9cffecd7add1a5c9595b
     ])
     // setup theme
     .config(function($mdThemingProvider) {
