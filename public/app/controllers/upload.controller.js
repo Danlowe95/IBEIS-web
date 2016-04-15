@@ -1,9 +1,10 @@
 var upload = angular.module('upload', [])
   .controller('upload-controller', [
     '$rootScope',
+    '$scope',
     '$http',
     'reader-factory',
-    function($rootScope, $http, readerFactory) {
+    function($rootScope, $scope, $http, readerFactory) {
 
       // stages:
       //  - 0 = select
@@ -99,6 +100,7 @@ var upload = angular.module('upload', [])
                     count++;
                     if (count === $rootScope.images.selected.length) {
                       console.log("Finished uploading that batch of images to the Media Asset Set with ID=" + $rootScope.mediaAssetSetId);
+                      $scope.$emit('uploadComplete', { id: $rootScope.mediaAssetSetId });
                     }
                   });
                 }
