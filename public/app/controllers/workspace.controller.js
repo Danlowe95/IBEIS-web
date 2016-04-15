@@ -46,7 +46,8 @@ var workspace = angular.module('workspace', [])
                 // when the response is available
                 $scope.$apply(function() {
                     // $scpoe.currentSlides = data;
-                    $scope.currentSlides = data[0].assets;
+                    console.log(data);  
+                    $scope.currentSlides = data.assets;
                     console.log($scope.currentSlides);
                 });
             });
@@ -56,7 +57,7 @@ var workspace = angular.module('workspace', [])
         // range:10};
         var testQuery = {
             class: 'org.ecocean.media.MediaAssetSet',
-            query: "{id: 'dd7815c5-ac54-4a71-967a-ac3850de1351' }"
+            query: "{id: 'd87497d6-a25a-4c51-acc1-8e701b5e5282' }"
         };
         $scope.queryWorkspace(testQuery);
         // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}, range: 30, rangeMin:15};
@@ -234,10 +235,10 @@ var workspace = angular.module('workspace', [])
             //create javascript for loop to get all ids, send all ids to 
             image_ids = [];
             var i;
-            for (i = 0; i < 1; i++) {
+            for (i = 0; i < $scope.currentSlides.length; i++) {
                 image_ids.push($scope.currentSlides[i].id);
             }
-            var detect_data = "{detect: [" + image_ids + "]}";
+            var detect_data = "{detect: [" + image_ids[0] + "]}";
             console.log(detect_data);
             $.ajax({
                 type: "POST",
