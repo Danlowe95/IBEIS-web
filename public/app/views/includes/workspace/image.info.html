@@ -1,0 +1,73 @@
+<md-dialog id="image-info" class="fullscreen-dialog" aria-label="imageInfo" md-component-id="image" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Image Information</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" aria-label="Cancel" ng-click="cancel()">
+                    <i class="fa fa-remove"></i>
+                    <md-tooltip md-autohide>
+                        Return to workspace
+                    </md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-height: 100%; max-width: 100%">
+                <table style="max-height: 100%; max-width: 100%">
+                    <tr>
+                        <td><img ng-src="{{currentSlides[image_index].url}}" style="max-height: 200px; max-width: 100%" ng-click="showGallery(image_index)" /></td>
+                        <td>
+                            <table style="table-layout:fixed; width: 100%">
+                                <tr>
+                                    <th style="max-width: 100%;">Key</th>
+                                    <th style="max-width: 100%;">Value</th>
+                                </tr>
+                                <tr ng-repeat="(k,v) in currentSlides[image_index]">
+                                    <td style="max-width: 100%; word-wrap:break-word">{{k}}</td>
+                                    <td style="max-width: 100%; word-wrap:break-word">{{v}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            <md-button ng-click="close('image')" class="md-primary">
+                Close
+            </md-button>
+            </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+<!-- 
+ <md-dialog id="image-info" class="" md-component-id="image">
+    <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Image Information</h1>
+    </md-toolbar>
+    <md-content layout-padding>
+        <div layout="column" class="sidebar">
+            <div>
+                <img ng-src="{{currentSlides[image_index].url}}" style="max-height: 500px; max-width: 500px; width: auto" ng-click="showGallery(image_index)" />
+            </div>
+            <div>
+                <table style="table-layout:fixed; width: 100%">
+                    <tr>
+                        <th style="max-width: 100%;">Key</th>
+                        <th style="max-width: 100%;">Value</th>
+                    </tr>
+                    <tr ng-repeat="(k,v) in currentSlides[image_index]">
+                        <td style="max-width: 100%; word-wrap:break-word">{{k}}</td>
+                        <td style="max-width: 100%; word-wrap:break-word">{{v}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <md-button ng-click="close('image')" class="md-primary">
+                    Close
+                </md-button>
+            </div>
+            </div>
+            <md-divider></md-divider>
+    </md-content>
+</md-dialog> -->
+<!-- <ng-photoswipe slides="currentSlides" options="opts" start-on="{{ startEvent }}">
+</ng-photoswipe> -->
