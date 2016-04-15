@@ -51,21 +51,21 @@
     </header>
     <md-divider></md-divider>
   </div>
-  <ng-include ng-if="mode == 'upload'" src="'app/views/includes/workspace/upload.left.html'"></ng-include>
-  <ng-include ng-if="mode == 'workspace'" src="'app/views/includes/workspace/workspace.left.html'"></ng-include>
+  <ng-include ng-show="mode == 'upload'" src="'app/views/includes/workspace/upload.left.html'"></ng-include>
+  <ng-include ng-show="mode == 'workspace'" src="'app/views/includes/workspace/workspace.left.html'"></ng-include>
 </md-sidenav>
 <div class="layout-column flex">
   <md-toolbar layout="row" id="toolbar">
-    <ng-include ng-if="mode == 'upload'" src="'app/views/includes/workspace/upload.top.html'" flex></ng-include>
-    <ng-include ng-if="mode == 'workspace'" src="'app/views/includes/workspace/workspace.top.html'" flex></ng-include>
+    <ng-include ng-show="mode == 'upload'" src="'app/views/includes/workspace/upload.top.html'" flex></ng-include>
+    <ng-include ng-show="mode == 'workspace'" src="'app/views/includes/workspace/workspace.top.html'" flex></ng-include>
   </md-toolbar>
   <ng-include src="'app/views/includes/workspace/filter.sidenav.html'"></ng-include>
   <ng-include src="'app/views/includes/workspace/location.sidenav.html'"></ng-include>
   <ng-include src="'app/views/includes/workspace/image.info.sidenav.html'"></ng-include>
   <md-content md-scroll-y flex>
     <!-- using ng-includes to cut down on the number of lines in each html file -->
-    <ng-include ng-if="mode == 'upload'" src="'app/views/includes/workspace/upload.view.html'"></ng-include>
-    <div ng-if="mode == 'workspace'">
+    <ng-include ng-show="mode == 'upload'" src="'app/views/includes/workspace/upload.view.html'"></ng-include>
+    <div ng-show="mode == 'workspace'">
       <ng-include ng-show="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.view.html'" flex></ng-include>
       <ng-include ng-show="view == 'table'" src="'app/views/includes/workspace/table.view.html'" flex></ng-include>
       <ng-include ng-show="view == 'map'" src="'app/views/includes/workspace/map.view.html'" flex></ng-include>
