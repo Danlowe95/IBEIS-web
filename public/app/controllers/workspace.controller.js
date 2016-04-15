@@ -3,7 +3,7 @@ var workspace = angular.module('workspace', [])
 
 
         $scope.$on('uploadComplete', function(event, data) {
-            console.log(data); // 'Some data'
+            console.log("upload comlete data in workspace: "+data); // 'Some data'
             var query = {
                 class: 'org.ecocean.media.MediaAssetSet',
                 query: JSON.stringify(data)
@@ -46,7 +46,7 @@ var workspace = angular.module('workspace', [])
         // range:10};
         var testQuery = {
             class: 'org.ecocean.media.MediaAssetSet',
-            query: "{id: '63443752-066c-440c-b53c-eda29e48f96a' }"
+            query: "{id: 'dd7815c5-ac54-4a71-967a-ac3850de1351' }"
         };
         $scope.queryWorkspace(testQuery);
         // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}, range: 30, rangeMin:15};

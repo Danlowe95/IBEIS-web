@@ -90,13 +90,16 @@ var upload = angular.module('upload', [])
                 if (err) {
                   console.error(err);
                 } else {
+                  console.log(data);
                   var mediaAsset = {
                     MediaAssetCreate: [{
                       setId: $rootScope.mediaAssetSetId,
                       assets: [{ bucket: data.Bucket, key: data.Key }]
                     }]
                   };
-                  $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset).success(function() {
+                  
+                  $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset).then(function(data) {
+                    // console.log(  data);
                     count++;
                     if (count === $rootScope.images.selected.length) {
                       console.log("Finished uploading that batch of images to the Media Asset Set with ID=" + $rootScope.mediaAssetSetId);
