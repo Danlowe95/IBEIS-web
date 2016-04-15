@@ -12,7 +12,8 @@
     "flow.js": "^2.10.1",
     "aws-sdk": "aws-sdk-js#^2.2.44",
     "underscore": "^1.8.3",
-    "d3": "^3.5.16"
+    "d3": "^3.5.16",
+    "leaflet": "^0.7.7"
   },
   "overrides": {
     "font-awesome": {
