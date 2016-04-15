@@ -3,12 +3,22 @@ var workspace = angular.module('workspace', [])
 
 
         $scope.$on('uploadComplete', function(event, data) {
-            console.log("upload comlete data in workspace: "+data); // 'Some data'
-            var query = {
-                class: 'org.ecocean.media.MediaAssetSet',
-                query: JSON.stringify(data)
-            };
-            $scope.queryWorkspace(query);
+            var confirm = $mdDialog.confirm()
+                .title('Would you like to see your uploaded images?')
+                .textContent('Here is the media asset set id: ' + data.id)
+                .ok('Yes')
+                .cancel("No");
+            $mdDialog.show(confirm).then(function() {
+                var query = {
+                    class: 'org.ecocean.media.MediaAssetSet',
+                    query: JSON.stringify(data)
+                };
+                $scope.queryWorkspace(query);
+                $scope.mode = 'workspace';
+            }, function() {
+                $scope.mode = 'workspace';
+                console.log("said no to changing!");
+            });
         });
         // $scope.fluke_data = null;
         // $http.get('assets/json/fluke_annotations.json').success(function(data) {
