@@ -55,9 +55,13 @@ var workspace = angular.module('workspace', [])
 
         //         var testQuery = { class:'org.ecocean.media.MediaAsset',
         // range:10};
+        // var testQuery = {
+        //     class: 'org.ecocean.media.MediaAssetSet',
+        //     query: "{id: 'd87497d6-a25a-4c51-acc1-8e701b5e5282' }"
+        // };
         var testQuery = {
-            class: 'org.ecocean.media.MediaAssetSet',
-            query: "{id: 'd87497d6-a25a-4c51-acc1-8e701b5e5282' }"
+            class: 'org.ecocean.media.MediaAsset',
+            range: 10
         };
         $scope.queryWorkspace(testQuery);
         // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}, range: 30, rangeMin:15};
