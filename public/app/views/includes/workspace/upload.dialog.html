@@ -1,0 +1,27 @@
+<md-dialog>
+    <md-dialog-content>
+        <div class="gridListdemoBasicUsage" flex>
+            <div class="md-padding" layout="row" layout-wrap>
+                <md-card class="upload-card" ng-repeat="im in images.selected">
+                    <img ng-src="{{ im.imageSrc }}" class="md-card-image" />
+                    <md-progress-linear md-mode="determinate" value="{{ im.progress }}"></md-progress-linear>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <h4>{{ im.name }}</h4>
+                        <md-button class="md-icon-button" aria-label="Remove" ng-click="remove($index)">
+                            <i class="fa fa-close"></i>
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().select(this)">
+        <md-button class="md-primary md-raised" ng-click="proxy('img-upload-btn')" ng-disabled="stage > 0">
+            Select <strong>Images</strong>
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="upload()" ng-disabled="stage > 0">
+            Upload <strong>Images</strong>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
