@@ -1,0 +1,45 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Upload Images</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="closeUpload()">
+                <i class="fa fa-close"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+    	<div class="md-padding" ng-show="images.selected.length <= 0">
+			No images selected. Please select some images to upload.
+    	</div>
+        <div class="gridListdemoBasicUsage" flex>
+            <div class="md-padding" layout="row" layout-wrap>
+                <md-card class="upload-card" ng-repeat="im in images.selected">
+                    <img ng-src="{{ im.imageSrc }}" class="md-card-image" />
+                    <md-progress-linear md-mode="determinate" value="{{ im.progress }}"></md-progress-linear>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <h4>{{ im.name }}</h4>
+                        <md-button class="md-icon-button" aria-label="Remove" ng-click="remove($index)">
+                            <i class="fa fa-close"></i>
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().select(this)">
+        <md-button class="md-primary md-raised" ng-click="proxy('img-upload-btn')" ng-show="stage < 2" ng-disabled="stage > 0">
+            Select <strong>Images</strong>
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="upload()" ng-show="stage < 2" ng-disabled="images.selected.length <= 0 || stage > 0">
+            Upload <strong>Images</strong>
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="viewImages()" ng-show="stage === 2">
+            View Uploaded <strong>Images</strong>
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="resetUpload()" ng-show="stage === 2">
+            Upload <strong>More</strong>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

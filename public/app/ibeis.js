@@ -3,7 +3,6 @@ angular.module('ibeis', [
         'ibeis.routes',
         // controllers
         'workspace',
-        'upload',
         // imports
         'ngMaterial', // angular material
         'smart-table',
