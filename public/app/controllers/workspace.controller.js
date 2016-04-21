@@ -1,5 +1,5 @@
 var workspace = angular.module('workspace', [])
-    .controller('workspace-controller', ['$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', function($scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce) {
+    .controller('workspace-controller', ['$scope', '$rootScope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', function($scope, $rootScope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce) {
 
 
         $scope.$on('uploadComplete', function(event, data) {
@@ -20,20 +20,12 @@ var workspace = angular.module('workspace', [])
                 console.log("said no to changing!");
             });
         });
-        // $scope.fluke_data = null;
-        // $http.get('assets/json/fluke_annotations.json').success(function(data) {
-        //     $scope.currentSlides = data;
-        // });
+        
         $scope.last_jobid = "jobid-0000";
         $scope.filtering_tests = null;
         $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
             $scope.filtering_tests = data;
         });
-        // // $scope.filtering_tests = null;
-        // $http.get('assets/json/image_tests.json').success(function(data) {
-        //     $scope.currentSlides = data;
-        // });
-
         // Start of real querying
         $scope.queryWorkspace = function(params) {
             $.ajax({
@@ -45,7 +37,6 @@ var workspace = angular.module('workspace', [])
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.$apply(function() {
-                    // $scpoe.currentSlides = data;
                     console.log(data);
                     $scope.currentSlides = data.assets;
                     console.log($scope.currentSlides);
@@ -53,24 +44,11 @@ var workspace = angular.module('workspace', [])
             });
         }
 
-        //         var testQuery = { class:'org.ecocean.media.MediaAsset',
-        // range:10};
-        // var testQuery = {
-        //     class: 'org.ecocean.media.MediaAssetSet',
-        //     query: "{id: 'd87497d6-a25a-4c51-acc1-8e701b5e5282' }"
-        // };
         var testQuery = {
             class: 'org.ecocean.media.MediaAsset',
             range: 10
         };
         $scope.queryWorkspace(testQuery);
-        // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}, range: 30, rangeMin:15};
-        // var testQuery = {class: 'org.ecocean.Encounter', query: {sex: {$ne: "male"}}};
-
-
-        $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
-        $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
-
 
         $scope.map = {
             center: {
@@ -132,6 +110,7 @@ var workspace = angular.module('workspace', [])
             if (current.left && last.right) current.right = false;
             last = angular.extend({}, current);
         }
+
         //TODO comment what this does
         $scope.undoFilter = function() {
             var toast = $mdToast.simple()
@@ -146,13 +125,8 @@ var workspace = angular.module('workspace', [])
             });
         };
 
-
-
         $scope.secondaryTestImages = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
         $scope.secondaryTestAnnotations = [{ title: 'Smiley', src: 'http://i.imgur.com/J5YLlJv.png', index: 0 }];
-
-
-
 
         $scope.map = {
             center: {
@@ -168,9 +142,11 @@ var workspace = angular.module('workspace', [])
             }
         };
         $scope.image_index = -1;
+
         $scope.toggleSidenav = function(menuId) {
             $mdSidenav(menuId).toggle();
         };
+
         $scope.toggleImageSidenav = function(index) {
             $scope.image_index = index;
             $mdSidenav('image').toggle();
@@ -195,27 +171,19 @@ var workspace = angular.module('workspace', [])
         $scope.setWorkspace = function(w) {
             $scope.workspace = w;
             //query new workspace to get data
-
-            //set the view to the new data. In the future this will just be a 
-            //"Are we viewing images, annotations, or animals, and set the view by that"
-            //for now, these if statements deal with swapping test databases based on viewing selections    
-            // $scope.chooseTestDatabase();
         };
-        //Used when new data needs to be requeried
+
         /* TYPE MENU */
         $scope.types = ['images', 'annotations', 'animals'];
         $scope.type = $scope.types[0];
-        //This runs on first page load.This just sets the proper workspace to load
-        // $scope.chooseTestDatabase();
 
         $scope.setType = function(t) {
             if ($scope.type != t) {
                 $scope.type = t;
-                // $scope.chooseTestDatabase();
             }
         };
+
         /* FILTERING */
-        //used to catch all form data for filtering and send in for query
         $scope.filterData = {};
         $scope.submitFilters = function() {
             var params = JSON.stringify($scope.filterData);
@@ -242,7 +210,7 @@ var workspace = angular.module('workspace', [])
             for (i = 0; i < $scope.currentSlides.length; i++) {
                 image_ids.push($scope.currentSlides[i].id);
             }
-            var detect_data = "{detect: [" + image_ids[1] + "]}";
+            var detect_data = "{detect: [" + image_ids + "]}";
             console.log(detect_data);
             $.ajax({
                 type: "POST",
@@ -254,12 +222,9 @@ var workspace = angular.module('workspace', [])
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.$apply(function() {
-                    // $scpoe.currentSlides = data;
                     $scope.last_jobid = data.sendDetect.response;
-                    $scope.ia_url = "http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid;
-                    console.log(data);
-                    // $scope.currentSlides = data[0].assets;
-                    // console.log($scope.currentSlides);
+                    // $scope.ia_url = "http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&index=4";
+                    console.log("New jobID " + data.sendDetect.response);
 
                     $scope.showDetectionReview(ev);
                 });
@@ -267,7 +232,6 @@ var workspace = angular.module('workspace', [])
 
                 $mdDialog.show(
                     $mdDialog.alert()
-                    // .parent(angular.element(document.querySelector('#popupContainer')))
                     .clickOutsideToClose(true)
                     .title('Error')
                     .textContent('No Response from IA server.')
@@ -277,47 +241,18 @@ var workspace = angular.module('workspace', [])
                 );
             });
 
-            // $http({
-            //     url: 'http://springbreak.wildbook.org/ia',
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            //     transformRequest: function(obj) {
-            //         var str = [];
-            //         for (var p in obj)
-            //             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-            //         return str.join("&");
-            //     },
-            //     data: detect
-            // }).then(function(data) {
-            //     // this callback will be called asynchronously
-            //     // when the response is available
-            //     $scope.job_id = data.data.sendDetect.response;
-            //     console.log(data.data);
-            // }, function errorCallback(response) {
-            //     console.log("ERROR");
-            //     // called asynchronously if an error occurs
-            //     // or server returns response with an error status.
-            // });
 
         };
         $scope.showImageInfo = function(ev, index) {
             $scope.image_index = index;
-            // $mdSidenav('image').toggle();
-            // var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
                     controller: ImageDialogController,
                     templateUrl: 'app/views/includes/workspace/image.info.html',
-                    // parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
                     locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides }
 
-                })
-                .then(function(answer) {
-                    // $scope.status = 'You said the information was "' + answer + '".';
-                }, function() {
-                    // $scope.confirmDialog('You cancelled the process.');
                 });
             $scope.$watch(function() {
                 return $mdMedia('xs') || $mdMedia('sm');
@@ -329,72 +264,33 @@ var workspace = angular.module('workspace', [])
         $scope.showDetectionReview = function(ev) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
-                    controller: DetectionDialogController,
-                    templateUrl: 'app/views/includes/workspace/detection.review.html',
-                    // parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true,
-                    fullscreen: true,
-                    //if we are going to a specific detection review, last_jobid can be changed to stored job id of the image in question
-                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides, jobid: $scope.last_jobid }
+                scope: $scope,
+                preserveScope: true,
+                templateUrl: 'app/views/includes/workspace/detection.review.html',
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true
 
-                })
-                .then(function(answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
-                }, function() {
-                    // $scope.confirmDialog('You cancelled the process.');
-                });
+            });
             $scope.$watch(function() {
                 return $mdMedia('xs') || $mdMedia('sm');
             }, function(wantsFullScreen) {
                 $scope.customFullscreen = (wantsFullScreen === true);
             });
         };
-        $scope.showDetection = function(ev) {
-            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
-            $mdDialog.show({
-                    controller: DetectionDialogController,
-                    templateUrl: 'app/views/includes/workspace/detection.html',
-                    // parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true,
-                    fullscreen: true,
-                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides, jobid: $scope.last_jobid }
-
-                })
-                .then(function(answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
-                }, function() {
-                    // $scope.confirmDialog('You cancelled the process.');
-                });
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                $scope.customFullscreen = (wantsFullScreen === true);
-            });
+        $scope.detectDialogCancel = function() {
+            $mdDialog.cancel();
         };
-        $scope.loadHTML = function(){
-            console.log("loading "+$scope.last_jobid); 
-            $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=jobid-0003");
-            
+        //unused?
+        $scope.detectDialogHide = function() {
+            $mdDialog.hide();
         };
-        function DetectionDialogController($scope, $mdDialog, image_index, currentSlides, jobid) {
-            $scope.image_index = image_index;
-            $scope.currentSlides = currentSlides;
-            $scope.last_jobid = jobid;
-            console.log("Call: " + "http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
-            
 
-            $scope.hide = function() {
-                $mdDialog.hide();
-            };
-            $scope.cancel = function() {
-                $mdDialog.cancel();
-            };
-            $scope.answer = function(answer) {
-                $mdDialog.hide(answer);
-            };
-        }
+        $scope.loadHTML = function() {
+            console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
+            $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&index=4");
+
+        };
 
         function ImageDialogController($scope, $mdDialog, image_index, currentSlides) {
             $scope.image_index = image_index;
@@ -412,6 +308,7 @@ var workspace = angular.module('workspace', [])
 
 
         /* SIDENAVS */
+        //This should be changed to be more specific to sidenavs
         $scope.close = function(id) {
             $mdSidenav(id).close();
             //sets image-focus to null.  If multiple sidenavs are toggled this could cause an issue (maybe).
@@ -449,7 +346,6 @@ var workspace = angular.module('workspace', [])
         $scope.view = $scope.views[0];
         $scope.setView = function(v) {
             $scope.view = v;
-            // $(window).trigger('resize');
         };
 
         // $scope.modes = ['workspace', 'upload'];

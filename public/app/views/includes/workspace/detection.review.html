@@ -1,10 +1,10 @@
-<md-dialog class="fullscreen-dialog" aria-label="detectionDialog" ng-cloak ng-controller="workspace-controller">
+<md-dialog class="fullscreen-dialog" aria-label="detectionDialog" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Detection Review</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" aria-label="Cancel" ng-click="cancel()">
+                <md-button class="md-icon-button" aria-label="Cancel" ng-click="detectDialogCancel()">
                     <i class="fa fa-remove"></i>
                     <md-tooltip md-autohide>
                         Return to workspace
@@ -13,12 +13,8 @@
             </div>
         </md-toolbar>
         <md-dialog-content style="max-height: 100%;">
-        <button ng-click="loadHTML()">test</button>
-         <script>
-         // console.log(angular.element(document.querySelector('[ng-controller="workspace-controller"]')).scope().last_jobid;
-        $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=jobid-0007");
-         </script>
-            <div layout-padding flex class="ibeis-div" id="ibeis-process"></div>
+        <ng-button ng-click="loadHTML()">Start Detection</ng-button>
+            <div layout-padding flex class="ibeis-div" id="ibeis-process" ></div>
         </md-dialog-content>
     </form>
 </md-dialog>
