@@ -1,4 +1,4 @@
-<md-dialog class="fullscreen-dialog" aria-label="detectionDialog" ng-cloak>
+<md-dialog class="fullscreen-dialog" aria-label="detectionDialog" ng-cloak ng-controller="workspace-controller">
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -13,7 +13,12 @@
             </div>
         </md-toolbar>
         <md-dialog-content style="max-height: 100%;">
-            <div layout-padding flex class="ibeis-div" id="ibeis-process">Not implemented</div>
+        <button ng-click="loadHTML()">test</button>
+         <script>
+         // console.log(angular.element(document.querySelector('[ng-controller="workspace-controller"]')).scope().last_jobid;
+        $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=jobid-0007");
+         </script>
+            <div layout-padding flex class="ibeis-div" id="ibeis-process"></div>
         </md-dialog-content>
     </form>
 </md-dialog>

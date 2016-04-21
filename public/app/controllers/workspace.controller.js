@@ -46,7 +46,7 @@ var workspace = angular.module('workspace', [])
                 // when the response is available
                 $scope.$apply(function() {
                     // $scpoe.currentSlides = data;
-                    console.log(data);  
+                    console.log(data);
                     $scope.currentSlides = data.assets;
                     console.log($scope.currentSlides);
                 });
@@ -242,7 +242,7 @@ var workspace = angular.module('workspace', [])
             for (i = 0; i < $scope.currentSlides.length; i++) {
                 image_ids.push($scope.currentSlides[i].id);
             }
-            var detect_data = "{detect: [" + image_ids[0] + "]}";
+            var detect_data = "{detect: [" + image_ids[1] + "]}";
             console.log(detect_data);
             $.ajax({
                 type: "POST",
@@ -255,12 +255,13 @@ var workspace = angular.module('workspace', [])
                 // when the response is available
                 $scope.$apply(function() {
                     // $scpoe.currentSlides = data;
-                    $scope.last_jobid = data;
+                    $scope.last_jobid = data.sendDetect.response;
+                    $scope.ia_url = "http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid;
                     console.log(data);
                     // $scope.currentSlides = data[0].assets;
                     // console.log($scope.currentSlides);
 
-                    $scope.showDetection(ev);
+                    $scope.showDetectionReview(ev);
                 });
             }).fail(function(data) {
 
@@ -372,13 +373,18 @@ var workspace = angular.module('workspace', [])
                 $scope.customFullscreen = (wantsFullScreen === true);
             });
         };
-
+        $scope.loadHTML = function(){
+            console.log("loading "+$scope.last_jobid); 
+            $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=jobid-0003");
+            
+        };
         function DetectionDialogController($scope, $mdDialog, image_index, currentSlides, jobid) {
             $scope.image_index = image_index;
             $scope.currentSlides = currentSlides;
             $scope.last_jobid = jobid;
             console.log("Call: " + "http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
-            $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
+            
+
             $scope.hide = function() {
                 $mdDialog.hide();
             };
