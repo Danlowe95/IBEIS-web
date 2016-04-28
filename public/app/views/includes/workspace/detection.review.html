@@ -4,6 +4,11 @@
             <div class="md-toolbar-tools">
                 <h2>Detection Review</h2>
                 <span flex></span>
+                <md-button class="md-primary" ng-click="loadHTML()">Restart
+                <md-tooltip md-autohide>
+                        Restart from offset 0
+                    </md-tooltip>
+                    </md-button>
                 <md-button class="md-icon-button" aria-label="Cancel" ng-click="detectDialogCancel()">
                     <i class="fa fa-remove"></i>
                     <md-tooltip md-autohide>
@@ -13,8 +18,15 @@
             </div>
         </md-toolbar>
         <md-dialog-content style="max-height: 100%;">
-        <ng-button ng-click="loadHTML()">Start Detection</ng-button>
-            <div layout-padding flex class="ibeis-div" id="ibeis-process" ></div>
+            
+            <div layout-padding flex class="ibeis-div" id="ibeis-process"></div>
+            <md-dialog-actions layout="row">
+            <div>
+                <md-button class="md-primary md-raised" ng-click="decrementOffset()">Previous</md-button>
+                <md-button class="md-primary md-raised" ng-click="incrementOffset()">Next</md-button>
+                <md-button  class="md-primary md-raised" ng-click="endReview()">Save and Exit</md-button>
+            </div>
+            </md-dialog-actions>
         </md-dialog-content>
     </form>
 </md-dialog>

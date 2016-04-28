@@ -24,7 +24,11 @@ var workspace = angular.module('workspace', [])
 
                 });
             };
+
+
+            //ASSIGN GLOBALS
             $scope.last_jobid = "jobid-0000";
+            $scope.reviewOffset = 0;
             $scope.filtering_tests = null;
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filtering_tests = data;
@@ -282,10 +286,34 @@ var workspace = angular.module('workspace', [])
                 $mdDialog.hide();
             };
 
+            $scope.incrementOffset = function() {
+                //add logic for only allowing numbers in range of images
+                $scope.reviewOffset = $scope.reviewOffset + 1;
+                $scope.loadHTMLwithOffset();
+            };
+
+            $scope.decrementOffset = function() {
+                //add logic for only allowing numbers in range of images
+                $scope.reviewOffset = $scope.reviewOffset - 1;
+                $scope.loadHTMLwithOffset();
+            };
+
+            $scope.endReview = function() {
+                //do Submit of current review
+
+                //exit
+                $scope.detectDialogCancel();
+            };
+
+            $scope.loadHTMLwithOffset = function() {
+                console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
+                $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
+
+            };
             $scope.loadHTML = function() {
+                $scope.reviewOffset = 0;
                 console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
                 $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
-
             };
 
             // $scope.modes = ['workspace', 'upload'];
