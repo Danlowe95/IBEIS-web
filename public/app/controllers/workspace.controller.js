@@ -324,13 +324,6 @@ var workspace = angular.module('workspace', [])
                 }
             };
 
-            var uploadDialog = {
-                templateUrl: 'app/views/includes/workspace/upload.dialog.html',
-                clickOutsideToClose: true,
-                fullscreen: true,
-                preserveScope: true,
-                scope: $scope
-            };
 
             $scope.test = function() {
                 console.log("TESTING HEHE");
@@ -343,6 +336,13 @@ var workspace = angular.module('workspace', [])
             //  - 2 = occurence
             //  - 3 = complete
             $scope.upload = {
+                dialog: {
+                    templateUrl: 'app/views/includes/workspace/upload.dialog.html',
+                    clickOutsideToClose: true,
+                    fullscreen: true,
+                    preserveScope: true,
+                    scope: $scope
+                },
                 stage: 0,
                 mediaAssetSetId: null,
                 images: [],
@@ -382,7 +382,7 @@ var workspace = angular.module('workspace', [])
                     $scope.upload.images.splice(i, 1);
                 },
                 show: function(ev) {
-                    $mdDialog.show(uploadDialog);
+                    $mdDialog.show($scope.upload.dialog);
                 },
                 close: function() {
                     $mdDialog.cancel();
