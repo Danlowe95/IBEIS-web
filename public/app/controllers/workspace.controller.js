@@ -168,7 +168,18 @@ var workspace = angular.module('workspace', [])
 
                         $scope.showDetectionReview(ev);
                     })
-                })
+                }).fail(function(data) {
+
+                $mdDialog.show(
+                    $mdDialog.alert()
+                    // .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Error')
+                    .textContent('No Response from IA server.')
+                    .ariaLabel('IA Error')
+                    .ok('OK')
+                    .targetEvent(ev)
+                )});
             };
 
 
