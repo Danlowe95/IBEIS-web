@@ -380,10 +380,12 @@ var workspace = angular.module('workspace', [])
                 stage: 0,
                 mediaAssetSetId: null,
                 images: [],
+                totalProgress: 0,
                 reset: function() {
                     $scope.upload.stage = 0;
                     $scope.upload.images = [];
                     $scope.upload.mediaAssetSetId = null;
+                    $scope.upload.totalProgress = 0;
                 },
                 select: function(element) {
                     var justFiles = $.map(element.files, function(val, key) {
@@ -472,6 +474,7 @@ var workspace = angular.module('workspace', [])
                                     }
                                     if (index >= 0) {
                                         $scope.upload.images[index].progress = progress;
+                                        $scope.upload.updateProgress();
                                     }
                                 });
                             }
@@ -495,6 +498,15 @@ var workspace = angular.module('workspace', [])
                         $scope.upload.show();
                         console.log("said no to changing!");
                     });
+                },
+                updateProgress: function(data) {
+                    var max = 100 * $scope.upload.images.length;
+                    var sum = 0;
+                    for (i in $scope.upload.images) {
+                        sum = sum + $scope.upload.images[i].progress;
+                    }
+                    $scope.upload.totalProgress = Math.round(sum / max * 100);
+                    console.log("total progress: " + $scope.upload.totalProgress);
                 }
             };
 
@@ -510,25 +522,6 @@ var workspace = angular.module('workspace', [])
             });
             AWS.config.region = 'us-west-2';
             $scope.uploader = new AWS.S3({ params: { Bucket: 'flukebook-dev-upload-tmp' } });
-
-
-            // global progress
-            $scope.upload.globalProgress = null;
-            $scope.$watch(
-                function(scope) {
-                    return scope.upload.images;
-                },
-                function(newValue, oldValue) {
-                    var total = 0;
-                    var max = newValue.length * 100;
-                    for (image in newValue) {
-                        total = total + image.progress;
-                    }
-                    var progress = total / max * 100;
-                    $scope.upload.globalProgress = progress;
-                    console.log($scope.upload.globalProgress);
-                }
-            );
         }
     ])
     .factory('reader-factory', ['$q', function($q) {
