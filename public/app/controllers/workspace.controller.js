@@ -170,16 +170,17 @@ var workspace = angular.module('workspace', [])
                     })
                 }).fail(function(data) {
 
-                $mdDialog.show(
-                    $mdDialog.alert()
-                    // .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Error')
-                    .textContent('No Response from IA server.')
-                    .ariaLabel('IA Error')
-                    .ok('OK')
-                    .targetEvent(ev)
-                )});
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                        // .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Error')
+                        .textContent('No Response from IA server.')
+                        .ariaLabel('IA Error')
+                        .ok('OK')
+                        .targetEvent(ev)
+                    )
+                });
             };
 
 
@@ -268,19 +269,41 @@ var workspace = angular.module('workspace', [])
             $scope.detectDialogCancel = function() {
                 $mdDialog.cancel();
             };
-
             //unused?
             $scope.detectDialogHide = function() {
                 $mdDialog.hide();
             };
 
+            $scope.submitDetectionReview = function() {
+                // $('#ia-turk-submit-accept').click();
+                $('#ia-detection-form').submit(function(ev) {
+                    ev.preventDefault();
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        dataType: 'json',
+                        data: $(this).serialize(),
+                        success: function(data) {
+                            // console.log('Submitted');
+                        },
+                        error: function(xhr, err) {
+                            // console.log('Error');
+                        }
+                    });
+                    // console.log(."done?");
+                    return false;
+                });
+            };
+
             $scope.incrementOffset = function() {
+                $scope.submitDetectionReview();
                 //add logic for only allowing numbers in range of images
                 $scope.reviewOffset = $scope.reviewOffset + 1;
                 $scope.loadHTMLwithOffset();
             };
 
             $scope.decrementOffset = function() {
+                $scope.submitDetectionReview();
                 //add logic for only allowing numbers in range of images
                 $scope.reviewOffset = $scope.reviewOffset - 1;
                 $scope.loadHTMLwithOffset();
@@ -288,7 +311,7 @@ var workspace = angular.module('workspace', [])
 
             $scope.endReview = function() {
                 //do Submit of current review
-
+                $scope.submitDetectionReview();
                 //exit
                 $scope.detectDialogCancel();
             };

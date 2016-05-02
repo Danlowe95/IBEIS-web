@@ -165,9 +165,9 @@ td {
 .card-img-parent {
     width: 200px;
     height: 100%;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     overflow: hidden;
-    background: gray;
+    /*background: gray;*/
     text-align:center;
 }
 }
