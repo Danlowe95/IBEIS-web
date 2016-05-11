@@ -15,7 +15,6 @@ module.exports = function(config) {
       'public/bower_components/angular-aria/angular-aria.js',
       'public/bower_components/angular-messages/angular-messages.js',
       'public/bower_components/angular-material/angular-material.js',
-      'public/bower_components/angular-ui-router/release/angular-ui-router.js',
       'public/bower_components/angular-smart-table/dist/smart-table.js',
       'public/bower_components/angular-simple-logger/dist/angular-simple-logger.js',
       'public/bower_components/lodash/lodash.js',
@@ -29,6 +28,7 @@ module.exports = function(config) {
       'public/bower_components/d3/d3.js',
       'public/bower_components/leaflet/dist/leaflet-src.js',
       'public/bower_components/ui-leaflet/dist/ui-leaflet.js',
+      'public/bower_components/angular-route/angular-route.js',
       // endbower
       "public/app/ibeis.js",
       "public/app/ibeis.routes.js",

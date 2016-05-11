@@ -1,17 +1,15 @@
-angular.module('ibeis.routes', ['ui.router'])
-    .config(function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider
-            .otherwise('/login');
-
-        $stateProvider
-            .state('login', {
-                url: '/login',
+angular.module('ibeis.routes', ['ngRoute'])
+    .config(function($routeProvider) {
+        $routeProvider
+            .when('/login', {
                 templateUrl: 'app/views/pages/login.html'
             })
-            .state('workspace', {
-                url: '/workspace',
+            .when('/workspace', {
                 templateUrl: 'app/views/pages/workspace.html',
                 controller: 'workspace-controller',
                 controllerAs: 'wsCtrl'
+            })
+            .otherwise({
+                redirectTo: '/login'
             });
     });

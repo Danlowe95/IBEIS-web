@@ -1,9 +1,7 @@
 var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
-        '$rootScope', '$scope', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory',
-        function($rootScope, $scope, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory) {
-
-
+        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory',
+        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory) {
             $scope.last_jobid = "jobid-0000";
             $scope.reviewOffset = 0;
             $scope.filtering_tests = null;
@@ -144,7 +142,7 @@ var workspace = angular.module('workspace', [])
             };
 
             $scope.startDetection = function(ev) {
-                //create javascript for loop to get all ids, send all ids to 
+                //create javascript for loop to get all ids, send all ids to
                 image_ids = [];
                 var i;
                 for (i = 0; i < $scope.currentSlides.length; i++) {
@@ -238,7 +236,10 @@ var workspace = angular.module('workspace', [])
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
-                    locals: { image_index: $scope.image_index, currentSlides: $scope.currentSlides }
+                    locals: {
+                        image_index: $scope.image_index,
+                        currentSlides: $scope.currentSlides
+                    }
 
                 });
                 $scope.$watch(function() {
@@ -360,7 +361,7 @@ var workspace = angular.module('workspace', [])
 
 
             $scope.test = function() {
-                console.log("TESTING HEHE");
+                console.log($routeParams);
             };
 
 
@@ -370,6 +371,7 @@ var workspace = angular.module('workspace', [])
             //  - 2 = occurence
             //  - 3 = complete
             $scope.upload = {
+                uploadType: "aws",
                 dialog: {
                     templateUrl: 'app/views/includes/workspace/upload.dialog.html',
                     clickOutsideToClose: true,
@@ -449,7 +451,10 @@ var workspace = angular.module('workspace', [])
                                         var mediaAsset = {
                                             MediaAssetCreate: [{
                                                 setId: $scope.upload.mediaAssetSetId,
-                                                assets: [{ bucket: data.Bucket, key: data.Key }]
+                                                assets: [{
+                                                    bucket: data.Bucket,
+                                                    key: data.Key
+                                                }]
                                             }]
                                         };
 
@@ -458,7 +463,9 @@ var workspace = angular.module('workspace', [])
                                             count++;
                                             if (count === $scope.upload.images.length) {
                                                 console.log("Finished uploading that batch of images to the Media Asset Set with ID=" + $scope.upload.mediaAssetSetId);
-                                                $scope.upload.complete({ id: $scope.upload.mediaAssetSetId });
+                                                $scope.upload.complete({
+                                                    id: $scope.upload.mediaAssetSetId
+                                                });
                                                 $scope.upload.stage = 2;
                                             }
                                         });
@@ -521,7 +528,11 @@ var workspace = angular.module('workspace', [])
                 secretAccessKey: 'MWaPEpplIlHNeZspL6krTKh/muAa3l6rru5fIiMn'
             });
             AWS.config.region = 'us-west-2';
-            $scope.uploader = new AWS.S3({ params: { Bucket: 'flukebook-dev-upload-tmp' } });
+            $scope.uploader = new AWS.S3({
+                params: {
+                    Bucket: 'flukebook-dev-upload-tmp'
+                }
+            });
         }
     ])
     .factory('reader-factory', ['$q', function($q) {
@@ -560,6 +571,8 @@ var workspace = angular.module('workspace', [])
             });
         };
 
-        return { readAsDataUrl: readAsDataURL };
+        return {
+            readAsDataUrl: readAsDataURL
+        };
 
     }]);
