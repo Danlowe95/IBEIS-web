@@ -2,13 +2,13 @@ var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
         '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory',
         function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory) {
-            $scope.last_jobid = "jobid-0000";
+            $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
             $scope.filtering_tests = null;
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filtering_tests = data;
             });
-            // Start of real querying
+
             $scope.queryWorkspace = function(params) {
                 $.ajax({
                     type: "POST",
@@ -19,18 +19,30 @@ var workspace = angular.module('workspace', [])
                     // this callback will be called asynchronously
                     // when the response is available
                     $scope.$apply(function() {
-                        console.log(data);
+
                         $scope.currentSlides = data.assets;
                         console.log($scope.currentSlides);
                     })
                 })
             };
 
-            var testQuery = {
-                class: 'org.ecocean.media.MediaAsset',
-                range: 10
-            };
-            $scope.queryWorkspace(testQuery);
+            //query all workspaces
+            $.ajax({
+                    type: "GET",
+                    url: 'http://springbreak.wildbook.org/WorkspacesForUser'
+                })
+                .then(function(data) {
+                    //We need to decide a proper variable for saving workspace data. do we need 1 or 2
+                    $scope.$apply(function() {
+
+                        data = data.slice(1, (data.length - 2));
+                        $scope.workspaces = data.split(", ");
+                        $scope.setWorkspace($scope.workspaces[0]);
+                    })
+                }).fail(function(data) {
+                    console.log("failed workspaces get");
+                });
+
             $scope.map = {
                 center: {
                     latitude: 45,
@@ -105,13 +117,6 @@ var workspace = angular.module('workspace', [])
                 $scope.image_index = -1;
             };
 
-            $scope.workspace = 'Primary';
-            $scope.workspaces = ['Primary', 'Secondary'];
-            $scope.setWorkspace = function(w) {
-                $scope.workspace = w;
-                //query new workspace to get data
-            };
-
             /* TYPE MENU */
             $scope.types = ['images', 'annotations', 'animals'];
             $scope.type = $scope.types[0];
@@ -120,6 +125,44 @@ var workspace = angular.module('workspace', [])
                 if ($scope.type != t) {
                     $scope.type = t;
                 }
+            };
+            /* WORKSPACES */
+            $scope.setWorkspace = function(id_) {
+                $.ajax({
+                        type: "GET",
+                        url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                        data: { id: id_ },
+                        dataType: "json"
+                    })
+                    .then(function(data) {
+
+                        $scope.$apply(function() {
+                            $scope.currentSlides = data.assets;
+                            $scope.workspace = id_;
+                        })
+                    }).fail(function(data) {
+                        console.log("failed workspace get");
+                    });
+            };
+
+            $scope.saveWorkspace = function() {
+                //this has to have user input
+                var params = $.param({
+                    id: "first_list5",
+                    args: JSON.stringify($scope.testQuery)
+                });
+                $.ajax({
+                        type: "POST",
+                        url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                        data: params,
+                        dataType: "json"
+                    })
+                    .then(function(data) {
+                        $scope.currentSlides = data.assets;
+                    }).fail(function(data) {
+                        console.log("failed");
+                        console.log(data);
+                    });
             };
 
             /* FILTERING */
