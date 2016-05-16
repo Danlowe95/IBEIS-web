@@ -320,20 +320,22 @@ var workspace = angular.module('workspace', [])
 
             $scope.submitDetectionReview = function() {
                 // $('#ia-turk-submit-accept').click();
+                // console.log("here");
                 $('#ia-detection-form').submit(function(ev) {
+                    console.log("heree");
+                    alert("prevented");
                     ev.preventDefault();
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        type: $(this).attr('method'),
-                        dataType: 'json',
-                        data: $(this).serialize(),
-                        success: function(data) {
-                            // console.log('Submitted');
-                        },
-                        error: function(xhr, err) {
-                            // console.log('Error');
-                        }
-                    });
+                    // $.ajax({
+                    //     url: $(this).attr('action'),
+                    //     type: $(this).attr('method'),
+                    //     dataType: 'json',
+                    //     data: $(this).serialize()
+
+                    // }).then(function(data){
+                    //     console.log("done");
+                    // }).fail(function(data){
+                    //     console.log("error");
+                    // });
                     // console.log(."done?");
                     return false;
                 });
@@ -342,8 +344,8 @@ var workspace = angular.module('workspace', [])
             $scope.incrementOffset = function() {
                 $scope.submitDetectionReview();
                 //add logic for only allowing numbers in range of images
-                $scope.reviewOffset = $scope.reviewOffset + 1;
-                $scope.loadHTMLwithOffset();
+                // $scope.reviewOffset = $scope.reviewOffset + 1;
+                // $scope.loadHTMLwithOffset();
             };
 
             $scope.decrementOffset = function() {
