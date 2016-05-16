@@ -22,7 +22,7 @@
     </md-menu-content>
   </md-menu>
   <!-- filter nav buttons -->
-  <md-button ng-click="toggleSidenav('filter')" hide-gt-sm class="md-icon-button">
+  <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" hide-gt-sm class="md-icon-button">
     <i class="fa fa-filter"></i>
   </md-button>
   <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
@@ -34,15 +34,28 @@
   <md-button class="md-icon-button" aria-label="Undo" ng-click="undoFilter()">
     <i class="fa fa-undo"></i>
     <md-tooltip md-autohide>
-      Undo last filter change.
+      Revert to last saved iteration.
     </md-tooltip>
   </md-button>
-  <md-button class="md-icon-button" aria-label="Save" ng-click="saveWorkspace()">
-    <i class="fa fa-save"></i>
-    <md-tooltip md-autohide>
-      Save to new workspace.
-    </md-tooltip>
-  </md-button>
+  <div ng-if="!saving" ng-init="saving=false">
+    <md-button class="md-icon-button" aria-label="Save" ng-click="$parent.saving=true">
+      <i class="fa fa-save"></i>
+      <md-tooltip md-autohide>
+        Save to new workspace.
+      </md-tooltip>
+    </md-button>
+  </div>
+  <div class="input-group">
+  <md-input-container class="md-primary" ng-if="saving">
+    <input ng-model="new_name.form_data" type="text" placeholder="enter a name">
+    <md-button class="md-icon-button" ng-click="$parent.saving=false">
+      <i class="fa fa-remove" />
+    </md-button>
+    <md-button class="md-icon-button" ng-click="saveWorkspace(); $parent.saving=false">
+      <i class="fa fa-save" />
+    </md-button>
+  </md-input-container>
+  </div>
   <span flex></span>
   <md-menu md-position-mode="target-right target">
     <md-button aria-label="View Selector" ng-click="$mdOpenMenu($event)">

@@ -5,11 +5,14 @@ var workspace = angular.module('workspace', [])
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
             $scope.filtering_tests = null;
+            $scope.workspace = "Select";
+            $scope.new_name = {};
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filtering_tests = data;
             });
 
             $scope.queryWorkspace = function(params) {
+                $scope.workspace_args = params;
                 $.ajax({
                     type: "POST",
                     url: 'http://springbreak.wildbook.org/TranslateQuery',
@@ -27,7 +30,8 @@ var workspace = angular.module('workspace', [])
             };
 
             //query all workspaces
-            $.ajax({
+            $scope.queryWorkspaceList = function(){
+                $.ajax({
                     type: "GET",
                     url: 'http://springbreak.wildbook.org/WorkspacesForUser'
                 })
@@ -42,6 +46,8 @@ var workspace = angular.module('workspace', [])
                 }).fail(function(data) {
                     console.log("failed workspaces get");
                 });
+            }
+            $scope.queryWorkspaceList();
 
             $scope.map = {
                 center: {
@@ -137,8 +143,11 @@ var workspace = angular.module('workspace', [])
                     .then(function(data) {
 
                         $scope.$apply(function() {
+                            console.log(data);
                             $scope.currentSlides = data.assets;
                             $scope.workspace = id_;
+                            $scope.workspace_args = data.metadata.TranslateQueryArgs;
+                            console.log($scope.workspace_args);
                         })
                     }).fail(function(data) {
                         console.log("failed workspace get");
@@ -146,10 +155,11 @@ var workspace = angular.module('workspace', [])
             };
 
             $scope.saveWorkspace = function() {
+                console.log("Name: "+$scope.new_name.form_data);
                 //this has to have user input
                 var params = $.param({
-                    id: "first_list5",
-                    args: JSON.stringify($scope.testQuery)
+                    id: $scope.new_name.form_data,
+                    args: JSON.stringify($scope.workspace_args)
                 });
                 $.ajax({
                         type: "POST",
@@ -158,10 +168,12 @@ var workspace = angular.module('workspace', [])
                         dataType: "json"
                     })
                     .then(function(data) {
-                        $scope.currentSlides = data.assets;
+                        // $scope.currentSlides = data.assets;
+                        $scope.queryWorkspaceList();
                     }).fail(function(data) {
-                        console.log("failed");
+                        console.log("success or failure - needs fixing");
                         console.log(data);
+                        $scope.queryWorkspaceList();
                     });
             };
 
@@ -319,33 +331,30 @@ var workspace = angular.module('workspace', [])
             };
 
             $scope.submitDetectionReview = function() {
-                // $('#ia-turk-submit-accept').click();
-                // console.log("here");
                 $('#ia-detection-form').submit(function(ev) {
-                    console.log("heree");
-                    alert("prevented");
                     ev.preventDefault();
-                    // $.ajax({
-                    //     url: $(this).attr('action'),
-                    //     type: $(this).attr('method'),
-                    //     dataType: 'json',
-                    //     data: $(this).serialize()
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        dataType: 'json',
+                        data: $(this).serialize()
 
-                    // }).then(function(data){
-                    //     console.log("done");
-                    // }).fail(function(data){
-                    //     console.log("error");
-                    // });
-                    // console.log(."done?");
+                    }).then(function(data){
+                        console.log("done");
+                    }).fail(function(data){
+                        console.log("error");
+                    });
+                    console.log("done?");
                     return false;
                 });
+                $('#ia-detection-form').submit();
             };
 
             $scope.incrementOffset = function() {
                 $scope.submitDetectionReview();
                 //add logic for only allowing numbers in range of images
-                // $scope.reviewOffset = $scope.reviewOffset + 1;
-                // $scope.loadHTMLwithOffset();
+                $scope.reviewOffset = $scope.reviewOffset + 1;
+                $scope.loadHTMLwithOffset();
             };
 
             $scope.decrementOffset = function() {
