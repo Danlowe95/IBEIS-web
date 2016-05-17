@@ -4,8 +4,8 @@ angular.module('upload.service', [])
 
         // AWS Uploader Config
         AWS.config.update({
-            accessKeyId: 'AKIAJFVBLOTSKZ5554EA',
-            secretAccessKey: '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'
+            accessKeyId: AWS_ACCESS_KEY_ID,
+            secretAccessKey: AWS_SECRET_ACCESS_KEY
         });
         AWS.config.region = 'us-west-2';
         var s3Uploader = new AWS.S3({
