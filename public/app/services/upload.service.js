@@ -1,5 +1,5 @@
 angular.module('upload.service', [])
-    .factory('Upload', [function() {
+    .factory('Upload', ['$http', function($http) {
         var factory = {};
 
         // AWS Uploader Config
@@ -15,28 +15,34 @@ angular.module('upload.service', [])
         });
 
         // upload
-        var types = ["s3", "local"];
-        factory.upload = function(images, type, progressCallback) {
+        factory.types = ["s3", "local"];
+        factory.upload = function(images, type, progressCallback, completionCallback) {
+            console.log("UPLOADING");
             // retrieve a mediaAssetSetId
-            var mediaAssetSetId = requestMediaAssetSet();
-            var typeIndex = _.indexOf(types, type);
-            switch (typeIndex) {
-                case 0:
-                    // s3
-                    return s3Upload(mediaAssetSetId, images, progressCallback);
-                case 1:
-                    // local
-                    return directUpload(mediaAssetSetId, images, progressCallback);
-                default:
-                    // doesn't exist
-                    // TODO: design failure return
-                    return null;
-            }
+            requestMediaAssetSet().success(function(data) {
+                var mediaAssetSetId = data.mediaAssetSetId;
+                var typeIndex = _.indexOf(factory.types, type);
+                switch (typeIndex) {
+                    case 0:
+                        // s3
+                        s3Upload(mediaAssetSetId, images, progressCallback, completionCallback);
+                        break;
+                    case 1:
+                        // local
+                        directUpload(mediaAssetSetId, images, progressCallback, completionCallback);
+                        break;
+                    default:
+                        // doesn't exist
+                        // TODO: design failure return
+                        return null;
+                }
+            });
         };
 
         // upload to s3
-        var s3Upload = function(mediaAssetSetId, images, progressCallback) {
+        var s3Upload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
             console.log("DOING S3 UPLOAD");
+            var count = 0;
             for (i in images) {
                 var key = mediaAssetSetId + '/' + images[i].name;
                 var params = {
@@ -51,7 +57,13 @@ angular.module('upload.service', [])
                         console.error(err);
                     } else {
                         console.log(data);
-                        // TODO: on completion
+                        createS3MediaAsset(mediaAssetSetId, data).success(function(data) {
+                            console.log(data);
+                            count = count + 1;
+                            if (count >= images.length) {
+                                completionCallback(mediaAssetSetId);
+                            }
+                        });
                     }
                 }).on('httpUploadProgress', function(data) {
                     var progress = Math.round(data.loaded / data.total * 100);
@@ -79,10 +91,7 @@ angular.module('upload.service', [])
         // request mediaAssetSet
         var requestMediaAssetSet = function() {
             // TODO: check for errors?
-            $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet')
-                .success(function(data) {
-                    return data.mediaAssetSetId;
-                });
+            return $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet');
         };
 
         // create MediaAsset
@@ -97,7 +106,9 @@ angular.module('upload.service', [])
                 }]
             };
 
-            $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset);
+            return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset);
         };
+
+        return factory;
 
     }]);
