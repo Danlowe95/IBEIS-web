@@ -8,7 +8,6 @@ var workspace = angular.module('workspace', [])
             $scope.workspace = "Select";
             $scope.new_name = {};
             $scope.reviewData = {};
->>>>>>> dcf0154bd03a6218ab0710b83a5139aec41e2ff0
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filtering_tests = data;
             });
@@ -147,11 +146,9 @@ var workspace = angular.module('workspace', [])
                     .then(function(data) {
 
                         $scope.$apply(function() {
-                            console.log(data);
                             $scope.currentSlides = data.assets;
                             $scope.workspace = id_;
                             $scope.workspace_args = data.metadata.TranslateQueryArgs;
-                            console.log($scope.workspace_args);
                         })
                     }).fail(function(data) {
                         console.log("failed workspace get");
@@ -159,7 +156,6 @@ var workspace = angular.module('workspace', [])
             };
 
             $scope.saveWorkspace = function() {
-                console.log("Name: " + $scope.new_name.form_data);
                 //this has to have user input
                 var params = $.param({
                     id: $scope.new_name.form_data,
@@ -186,7 +182,6 @@ var workspace = angular.module('workspace', [])
             $scope.filterData = {};
             $scope.submitFilters = function() {
                 var params = JSON.stringify($scope.filterData);
-                console.log(params);
                 $scope.queryWorkspace(params);
                 $scope.close('filter');
 
@@ -208,7 +203,6 @@ var workspace = angular.module('workspace', [])
                     image_ids.push($scope.currentSlides[i].id);
                 }
                 var detect_data = "{detect: [" + image_ids + "]}";
-                console.log(detect_data);
                 $.ajax({
                     type: "POST",
                     url: 'http://springbreak.wildbook.org/ia',
@@ -220,7 +214,6 @@ var workspace = angular.module('workspace', [])
                     // when the response is available
                     $scope.$apply(function() {
                         $scope.last_jobid = data.sendDetect.response;
-                        // $scope.ia_url = "http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&index=4";
                         console.log("New jobID " + data.sendDetect.response);
 
                         $scope.showDetectionReview(ev);
@@ -229,7 +222,6 @@ var workspace = angular.module('workspace', [])
 
                     $mdDialog.show(
                         $mdDialog.alert()
-                        // .parent(angular.element(document.querySelector('#popupContainer')))
                         .clickOutsideToClose(true)
                         .title('Error')
                         .textContent('No Response from IA server.')
@@ -321,7 +313,6 @@ var workspace = angular.module('workspace', [])
                     $scope.reviewData.reviewReady = true;
 
                 }
-                console.log($scope.reviewData.reviewReady);
             };
             $scope.showDetectionReview = function(ev) {
                 $scope.startCheckDetection();
@@ -358,7 +349,6 @@ var workspace = angular.module('workspace', [])
                     }).fail(function(data) {
                         console.log("error");
                     });
-                    console.log("done?");
                     return false;
                 });
                 $('#ia-detection-form').submit();
@@ -400,7 +390,6 @@ var workspace = angular.module('workspace', [])
             $scope.mode = 'workspace';
             $scope.setMode = function(m) {
                 $scope.mode = m;
-                console.log($scope.mode);
             };
 
             $scope.toggleLogo = function() {
