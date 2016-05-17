@@ -7,6 +7,7 @@ var workspace = angular.module('workspace', [])
             $scope.filtering_tests = null;
             $scope.workspace = "Select";
             $scope.new_name = {};
+            $scope.reviewData = {};
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filtering_tests = data;
             });
@@ -306,7 +307,7 @@ var workspace = angular.module('workspace', [])
                 });
             };
             $scope.startCheckDetection = function() {
-                $scope.reviewReady = false;
+                $scope.reviewData.reviewReady = false;
                 $scope.detectionChecker = setInterval($scope.checkLoadedDetection, 3000);
 
             };
@@ -316,10 +317,10 @@ var workspace = angular.module('workspace', [])
                 var myElem = document.getElementById('ia-detection-form');
                 if (myElem != null){
                     clearInterval($scope.detectionChecker);
-                    $scope.reviewReady = true;
+                    $scope.reviewData.reviewReady = true;
 
                 }
-                console.log($scope.reviewReady);
+                console.log($scope.reviewData.reviewReady);
             };
             $scope.showDetectionReview = function(ev) {
                 $scope.startCheckDetection();
