@@ -4,3 +4,4 @@ public/bower_components/*
 node-debug.log
 coverage/
 public/app/controllers/s3.json
+public/assets/js/uploadConfig.js

@@ -1,7 +1,7 @@
 var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
-        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory',
-        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory) {
+        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Upload',
+        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Upload) {
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
             $scope.filtering_tests = null;
@@ -137,7 +137,9 @@ var workspace = angular.module('workspace', [])
                 $.ajax({
                         type: "GET",
                         url: 'http://springbreak.wildbook.org/WorkspaceServer',
-                        data: { id: id_ },
+                        data: {
+                            id: id_
+                        },
                         dataType: "json"
                     })
                     .then(function(data) {
@@ -424,18 +426,23 @@ var workspace = angular.module('workspace', [])
             };
 
 
-            $scope.test = function() {
-                console.log($routeParams);
-            };
-
-
             // stages:
             //  - 0 = select
             //  - 1 = upload
             //  - 2 = occurence
             //  - 3 = complete
             $scope.upload = {
-                uploadType: "aws",
+                types: Upload.types,
+                type: "s3",
+                updateType: function() {
+                    var t = $routeParams.upload;
+                    if (t) {
+                        if (_.indexOf($scope.upload.types, t) !== -1) {
+                            $scope.upload.type = t;
+                        }
+                    }
+                    console.log($scope.upload.type);
+                },
                 dialog: {
                     templateUrl: 'app/views/includes/workspace/upload.dialog.html',
                     clickOutsideToClose: true,
@@ -450,7 +457,6 @@ var workspace = angular.module('workspace', [])
                 reset: function() {
                     $scope.upload.stage = 0;
                     $scope.upload.images = [];
-                    $scope.upload.mediaAssetSetId = null;
                     $scope.upload.totalProgress = 0;
                 },
                 select: function(element) {
@@ -489,95 +495,40 @@ var workspace = angular.module('workspace', [])
                 close: function() {
                     $mdDialog.cancel();
                 },
-                upload: function() {
-                    var count = 0;
-                    $scope.upload.stage = 1;
-                    $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet')
-                        .success(function(data) {
-                            $scope.upload.mediaAssetSetId = data.mediaAssetSetId;
-                            var images = _.clone($scope.upload.images);
-                            for (i in images) {
-
-                                // remove the preview src before uploading the file
-                                delete images[i].imageSrc
-                                var key = $scope.upload.mediaAssetSetId + '/' + images[i].name;
-                                var params = {
-                                    Key: key,
-                                    ContentType: images[i].type,
-                                    Body: images[i]
-                                }
-
-                                $scope.uploader.upload(params, function(err, data) {
-                                    if (err) {
-                                        console.error(err);
-                                    } else {
-                                        console.log(data);
-                                        var mediaAsset = {
-                                            MediaAssetCreate: [{
-                                                setId: $scope.upload.mediaAssetSetId,
-                                                assets: [{
-                                                    bucket: data.Bucket,
-                                                    key: data.Key
-                                                }]
-                                            }]
-                                        };
-
-                                        $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset).then(function(data) {
-                                            // console.log(  data);
-                                            count++;
-                                            if (count === $scope.upload.images.length) {
-                                                console.log("Finished uploading that batch of images to the Media Asset Set with ID=" + $scope.upload.mediaAssetSetId);
-                                                $scope.upload.complete({
-                                                    id: $scope.upload.mediaAssetSetId
-                                                });
-                                                $scope.upload.stage = 2;
-                                            }
-                                        });
-                                    }
-                                }).on('httpUploadProgress', function(data) {
-                                    var progress = Math.round(data.loaded / data.total * 100);
-                                    var index = -1;
-                                    for (var j = 0; j < $scope.upload.images.length; j++) {
-                                        var test = $scope.upload.mediaAssetSetId + '/' + $scope.upload.images[j].name;
-                                        if (data.key == test) {
-                                            index = j;
-                                        }
-                                    }
-                                    if (index >= 0) {
-                                        $scope.upload.images[index].progress = progress;
-                                        $scope.upload.updateProgress();
-                                    }
-                                });
-                            }
-                        });
+                progressCallback: function(index, progress) {
+                    $scope.upload.images[index].progress = progress;
+                    $scope.upload.updateProgress();
                 },
-                complete: function(data) {
+                completionCallback: function(mediaAssetSetId) {
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to see your uploaded images?')
-                        .textContent('Here is the media asset set id: ' + data.id)
+                        .textContent('Here is the media asset set id: ' + mediaAssetSetId)
                         .ok('Yes')
                         .cancel("No");
                     $mdDialog.show(confirm).then(function() {
                         var query = {
                             class: 'org.ecocean.media.MediaAssetSet',
-                            query: JSON.stringify(data)
+                            query: JSON.stringify({
+                                id: mediaAssetSetId
+                            })
                         };
                         $scope.queryWorkspace(query);
-                        $scope.mode = 'workspace';
                     }, function() {
-                        $scope.mode = 'workspace';
                         $scope.upload.show();
                         console.log("said no to changing!");
                     });
                 },
-                updateProgress: function(data) {
+                upload: function() {
+                    $scope.upload.stage = 1;
+                    Upload.upload($scope.upload.images, $scope.upload.type, $scope.upload.progressCallback, $scope.upload.completionCallback);
+                },
+                updateProgress: function() {
                     var max = 100 * $scope.upload.images.length;
                     var sum = 0;
                     for (i in $scope.upload.images) {
                         sum = sum + $scope.upload.images[i].progress;
                     }
                     $scope.upload.totalProgress = Math.round(sum / max * 100);
-                    console.log("total progress: " + $scope.upload.totalProgress);
                 }
             };
 
@@ -639,4 +590,4 @@ var workspace = angular.module('workspace', [])
             readAsDataUrl: readAsDataURL
         };
 
-    }]);
+    }]);;
