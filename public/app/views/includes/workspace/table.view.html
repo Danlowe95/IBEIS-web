@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="slide in currentSlides" ng-click="showImageInfo($index)">
+            <tr ng-repeat="slide in currentSlides" ng-click="showImageInfo($event, $index)">
                 <td><img ng-src="{{slide.url}}" style="max-height: 150px; max-width: 150px; width: auto" /></td>
                 <td>{{slide.id}}</td>
                 <td>

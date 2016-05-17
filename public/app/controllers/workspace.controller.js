@@ -30,22 +30,22 @@ var workspace = angular.module('workspace', [])
             };
 
             //query all workspaces
-            $scope.queryWorkspaceList = function(){
+            $scope.queryWorkspaceList = function() {
                 $.ajax({
-                    type: "GET",
-                    url: 'http://springbreak.wildbook.org/WorkspacesForUser'
-                })
-                .then(function(data) {
-                    //We need to decide a proper variable for saving workspace data. do we need 1 or 2
-                    $scope.$apply(function() {
-
-                        data = data.slice(1, (data.length - 2));
-                        $scope.workspaces = data.split(", ");
-                        $scope.setWorkspace($scope.workspaces[0]);
+                        type: "GET",
+                        url: 'http://springbreak.wildbook.org/WorkspacesForUser'
                     })
-                }).fail(function(data) {
-                    console.log("failed workspaces get");
-                });
+                    .then(function(data) {
+                        //We need to decide a proper variable for saving workspace data. do we need 1 or 2
+                        $scope.$apply(function() {
+
+                            data = data.slice(1, (data.length - 2));
+                            $scope.workspaces = data.split(", ");
+                            $scope.setWorkspace($scope.workspaces[0]);
+                        })
+                    }).fail(function(data) {
+                        console.log("failed workspaces get");
+                    });
             }
             $scope.queryWorkspaceList();
 
@@ -155,7 +155,7 @@ var workspace = angular.module('workspace', [])
             };
 
             $scope.saveWorkspace = function() {
-                console.log("Name: "+$scope.new_name.form_data);
+                console.log("Name: " + $scope.new_name.form_data);
                 //this has to have user input
                 var params = $.param({
                     id: $scope.new_name.form_data,
@@ -303,22 +303,32 @@ var workspace = angular.module('workspace', [])
                     $scope.customFullscreen = (wantsFullScreen === true);
                 });
             };
+            $scope.startCheckDetection = function() {
+                $scope.reviewReady = false;
+                $scope.detectionChecker = setInterval($scope.checkLoadedDetection, 3000);
 
+            };
+
+            $scope.checkLoadedDetection = function() {
+                $scope.loadHTML();
+                var myElem = document.getElementById('ia-detection-form');
+                if (myElem != null){
+                    clearInterval($scope.detectionChecker);
+                    $scope.reviewReady = true;
+
+                }
+                console.log($scope.reviewReady);
+            };
             $scope.showDetectionReview = function(ev) {
-                var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+                $scope.startCheckDetection();
                 $mdDialog.show({
                     scope: $scope,
                     preserveScope: true,
                     templateUrl: 'app/views/includes/workspace/detection.review.html',
                     targetEvent: ev,
-                    clickOutsideToClose: true,
+                    clickOutsideToClose: false,
                     fullscreen: true
 
-                });
-                $scope.$watch(function() {
-                    return $mdMedia('xs') || $mdMedia('sm');
-                }, function(wantsFullScreen) {
-                    $scope.customFullscreen = (wantsFullScreen === true);
                 });
             };
 
@@ -339,9 +349,9 @@ var workspace = angular.module('workspace', [])
                         dataType: 'json',
                         data: $(this).serialize()
 
-                    }).then(function(data){
+                    }).then(function(data) {
                         console.log("done");
-                    }).fail(function(data){
+                    }).fail(function(data) {
                         console.log("error");
                     });
                     console.log("done?");
