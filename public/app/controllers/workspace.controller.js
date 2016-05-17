@@ -6,7 +6,7 @@ var workspace = angular.module('workspace', [])
             $scope.reviewOffset = 0;
             $scope.filtering_tests = null;
             $scope.workspace = "Select";
-            $scope.new_name = {};
+            $scope.form_data = {};
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filtering_tests = data;
             });
@@ -314,7 +314,7 @@ var workspace = angular.module('workspace', [])
             $scope.checkLoadedDetection = function() {
                 $scope.loadHTML();
                 var myElem = document.getElementById('ia-detection-form');
-                if (myElem != null){
+                if (myElem != null) {
                     clearInterval($scope.detectionChecker);
                     $scope.reviewReady = true;
 
