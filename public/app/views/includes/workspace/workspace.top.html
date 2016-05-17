@@ -4,7 +4,7 @@
   </md-button>
   <md-menu>
     <md-button class="md-primary" aria-label="Workspace Selector" ng-click="$mdOpenMenu($event)">
-      {{workspace}}
+      {{workspace}}&nbsp;<i class="fa fa-caret-down"></i>
       <md-tooltip>
         Select workspace.
       </md-tooltip>
@@ -45,17 +45,13 @@
       </md-tooltip>
     </md-button>
   </div>
-  <div class="input-group">
-  <md-input-container class="md-primary" ng-if="saving">
-    <input ng-model="new_name.form_data" type="text" placeholder="enter a name">
-    <md-button class="md-icon-button" ng-click="$parent.saving=false">
-      <i class="fa fa-remove" />
-    </md-button>
-    <md-button class="md-icon-button" ng-click="saveWorkspace(); $parent.saving=false">
-      <i class="fa fa-save" />
-    </md-button>
-  </md-input-container>
-  </div>
+  <input ng-model="new_name.form_data" type="text" placeholder="enter a name" ng-if="saving">
+  <md-button class="md-fab md-mini md-warn" ng-click="$parent.saving=false"  ng-if="saving">
+    <i class="fa fa-remove" />
+  </md-button>
+  <md-button class="md-fab md-mini" ng-click="saveWorkspace(); $parent.saving=false"  ng-if="saving">
+    <i class="fa fa-save" />
+  </md-button>
   <span flex></span>
   <md-menu md-position-mode="target-right target">
     <md-button aria-label="View Selector" ng-click="$mdOpenMenu($event)">
