@@ -479,10 +479,8 @@ var workspace = angular.module('workspace', [])
                 type: "s3",
                 updateType: function() {
                     var t = $routeParams.upload;
-                    if (t) {
-                        if (_.indexOf($scope.upload.types, t) !== -1) {
-                            $scope.upload.type = t;
-                        }
+                    if (t && _.indexOf($scope.upload.types, t) !== -1) {
+                        $scope.upload.type = t;
                     }
                     console.log($scope.upload.type);
                 },
@@ -581,16 +579,7 @@ var workspace = angular.module('workspace', [])
                 angular.element($('#' + id)).click();
             };
 
-            AWS.config.update({
-                accessKeyId: 'AKIAJFVBLOTSKZ5554EA',
-                secretAccessKey: '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'
-            });
-            AWS.config.region = 'us-west-2';
-            $scope.uploader = new AWS.S3({
-                params: {
-                    Bucket: 'flukebook-dev-upload-tmp'
-                }
-            });
+            $scope.upload.updateType();
         }
     ])
     .factory('reader-factory', ['$q', function($q) {

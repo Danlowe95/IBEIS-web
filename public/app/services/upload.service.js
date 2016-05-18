@@ -8,11 +8,6 @@ angular.module('upload.service', [])
             secretAccessKey: AWS_SECRET_ACCESS_KEY
         });
         AWS.config.region = 'us-west-2';
-        var s3Uploader = new AWS.S3({
-            params: {
-                Bucket: 'flukebook-dev-upload-tmp'
-            }
-        });
 
         // upload
         factory.types = ["s3", "local"];
@@ -21,15 +16,14 @@ angular.module('upload.service', [])
             // retrieve a mediaAssetSetId
             requestMediaAssetSet().success(function(data) {
                 var mediaAssetSetId = data.mediaAssetSetId;
-                var typeIndex = _.indexOf(factory.types, type);
-                switch (typeIndex) {
+                switch (_.indexOf(factory.types, type)) {
                     case 0:
                         // s3
                         s3Upload(mediaAssetSetId, images, progressCallback, completionCallback);
                         break;
                     case 1:
                         // local
-                        directUpload(mediaAssetSetId, images, progressCallback, completionCallback);
+                        flowUpload(mediaAssetSetId, images, progressCallback, completionCallback);
                         break;
                     default:
                         // doesn't exist
@@ -42,6 +36,11 @@ angular.module('upload.service', [])
         // upload to s3
         var s3Upload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
             console.log("DOING S3 UPLOAD");
+            var s3Uploader = new AWS.S3({
+                params: {
+                    Bucket: 'flukebook-dev-upload-tmp'
+                }
+            });
             var count = 0;
             for (i in images) {
                 var key = mediaAssetSetId + '/' + images[i].name;
@@ -78,14 +77,58 @@ angular.module('upload.service', [])
                     }
                     if (index >= 0) {
                         progressCallback(index, progress);
+                    } else {
+                        // TODO: not found error handle
                     }
                 });
             };
         };
 
-        // upload to local server
-        var localUpload = function(mediaAssetSetId, images, progressCallback) {
-            console.log("DOING LOCAL UPLOAD");
+        // upload to local server with flow
+        var flowUpload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
+            var flow = new Flow({
+                target: 'http://springbreak.wildbook.org/ResumableUpload',
+                forceChunkSize: true,
+                query: {
+                    mediaAssetSetId: mediaAssetSetId
+                },
+                testChunks: false
+            });
+            // flowUploader.assignBrowse($('#' + uploadButtonID));
+            flow.on('fileProgress', function(file, chunk) {
+                var progress = Math.round(file._prevUploadedSize / file.size * 100);
+                var index = -1;
+                var fileKey = mediaAssetSetId + '/' + file.name;
+                for (var i = 0; i < images.length; i++) {
+                    var testKey = mediaAssetSetId + '/' + images[i].name;
+                    if (testKey === fileKey) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index >= 0) {
+                    progressCallback(index, progress);
+                } else {
+                    // TODO: not found error handle
+                }
+            });
+            flow.on('fileSuccess', function(file, message, chunk) {
+                console.log(file);
+                // TODO: create media assets for flow files
+            });
+            flow.on('fileError', function(file, message, chunk) {
+                // TODO: handle error
+            });
+            flow.on('complete', function() {
+                // TODO: if media assets created automatically, use this for completion
+                //  otherwise, use fileSuccess and count
+            });
+
+            // add files to flow and upload
+            for (i in images) {
+                flow.addFile(images[i]);
+            };
+            flow.upload();
         };
 
         // request mediaAssetSet
