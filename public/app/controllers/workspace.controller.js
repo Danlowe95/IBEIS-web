@@ -489,6 +489,7 @@ var workspace = angular.module('workspace', [])
                     $scope.upload.updateProgress();
                 },
                 completionCallback: function(mediaAssetSetId) {
+                    $scope.upload.stage = 2;
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to see your uploaded images?')
                         .textContent('Here is the media asset set id: ' + mediaAssetSetId)

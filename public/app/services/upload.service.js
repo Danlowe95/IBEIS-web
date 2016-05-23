@@ -2,13 +2,6 @@ angular.module('upload.service', [])
     .factory('Upload', ['$http', function($http) {
         var factory = {};
 
-        // AWS Uploader Config
-        AWS.config.update({
-            accessKeyId: AWS_ACCESS_KEY_ID,
-            secretAccessKey: AWS_SECRET_ACCESS_KEY
-        });
-        AWS.config.region = 'us-west-2';
-
         // upload
         factory.types = ["s3", "local"];
         factory.upload = function(images, type, progressCallback, completionCallback) {
@@ -35,6 +28,12 @@ angular.module('upload.service', [])
 
         // upload to s3
         var s3Upload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
+            // AWS Uploader Config
+            AWS.config.update({
+                accessKeyId: AWS_ACCESS_KEY_ID,
+                secretAccessKey: AWS_SECRET_ACCESS_KEY
+            });
+            AWS.config.region = 'us-west-2';
             console.log("DOING S3 UPLOAD");
             var s3Uploader = new AWS.S3({
                 params: {
@@ -107,6 +106,7 @@ angular.module('upload.service', [])
                     }
                 }
                 if (index >= 0) {
+                    console.log(index + " : " + progress);
                     progressCallback(index, progress);
                 } else {
                     // TODO: not found error handle
