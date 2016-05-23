@@ -6,12 +6,12 @@
   <md-content layout-padding>
     <form>
       <div>
-        <ul ng-repeat="field in filtering_tests['org.ecocean.Encounter'].fields">
+        <ul ng-repeat="field in filter.filtering_tests['org.ecocean.Encounter'].fields">
           <div ng-if="field.values">
             <li>
               <md-input-container>
                 <label>{{field.name}}</label>
-                <md-select ng-model="filterData[field.property]">
+                <md-select ng-model="filter.filterData[field.property]">
                   <!-- <md-option name="blank" ng-value="none">----</md-option> -->
                   <md-option ng-repeat="option in field.values" value="{{option}}">{{field.labels[$index]}}</md-option>
                 </md-select>
@@ -23,7 +23,7 @@
               <div layout-gt-sm="row">
                 <md-input-container class="sm-block" flex-gt-sm>
                   <label>{{field.name}}</label>
-                  <input ng-model="filterData[field.property]">
+                  <input ng-model="filter.filterData[field.property]">
                 </md-input-container>
               </div>
             </li>
@@ -33,7 +33,7 @@
               <div layout-gt-sm="row">
                 <md-input-container class="sm-block" flex-gt-sm>
                   <label>{{field.name}}</label>
-                  <input required ng-pattern="/^[0-9]*$/" ng-model="filterData[field.property]">
+                  <input required ng-pattern="/^[0-9]*$/" ng-model="filter.filterData[field.property]">
                 </md-input-container>
               </div>
             </li>
@@ -41,7 +41,7 @@
         </ul>
       </div>
       <div layout="row">
-        <md-button ng-click="submitFilters()" class="md-primary" flex>
+        <md-button ng-click="filter.submitFilters()" class="md-primary" flex>
           Apply
         </md-button>
         <md-button ng-click="close('filter')" class="md-primary" flex>

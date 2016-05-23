@@ -4,13 +4,10 @@ var workspace = angular.module('workspace', [])
         function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Upload) {
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
-            $scope.filtering_tests = null;
+
             $scope.workspace = "Select";
             $scope.new_name = {};
             $scope.reviewData = {};
-            $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
-                $scope.filtering_tests = data;
-            });
 
             $scope.queryWorkspace = function(params) {
                 $scope.workspace_args = params;
@@ -76,18 +73,7 @@ var workspace = angular.module('workspace', [])
             };
 
             //TODO comment what this does
-            $scope.undoFilter = function() {
-                var toast = $mdToast.simple()
-                    .content('You undid your last filter!')
-                    .action('REDO')
-                    .highlightAction(false)
-                    .position($scope.getToastPosition());
-                $mdToast.show(toast).then(function(response) {
-                    if (response == 'redo') {
-                        alert('You redid the filter.');
-                    }
-                });
-            };
+
 
             $scope.image_index = -1;
 
@@ -179,13 +165,35 @@ var workspace = angular.module('workspace', [])
 
             /* FILTERING */
             //used to catch all form data for filtering and send in for query
-            $scope.filterData = {};
-            $scope.submitFilters = function() {
-                var params = JSON.stringify($scope.filterData);
-                $scope.queryWorkspace(params);
-                $scope.close('filter');
+
+            $scope.filter = {
+                filtering_tests: null,
+                filterData: {},
+                submitFilters: function() {
+                    var params = JSON.stringify($scope.filter.filterData);
+                    $scope.queryWorkspace(params);
+                    $scope.close('filter');
+
+                },
+
+                undoFilter: function() {
+                    var toast = $mdToast.simple()
+                        .content('You undid your last filter!')
+                        .action('REDO')
+                        .highlightAction(false)
+                        .position($scope.getToastPosition());
+                    $mdToast.show(toast).then(function(response) {
+                        if (response == 'redo') {
+                            alert('You redid the filter.');
+                        }
+                    });
+                }
 
             };
+
+            $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
+                $scope.filter.filtering_tests = data;
+            });
 
             $scope.convertDateTime = function(dateTime) {
                 try {
@@ -194,57 +202,172 @@ var workspace = angular.module('workspace', [])
                     return "No Date Provided";
                 }
             };
+            $scope.identification = {
+                startIdentification: function(ev) {
 
-            $scope.startDetection = function(ev) {
-                //create javascript for loop to get all ids, send all ids to
-                image_ids = [];
-                var i;
-                for (i = 0; i < $scope.currentSlides.length; i++) {
-                    image_ids.push($scope.currentSlides[i].id);
-                }
-                var detect_data = "{detect: [" + image_ids + "]}";
-                $.ajax({
-                    type: "POST",
-                    url: 'http://springbreak.wildbook.org/ia',
-                    data: detect_data,
-                    dataType: "json",
-                    contentType: 'application/javascript'
-                }).then(function(data) {
-                    // this callback will be called asynchronously
-                    // when the response is available
-                    $scope.$apply(function() {
-                        $scope.last_jobid = data.sendDetect.response;
-                        console.log("New jobID " + data.sendDetect.response);
+                },
+                showIdentificationReview: function(ev) {
+                    // $scope.startCheckDetection();
+                    $mdDialog.show({
+                        scope: $scope,
+                        preserveScope: true,
+                        templateUrl: 'app/views/includes/workspace/identification.review.html',
+                        targetEvent: ev,
+                        clickOutsideToClose: false,
+                        fullscreen: true
 
-                        $scope.showDetectionReview(ev);
-                    })
-                }).fail(function(data) {
+                    });
+                },
+                submitIdentificationReview: function() {
+                    $('#ia-identification-form').submit(function(ev) {
+                        ev.preventDefault();
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: $(this).attr('method'),
+                            dataType: 'json',
+                            data: $(this).serialize()
 
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                        .clickOutsideToClose(true)
-                        .title('Error')
-                        .textContent('No Response from IA server.')
-                        .ariaLabel('IA Error')
-                        .ok('OK')
-                        .targetEvent(ev)
-                    )
-                });
+                        }).then(function(data) {
+                            console.log("done");
+                        }).fail(function(data) {
+                            console.log("error");
+                        });
+                        return false;
+                    });
+                    $('#ia-detection-form').submit();
+                },
+                loadIdentificationHTML: function() {
+                    $scope.reviewOffset = 0;
+                    console.log("http://springbreak.wildbook.org/ia?getIdentificationReviewHtml=" + $scope.last_jobid);
+                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getIdentificationReviewHtml=" + $scope.last_jobid);
+                },
+
             };
 
+            $scope.detection = {
+                startDetection: function(ev) {
+                    //create javascript for loop to get all ids, send all ids to
+                    image_ids = [];
+                    var i;
+                    for (i = 0; i < $scope.currentSlides.length; i++) {
+                        image_ids.push($scope.currentSlides[i].id);
+                    }
+                    var detect_data = "{detect: [" + image_ids + "]}";
+                    $.ajax({
+                        type: "POST",
+                        url: 'http://springbreak.wildbook.org/ia',
+                        data: detect_data,
+                        dataType: "json",
+                        contentType: 'application/javascript'
+                    }).then(function(data) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.$apply(function() {
+                            $scope.last_jobid = data.sendDetect.response;
+                            console.log("New jobID " + data.sendDetect.response);
 
-            function ImageDialogController($scope, $mdDialog, image_index, currentSlides) {
-                $scope.image_index = image_index;
-                $scope.currentSlides = currentSlides;
-                $scope.hide = function() {
-                    $mdDialog.hide();
-                };
-                $scope.cancel = function() {
+                            $scope.detection.showDetectionReview(ev);
+                        })
+                    }).fail(function(data) {
+
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Error')
+                            .textContent('No Response from IA server.')
+                            .ariaLabel('IA Error')
+                            .ok('OK')
+                            .targetEvent(ev)
+                        )
+                    });
+                },
+                startCheckDetection: function() {
+                    $scope.reviewData.reviewReady = false;
+                    $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 3000);
+                },
+
+                checkLoadedDetection: function() {
+                    $scope.detection.loadDetectionHTML();
+                    var myElem = document.getElementById('ia-detection-form');
+                    if (myElem != null) {
+                        clearInterval($scope.detection.detectionChecker);
+                        $scope.reviewData.reviewReady = true;
+
+                    }
+                },
+                showDetectionReview: function(ev) {
+                    $scope.detection.startCheckDetection();
+                    $mdDialog.show({
+                        scope: $scope,
+                        preserveScope: true,
+                        templateUrl: 'app/views/includes/workspace/detection.review.html',
+                        targetEvent: ev,
+                        clickOutsideToClose: false,
+                        fullscreen: true
+
+                    });
+                },
+
+                detectDialogCancel: function() {
                     $mdDialog.cancel();
-                };
-                $scope.answer = function(answer) {
-                    $mdDialog.hide(answer);
-                };
+                },
+                //unused?
+                detectDialogHide: function() {
+                    $mdDialog.hide();
+                },
+
+                submitDetectionReview: function() {
+                    $('#ia-detection-form').submit(function(ev) {
+                        ev.preventDefault();
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: $(this).attr('method'),
+                            dataType: 'json',
+                            data: $(this).serialize()
+
+                        }).then(function(data) {
+                            console.log("done");
+                        }).fail(function(data) {
+                            console.log("error");
+                        });
+                        return false;
+                    });
+                    $('#ia-detection-form').submit();
+                },
+
+                incrementOffset: function() {
+                    $scope.detection.submitDetectionReview();
+                    //add logic for only allowing numbers in range of images
+                    $scope.reviewOffset = $scope.reviewOffset + 1;
+                    $scope.detection.loadDetectionHTMLwithOffset();
+                },
+
+                decrementOffset: function() {
+                    $scope.detection.submitDetectionReview();
+                    //add logic for only allowing numbers in range of images
+                    $scope.reviewOffset = $scope.reviewOffset - 1;
+                    $scope.detection.loadDetectionHTMLwithOffset();
+                },
+
+                endReview: function() {
+                    //do Submit of current review
+                    $scope.detection.submitDetectionReview();
+                    //exit
+                    $scope.detection.detectDialogCancel();
+                },
+
+                loadDetectionHTMLwithOffset: function() {
+                    console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
+                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
+
+                },
+                loadDetectionHTML: function() {
+                    $scope.reviewOffset = 0;
+                    console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
+                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
+                }
+
+
             };
 
 
@@ -279,6 +402,21 @@ var workspace = angular.module('workspace', [])
                 );
             }
 
+            /* IMAGE INFO DIALOG */
+            function ImageDialogController($scope, $mdDialog, image_index, currentSlides) {
+                $scope.image_index = image_index;
+                $scope.currentSlides = currentSlides;
+                $scope.hide = function() {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function(answer) {
+                    $mdDialog.hide(answer);
+                };
+            };
+
             $scope.showImageInfo = function(ev, index) {
                 $scope.image_index = index;
                 $mdDialog.show({
@@ -298,92 +436,6 @@ var workspace = angular.module('workspace', [])
                 }, function(wantsFullScreen) {
                     $scope.customFullscreen = (wantsFullScreen === true);
                 });
-            };
-            $scope.startCheckDetection = function() {
-                $scope.reviewData.reviewReady = false;
-                $scope.detectionChecker = setInterval($scope.checkLoadedDetection, 3000);
-
-            };
-
-            $scope.checkLoadedDetection = function() {
-                $scope.loadHTML();
-                var myElem = document.getElementById('ia-detection-form');
-                if (myElem != null) {
-                    clearInterval($scope.detectionChecker);
-                    $scope.reviewData.reviewReady = true;
-
-                }
-            };
-            $scope.showDetectionReview = function(ev) {
-                $scope.startCheckDetection();
-                $mdDialog.show({
-                    scope: $scope,
-                    preserveScope: true,
-                    templateUrl: 'app/views/includes/workspace/detection.review.html',
-                    targetEvent: ev,
-                    clickOutsideToClose: false,
-                    fullscreen: true
-
-                });
-            };
-
-            $scope.detectDialogCancel = function() {
-                $mdDialog.cancel();
-            };
-            //unused?
-            $scope.detectDialogHide = function() {
-                $mdDialog.hide();
-            };
-
-            $scope.submitDetectionReview = function() {
-                $('#ia-detection-form').submit(function(ev) {
-                    ev.preventDefault();
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        type: $(this).attr('method'),
-                        dataType: 'json',
-                        data: $(this).serialize()
-
-                    }).then(function(data) {
-                        console.log("done");
-                    }).fail(function(data) {
-                        console.log("error");
-                    });
-                    return false;
-                });
-                $('#ia-detection-form').submit();
-            };
-
-            $scope.incrementOffset = function() {
-                $scope.submitDetectionReview();
-                //add logic for only allowing numbers in range of images
-                $scope.reviewOffset = $scope.reviewOffset + 1;
-                $scope.loadHTMLwithOffset();
-            };
-
-            $scope.decrementOffset = function() {
-                $scope.submitDetectionReview();
-                //add logic for only allowing numbers in range of images
-                $scope.reviewOffset = $scope.reviewOffset - 1;
-                $scope.loadHTMLwithOffset();
-            };
-
-            $scope.endReview = function() {
-                //do Submit of current review
-                $scope.submitDetectionReview();
-                //exit
-                $scope.detectDialogCancel();
-            };
-
-            $scope.loadHTMLwithOffset = function() {
-                console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
-                $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
-
-            };
-            $scope.loadHTML = function() {
-                $scope.reviewOffset = 0;
-                console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
-                $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
             };
 
             // $scope.modes = ['workspace', 'upload'];
