@@ -132,6 +132,7 @@ var workspace = angular.module('workspace', [])
                     .then(function(data) {
 
                         $scope.$apply(function() {
+                            console.log(data);
                             $scope.currentSlides = data.assets;
                             $scope.workspace = id_;
                             $scope.workspace_args = data.metadata.TranslateQueryArgs;
@@ -543,6 +544,7 @@ var workspace = angular.module('workspace', [])
                     $scope.upload.updateProgress();
                 },
                 completionCallback: function(mediaAssetSetId) {
+                    $scope.setWorkspace($scope.workspace);
                     $scope.upload.stage = 2;
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to see your uploaded images?')
@@ -558,7 +560,7 @@ var workspace = angular.module('workspace', [])
                         };
                         $scope.queryWorkspace(query);
                     }, function() {
-                        $scope.upload.show();
+                        // $scope.upload.show();
                         console.log("said no to changing!");
                     });
                 },
