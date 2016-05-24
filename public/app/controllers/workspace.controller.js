@@ -506,6 +506,8 @@ var workspace = angular.module('workspace', [])
                         return val;
                     }, true);
 
+                    console.log(justFiles);
+
                     var fileEquality = function(f1, f2) {
                         if (f1.name != f2.name) return false;
                         if (f1.size != f2.size) return false;
@@ -543,6 +545,7 @@ var workspace = angular.module('workspace', [])
                 },
                 completionCallback: function(mediaAssetSetId) {
                     $scope.setWorkspace($scope.workspace);
+                    $scope.upload.stage = 2;
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to see your uploaded images?')
                         .textContent('Here is the media asset set id: ' + mediaAssetSetId)

@@ -8,8 +8,21 @@
         <md-menu-content>
           <md-menu-item>
             <md-button ng-click="upload.show()">
-              Upload Dialog
+              Upload Images
             </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-menu>
+              <md-button ng-click="$mdOpenMenu()">Upload with Metadata File</md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <md-button>File Type 1</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button>File Type 2</md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
           </md-menu-item>
           <md-menu-item>
             <md-button ng-click="showShareDialog()" ng-disabled="mode == 'upload'">

@@ -87,7 +87,7 @@ angular.module('upload.service', [])
         var flowUpload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
             var flow = new Flow({
                 target: 'http://springbreak.wildbook.org/ResumableUpload',
-                forceChunkSize: true,
+                // forceChunkSize: true,
                 query: {
                     mediaAssetSetId: mediaAssetSetId
                 },
@@ -106,6 +106,7 @@ angular.module('upload.service', [])
                     }
                 }
                 if (index >= 0) {
+                    console.log(index + " : " + progress);
                     progressCallback(index, progress);
                 } else {
                     // TODO: not found error handle
@@ -125,6 +126,9 @@ angular.module('upload.service', [])
 
             // add files to flow and upload
             for (i in images) {
+                delete images[i].$$hashKey;
+                delete images[i].imageSrc;
+                console.log(images[i]);
                 flow.addFile(images[i]);
             };
             flow.upload();
