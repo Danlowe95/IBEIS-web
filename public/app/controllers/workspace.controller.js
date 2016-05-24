@@ -505,6 +505,8 @@ var workspace = angular.module('workspace', [])
                         return val;
                     }, true);
 
+                    console.log(justFiles);
+
                     var fileEquality = function(f1, f2) {
                         if (f1.name != f2.name) return false;
                         if (f1.size != f2.size) return false;

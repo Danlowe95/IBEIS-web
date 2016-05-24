@@ -126,6 +126,9 @@ angular.module('upload.service', [])
 
             // add files to flow and upload
             for (i in images) {
+                delete images[i].$$hashKey;
+                delete images[i].imageSrc;
+                console.log(images[i]);
                 flow.addFile(images[i]);
             };
             flow.upload();
