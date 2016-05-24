@@ -87,7 +87,7 @@ angular.module('upload.service', [])
         var flowUpload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
             var flow = new Flow({
                 target: 'http://springbreak.wildbook.org/ResumableUpload',
-                forceChunkSize: true,
+                // forceChunkSize: true,
                 query: {
                     mediaAssetSetId: mediaAssetSetId
                 },
