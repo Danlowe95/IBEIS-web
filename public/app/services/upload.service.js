@@ -130,7 +130,7 @@ angular.module('upload.service', [])
                 console.log(image);
                 delete image.imageSrc;
                 console.log(image);
-                flow.addFile(images[i]);
+                flow.addFile(image);
             };
             flow.upload();
         };
