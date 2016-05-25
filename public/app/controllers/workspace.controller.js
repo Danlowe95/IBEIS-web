@@ -580,14 +580,15 @@ var workspace = angular.module('workspace', [])
 
                     $scope.upload.mediaAssetSetId = mediaAssetSetId;
 
-                    $mdDialog.show({
+                    $mdDialog.show($scope.upload.completionDialog.dialog);
+                },
+                completionDialog: {
+                    dialog: {
                         templateUrl: 'app/views/includes/workspace/completed_upload.dialog.html',
                         clickOutsideToClose: false,
                         preserveScope: true,
                         scope: $scope
-                    });
-                },
-                completionDialog: {
+                    },
                     workspace_name: "",
                     completeUpload: function(mediaAssetSetId) {
                         console.log("COMPLETING UPLOAD: creating a workspace");
@@ -615,7 +616,7 @@ var workspace = angular.module('workspace', [])
                                 console.log(data);
                                 $scope.queryWorkspaceList();
                             });
-
+                        $mdDialog.hide($scope.upload.completionDialog.dialog);
                     },
                     generateName: function() {
                         console.log("GENERATING NAME");
