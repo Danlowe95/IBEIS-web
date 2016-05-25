@@ -316,18 +316,21 @@ var workspace = angular.module('workspace', [])
                 //used to query for results every 3 seconds until it gets a response
                 startCheckDetection: function() {
                     $scope.reviewData.reviewReady = false;
-                    $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 3000);
+                    $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 500);
                 },
                 //check function every x seconds
                 checkLoadedDetection: function() {
+
                     $scope.detection.loadDetectionHTML();
                     var myElem = document.getElementById('ia-detection-form');
                     if (myElem != null) {
                         clearInterval($scope.detection.detectionChecker);
-                        $scope.reviewData.reviewReady = true;
-
+                        $scope.$apply(function() {
+                            $scope.reviewData.reviewReady = true;
+                        });
                     }
                 },
+
                 //creates a dialog
                 showDetectionReview: function(ev) {
                     $scope.detection.startCheckDetection();
