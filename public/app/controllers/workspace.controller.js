@@ -617,6 +617,7 @@ var workspace = angular.module('workspace', [])
                                 $scope.queryWorkspaceList();
                             });
                         $mdDialog.hide($scope.upload.completionDialog.dialog);
+                        $scope.upload.completionDialog.reset();
                     },
                     generateName: function() {
                         console.log("GENERATING NAME");
@@ -625,6 +626,9 @@ var workspace = angular.module('workspace', [])
                         var timeString = date.toTimeString();
                         var generated = dateString + " " + timeString;
                         $scope.upload.completionDialog.workspace_name = generated;
+                    },
+                    reset: function() {
+                        $scope.upload.completionDialog.workspace_name = "";
                     }
                 },
                 upload: function() {
