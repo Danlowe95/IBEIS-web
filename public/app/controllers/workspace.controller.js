@@ -145,9 +145,10 @@ var workspace = angular.module('workspace', [])
             $scope.saveWorkspace = function() {
                 //this has to have user input
                 var params = $.param({
-                    id: $scope.new_name.form_data,
+                    id: String($scope.new_name.form_data),
                     args: JSON.stringify($scope.workspace_args)
                 });
+                console.log(params);
                 $.ajax({
                         type: "POST",
                         url: 'http://springbreak.wildbook.org/WorkspaceServer',
