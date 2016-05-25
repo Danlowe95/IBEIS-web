@@ -87,7 +87,8 @@ angular.module('upload.service', [])
         var flowUpload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
             var flow = new Flow({
                 target: 'http://springbreak.wildbook.org/ResumableUpload',
-                // forceChunkSize: true,
+                forceChunkSize: true,
+                maxChunkRetries: 5,
                 query: {
                     mediaAssetSetId: mediaAssetSetId
                 },
@@ -122,15 +123,14 @@ angular.module('upload.service', [])
             flow.on('complete', function() {
                 // TODO: if media assets created automatically, use this for completion
                 //  otherwise, use fileSuccess and count
+                console.log("All flow uploads completed");
             });
 
             // add files to flow and upload
             for (i in images) {
-                delete images[i].$$hashKey;
-                delete images[i].imageSrc;
-                console.log(images[i]);
                 flow.addFile(images[i]);
             };
+            console.log(flow.files);
             flow.upload();
         };
 
