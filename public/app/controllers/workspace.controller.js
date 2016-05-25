@@ -430,7 +430,6 @@ var workspace = angular.module('workspace', [])
                         image_index: $scope.image_index,
                         currentSlides: $scope.currentSlides
                     }
-
                 });
                 $scope.$watch(function() {
                     return $mdMedia('xs') || $mdMedia('sm');
@@ -546,23 +545,54 @@ var workspace = angular.module('workspace', [])
                 completionCallback: function(mediaAssetSetId) {
                     $scope.setWorkspace($scope.workspace);
                     $scope.upload.stage = 2;
-                    var confirm = $mdDialog.confirm()
-                        .title('Would you like to see your uploaded images?')
-                        .textContent('Here is the media asset set id: ' + mediaAssetSetId)
-                        .ok('Yes')
-                        .cancel("No");
-                    $mdDialog.show(confirm).then(function() {
+
+                    $scope.upload.mediaAssetSetId = mediaAssetSetId;
+
+                    $mdDialog.show({
+                        templateUrl: 'app/views/includes/workspace/completed_upload.dialog.html',
+                        clickOutsideToClose: false,
+                        preserveScope: true,
+                        scope: $scope
+                    });
+                },
+                completionDialog: {
+                    workspace_name: "",
+                    completeUpload: function(mediaAssetSetId) {
+                        console.log("COMPLETING UPLOAD: creating a workspace");
                         var query = {
                             class: 'org.ecocean.media.MediaAssetSet',
                             query: JSON.stringify({
-                                id: mediaAssetSetId
+                                id: $scope.upload.mediaAssetSetId
                             })
                         };
-                        $scope.queryWorkspace(query);
-                    }, function() {
-                        // $scope.upload.show();
-                        console.log("said no to changing!");
-                    });
+                        var params = $.param({
+                            id: $scope.upload.completionDialog.workspace_name,
+                            args: JSON.stringify(query)
+                        });
+                        $.ajax({
+                                type: "POST",
+                                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                                data: params,
+                                dataType: "json"
+                            })
+                            .then(function(data) {
+                                // $scope.currentSlides = data.assets;
+                                $scope.queryWorkspaceList();
+                            }).fail(function(data) {
+                                console.log("success or failure - needs fixing");
+                                console.log(data);
+                                $scope.queryWorkspaceList();
+                            });
+
+                    },
+                    generateName: function() {
+                        console.log("GENERATING NAME");
+                        var date = new Date();
+                        var dateString = date.toDateString();
+                        var timeString = date.toTimeString();
+                        var generated = dateString + " " + timeString;
+                        $scope.upload.completionDialog.workspace_name = generated;
+                    }
                 },
                 upload: function() {
                     $scope.upload.stage = 1;
