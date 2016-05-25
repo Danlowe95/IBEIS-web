@@ -180,7 +180,12 @@ td {
 .img-text {
     vertical-align: middle;
 }
-
+.detect-icon{
+    color: red;
+}
+.identification-icon{
+    color: red;
+}
 md-dialog.fullscreen-dialog {
     max-width: 90%;
     max-height: 90%;

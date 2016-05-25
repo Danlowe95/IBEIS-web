@@ -13,6 +13,14 @@
       <md-menu-item ng-repeat="w in workspaces">
         <md-button ng-click="setWorkspace(w)">
           <div layout="row">
+            <span>
+
+            <i class="fa fa-object-group detect-icon" ></i>
+            </span>
+            <span class="fa-stack identication-icon">
+             <i class="fa fa-eye fa-stack-1x"></i>
+             <i class="fa fa-tag fa-stack-2x identification-icon"></i>
+          </span>
             <p flex>
               {{w}}
             </p>
@@ -54,10 +62,10 @@
     </md-button>
   </div>
   <input id="save_text_input" ng-model="new_name.form_data" type="text" placeholder="enter a name" ng-if="saving">
-  <md-button class="md-fab md-mini md-warn" ng-click="$parent.saving=false"  ng-if="saving">
+  <md-button class="md-fab md-mini md-warn" ng-click="$parent.saving=false" ng-if="saving">
     <i class="fa fa-remove" />
   </md-button>
-  <md-button class="md-fab md-mini" ng-click="saveWorkspace(); $parent.saving=false"  ng-if="saving">
+  <md-button class="md-fab md-mini" ng-click="saveWorkspace(); $parent.saving=false" ng-if="saving">
     <i class="fa fa-save" />
   </md-button>
   <span flex></span>
