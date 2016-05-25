@@ -163,7 +163,34 @@ var workspace = angular.module('workspace', [])
                         $scope.queryWorkspaceList();
                     });
             };
+            $scope.deleteWorkspace = function() {
+                var confirm = $mdDialog.confirm()
+                    .title('Are you sure you want to delete this workspace?')
+                    .textContent('This will delete the current filtering parameters.  All of your images will remain in the database.')
+                    .ok('Yes')
+                    .cancel("No");
+                $mdDialog.show(confirm).then(function() {
+                    $.ajax({
+                            type: "POST",
+                            url: 'http://springbreak.wildbook.org/WorkspaceDelete',
+                            data: {
+                                id: $scope.workspace
+                            },
+                            dataType: "json"
+                        })
+                        .then(function(data) {
+                            // $scope.currentSlides = data.assets;
+                            $scope.queryWorkspaceList();
+                        }).fail(function(data) {
+                            console.log("success or failure - needs fixing");
+                            console.log(data);
+                            $scope.queryWorkspaceList();
+                        });
+                }, function() {
+                    console.log("said no to changing!");
+                });
 
+            };
             /* FILTERING */
             //used to catch all form data for filtering and send in for query
             $scope.filter = {
@@ -474,7 +501,7 @@ var workspace = angular.module('workspace', [])
 
 
             //everything below is upload
-            
+
             // stages:
             //  - 0 = select
             //  - 1 = upload
