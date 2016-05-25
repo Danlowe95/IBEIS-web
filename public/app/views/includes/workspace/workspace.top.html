@@ -4,10 +4,10 @@
   </md-button>
   <md-menu>
     <md-button class="md-primary" aria-label="Workspace Selector" ng-click="$mdOpenMenu($event)">
-      {{workspace}}&nbsp;<i class="fa fa-caret-down"></i>
-      <md-tooltip>
+      Workspace&nbsp;<i class="fa fa-caret-down"></i>
+      <!-- <md-tooltip>
         Select workspace.
-      </md-tooltip>
+      </md-tooltip> -->
     </md-button>
     <md-menu-content width="4">
       <md-menu-item ng-repeat="w in workspaces">
@@ -105,6 +105,6 @@
 </div>
 <script>
   $("#save_text_input").alphanum({
-    allow: '-_'
+    allow: '-_:'
   });
 </script>
