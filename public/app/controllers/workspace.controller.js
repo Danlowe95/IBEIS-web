@@ -2,13 +2,15 @@ var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
         '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Upload',
         function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Upload) {
+
+            //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
-
             $scope.workspace = "Select";
             $scope.new_name = {};
             $scope.reviewData = {};
 
+            //Might be outdated, used sometimes to query with specific parameters
             $scope.queryWorkspace = function(params) {
                 $scope.workspace_args = params;
                 $.ajax({
@@ -27,7 +29,7 @@ var workspace = angular.module('workspace', [])
                 })
             };
 
-            //query all workspaces
+            //query all workspaces to populate workspace dropdown
             $scope.queryWorkspaceList = function() {
                 $.ajax({
                         type: "GET",
@@ -47,6 +49,7 @@ var workspace = angular.module('workspace', [])
             }
             $scope.queryWorkspaceList();
 
+            //map variable
             $scope.map = {
                 center: {
                     latitude: 45,
@@ -62,7 +65,7 @@ var workspace = angular.module('workspace', [])
             };
 
 
-            //TODO comment what this does
+            //don't know, unused
             function sanitizePosition() {
                 var current = $scope.toastPosition;
                 if (current.bottom && last.top) current.top = false;
@@ -72,19 +75,14 @@ var workspace = angular.module('workspace', [])
                 last = angular.extend({}, current);
             };
 
-            //TODO comment what this does
-
-
+            //used for index in workspace
             $scope.image_index = -1;
 
+            //used for filtering/other sidenavs
             $scope.toggleSidenav = function(menuId) {
                 $mdSidenav(menuId).toggle();
             };
 
-            $scope.toggleImageSidenav = function(index) {
-                $scope.image_index = index;
-                $mdSidenav('image').toggle();
-            };
             var last = {
                 bottom: false,
                 top: true,
@@ -111,6 +109,7 @@ var workspace = angular.module('workspace', [])
             };
 
             /* TYPE MENU */
+            //Used for top-right selector to change the data between the below 3 items
             $scope.types = ['images', 'annotations', 'animals'];
             $scope.type = $scope.types[0];
 
@@ -142,6 +141,7 @@ var workspace = angular.module('workspace', [])
                     });
             };
 
+            //used when save button is pressed
             $scope.saveWorkspace = function() {
                 //this has to have user input
                 var params = $.param({
@@ -163,10 +163,36 @@ var workspace = angular.module('workspace', [])
                         $scope.queryWorkspaceList();
                     });
             };
+            $scope.deleteWorkspace = function() {
+                var confirm = $mdDialog.confirm()
+                    .title('Are you sure you want to delete this workspace?')
+                    .textContent('This will delete the current filtering parameters.  All of your images will remain in the database.')
+                    .ok('Yes')
+                    .cancel("No");
+                $mdDialog.show(confirm).then(function() {
+                    $.ajax({
+                            type: "POST",
+                            url: 'http://springbreak.wildbook.org/WorkspaceDelete',
+                            data: {
+                                id: $scope.workspace
+                            },
+                            dataType: "json"
+                        })
+                        .then(function(data) {
+                            // $scope.currentSlides = data.assets;
+                            $scope.queryWorkspaceList();
+                        }).fail(function(data) {
+                            console.log("success or failure - needs fixing");
+                            console.log(data);
+                            $scope.queryWorkspaceList();
+                        });
+                }, function() {
+                    console.log("said no to changing!");
+                });
 
+            };
             /* FILTERING */
             //used to catch all form data for filtering and send in for query
-
             $scope.filter = {
                 filtering_tests: null,
                 filterData: {},
@@ -191,11 +217,11 @@ var workspace = angular.module('workspace', [])
                 }
 
             };
-
+            //fake filtering data
             $http.get('assets/json/fakeClassDefinitions.json').success(function(data) {
                 $scope.filter.filtering_tests = data;
             });
-
+            //used in table view
             $scope.convertDateTime = function(dateTime) {
                 try {
                     return new Date(dateTime).toISOString().substring(0, 10);
@@ -203,6 +229,8 @@ var workspace = angular.module('workspace', [])
                     return "No Date Provided";
                 }
             };
+
+            //object where all identification methods are stored
             $scope.identification = {
                 startIdentification: function(ev) {
 
@@ -245,14 +273,16 @@ var workspace = angular.module('workspace', [])
 
             };
 
+            //object where all detection functions are stored
             $scope.detection = {
                 startDetection: function(ev) {
-                    //create javascript for loop to get all ids, send all ids to
+                    //get all image id's in the workspace
                     image_ids = [];
                     var i;
                     for (i = 0; i < $scope.currentSlides.length; i++) {
                         image_ids.push($scope.currentSlides[i].id);
                     }
+                    //put into data object to send
                     var detect_data = "{detect: [" + image_ids + "]}";
                     $.ajax({
                         type: "POST",
@@ -264,6 +294,7 @@ var workspace = angular.module('workspace', [])
                         // this callback will be called asynchronously
                         // when the response is available
                         $scope.$apply(function() {
+                            //detection has started.  Save the job id, then launch review
                             $scope.last_jobid = data.sendDetect.response;
                             console.log("New jobID " + data.sendDetect.response);
 
@@ -282,11 +313,12 @@ var workspace = angular.module('workspace', [])
                         )
                     });
                 },
+                //used to query for results every 3 seconds until it gets a response
                 startCheckDetection: function() {
                     $scope.reviewData.reviewReady = false;
                     $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 3000);
                 },
-
+                //check function every x seconds
                 checkLoadedDetection: function() {
                     $scope.detection.loadDetectionHTML();
                     var myElem = document.getElementById('ia-detection-form');
@@ -296,6 +328,7 @@ var workspace = angular.module('workspace', [])
 
                     }
                 },
+                //creates a dialog
                 showDetectionReview: function(ev) {
                     $scope.detection.startCheckDetection();
                     $mdDialog.show({
@@ -316,7 +349,7 @@ var workspace = angular.module('workspace', [])
                 detectDialogHide: function() {
                     $mdDialog.hide();
                 },
-
+                //on button click prev/next/saveandexit
                 submitDetectionReview: function() {
                     $('#ia-detection-form').submit(function(ev) {
                         ev.preventDefault();
@@ -335,33 +368,34 @@ var workspace = angular.module('workspace', [])
                     });
                     $('#ia-detection-form').submit();
                 },
-
+                //temp function
                 incrementOffset: function() {
                     $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
                     $scope.reviewOffset = $scope.reviewOffset + 1;
                     $scope.detection.loadDetectionHTMLwithOffset();
                 },
-
+                //temp function
                 decrementOffset: function() {
                     $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
                     $scope.reviewOffset = $scope.reviewOffset - 1;
                     $scope.detection.loadDetectionHTMLwithOffset();
                 },
-
+                //temp function
                 endReview: function() {
                     //do Submit of current review
                     $scope.detection.submitDetectionReview();
                     //exit
                     $scope.detection.detectDialogCancel();
                 },
-
+                //temp function
                 loadDetectionHTMLwithOffset: function() {
                     console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
                     $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
 
                 },
+                //queries for the actual detection html and sets it in the page
                 loadDetectionHTML: function() {
                     $scope.reviewOffset = 0;
                     console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid);
@@ -417,7 +451,7 @@ var workspace = angular.module('workspace', [])
                     $mdDialog.hide(answer);
                 };
             };
-
+            //launched on image click, uses the above controller
             $scope.showImageInfo = function(ev, index) {
                 $scope.image_index = index;
                 $mdDialog.show({
@@ -438,11 +472,6 @@ var workspace = angular.module('workspace', [])
                 });
             };
 
-            // $scope.modes = ['workspace', 'upload'];
-            $scope.mode = 'workspace';
-            $scope.setMode = function(m) {
-                $scope.mode = m;
-            };
 
             $scope.toggleLogo = function() {
                 var logo = $('#logo');
@@ -468,6 +497,9 @@ var workspace = angular.module('workspace', [])
                 }
             };
 
+
+
+            //everything below is upload
 
             // stages:
             //  - 0 = select
