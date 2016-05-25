@@ -10,7 +10,7 @@
         <p>Your upload has completed successfully! Now all you need to do is name your upload so you can return to this set of images at any time.</p>
         <md-input-container md-no-float class="md-block">
           <label>Workspace Name</label>
-          <input ng-model="upload.completionDialog.workspace_name" placeholder="Workspace Name" required>
+          <input id="workspace_name_input" ng-model="upload.completionDialog.workspace_name" placeholder="Workspace Name" required>
         </md-input-container>
       </div>
     </md-dialog-content>
@@ -24,3 +24,8 @@
     </md-dialog-actions>
   </form>
 </md-dialog>
+<script>
+  $("#workspace_name_input").alphanum({
+    allow: '-_'
+  });
+</script>

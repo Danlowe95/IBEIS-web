@@ -321,7 +321,6 @@ var workspace = angular.module('workspace', [])
                 },
                 //check function every x seconds
                 checkLoadedDetection: function() {
-
                     $scope.detection.loadDetectionHTML();
                     var myElem = document.getElementById('ia-detection-form');
                     if (myElem != null) {
@@ -331,7 +330,6 @@ var workspace = angular.module('workspace', [])
                         });
                     }
                 },
-
                 //creates a dialog
                 showDetectionReview: function(ev) {
                     $scope.detection.startCheckDetection();

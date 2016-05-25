@@ -94,7 +94,7 @@ angular.module('upload.service', [])
                 },
                 testChunks: false
             });
-            // flowUploader.assignBrowse($('#' + uploadButtonID));
+            var count = 0;
             flow.on('fileProgress', function(file, chunk) {
                 var progress = Math.round(file._prevUploadedSize / file.size * 100);
                 var index = -1;
@@ -115,7 +115,14 @@ angular.module('upload.service', [])
             });
             flow.on('fileSuccess', function(file, message, chunk) {
                 console.log(file);
-                // TODO: create media assets for flow files
+                var name = file.name;
+                createFlowFileMediaAsset(mediaAssetSetId, name).success(function(data) {
+                    console.log(data);
+                    count = count + 1;
+                    if (count >= images.length) {
+                        completionCallback(mediaAssetSetId);
+                    }
+                });
             });
             flow.on('fileError', function(file, message, chunk) {
                 // TODO: handle error
@@ -140,7 +147,7 @@ angular.module('upload.service', [])
             return $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet');
         };
 
-        // create MediaAsset
+        // create MediaAsset using s3 upload
         var createS3MediaAsset = function(mediaAssetSetId, uploadData) {
             var mediaAsset = {
                 MediaAssetCreate: [{
@@ -148,6 +155,20 @@ angular.module('upload.service', [])
                     assets: [{
                         bucket: uploadData.Bucket,
                         key: uploadData.key
+                    }]
+                }]
+            };
+
+            return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset);
+        };
+
+        // create MediaAsset using flow upload
+        var createFlowFileMediaAsset = function(mediaAssetSetId, fileName) {
+            var mediaAsset = {
+                MediaAssetCreate: [{
+                    setId: mediaAssetSetId,
+                    assets: [{
+                        filename: fileName
                     }]
                 }]
             };
