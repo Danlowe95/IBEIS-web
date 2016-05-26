@@ -22,7 +22,6 @@ var workspace = angular.module('workspace', [])
                     // this callback will be called asynchronously
                     // when the response is available
                     $scope.$apply(function() {
-
                         $scope.currentSlides = data.assets;
                         console.log($scope.currentSlides);
                     })
@@ -120,6 +119,9 @@ var workspace = angular.module('workspace', [])
             };
             /* WORKSPACES */
             $scope.setWorkspace = function(id_) {
+                // if trying to set to current workspace, break function
+                if ($scope.workspace === id_) return;
+                $scope.workspace = "Loading..."
                 $.ajax({
                         type: "GET",
                         url: 'http://springbreak.wildbook.org/WorkspaceServer',
@@ -131,9 +133,8 @@ var workspace = angular.module('workspace', [])
                     .then(function(data) {
 
                         $scope.$apply(function() {
-                            console.log(data);
-                            $scope.currentSlides = data.assets;
                             $scope.workspace = id_;
+                            $scope.currentSlides = data.assets;
                             $scope.workspace_args = data.metadata.TranslateQueryArgs;
                         })
                     }).fail(function(data) {

@@ -25,7 +25,7 @@
             </md-menu>
           </md-menu-item>
           <md-menu-item>
-            <md-button ng-click="showShareDialog()" >
+            <md-button ng-click="showShareDialog()">
               Share Current Workspace
             </md-button>
           </md-menu-item>
@@ -76,9 +76,15 @@
   <md-content md-scroll-y flex>
     <!-- using ng-includes to cut down on the number of lines in each html file -->
     <div>
-      <ng-include ng-show="view == 'thumbnails'" src="'app/views/includes/workspace/thumbnails.view.html'" flex></ng-include>
-      <ng-include ng-show="view == 'table'" src="'app/views/includes/workspace/table.view.html'" flex></ng-include>
-      <ng-include ng-show="view == 'map'" src="'app/views/includes/workspace/map.view.html'" flex></ng-include>
+      <div flex ng-if="workspace == 'Loading...'" class="md-content">
+        <div layout="row" layout-align="center center">
+          <md-progress-circular md-mode="indeterminate" md-diameter="100">
+          </md-progress-circular>
+        </div>
+      </div>
+      <ng-include ng-show="view == 'thumbnails' && workspace != 'Loading...'" src="'app/views/includes/workspace/thumbnails.view.html'" flex></ng-include>
+      <ng-include ng-show="view == 'table' && workspace != 'Loading...'" src="'app/views/includes/workspace/table.view.html'" flex></ng-include>
+      <ng-include ng-show="view == 'map' && workspace != 'Loading...'" src="'app/views/includes/workspace/map.view.html'" flex></ng-include>
     </div>
   </md-content>
 </div>
