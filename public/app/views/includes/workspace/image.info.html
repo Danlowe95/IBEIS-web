@@ -16,34 +16,45 @@
     <img style="margin: auto; max-width: 100%;" src="{{ mediaAsset.url }}" />
     <div class="md-dialog-content">
       <!-- image metadata and information -->
-      <md-subheader class="md-no-sticky">Marked Individuals</md-subheader>
+      <md-subheader>Date and Time</md-subheader>
+      <md-list>
+        <md-list-item>
+          {{ mediaAsset.dateTime }}
+        </md-list-item>
+      </md-list>
+      <md-subheader>Marked Individuals</md-subheader>
       <md-list>
         <md-list-item ng-repeat="ind in mediaAssetContext.MarkedIndividuals">
           <a target="_blank" href="{{ ind.url }}">{{ ind.individualID }}</a>
         </md-list-item>
       </md-list>
-      <md-divider></md-divider>
-      <md-subheader class="md-no-sticky">Occurences</md-subheader>
+      <md-subheader>Occurences</md-subheader>
       <md-list>
         <md-list-item ng-repeat="occ in mediaAssetContext.Occurences">
           {{ occ }}
         </md-list-item>
       </md-list>
-      <md-divider></md-divider>
-      <md-subheader class="md-no-sticky">Annotations</md-subheader>
+      <md-subheader>Annotations</md-subheader>
       <md-list>
         <md-list-item ng-repeat="ann in mediaAssetContext.Annotations">
           {{ ann.id }}
         </md-list-item>
       </md-list>
-      <md-divider></md-divider>
-      <md-subheader class="md-no-sticky">Encounters</md-subheader>
+      <md-subheader>Encounters</md-subheader>
       <md-list>
         <md-list-item ng-repeat="(id, enc) in mediaAssetContext.Encounters">
           <a target="_blank" href="{{ enc.url }}">{{ id }}</a>
         </md-list-item>
       </md-list>
-      <md-divider></md-divider>
+      <md-subheader>Metadata</md-subheader>
+      <md-list>
+        <md-list-item ng-repeat="(k, v) in mediaAsset.metadata" class="md-2-line">
+          <div class="md-list-item-text">
+            <h3>{{ k }}</h3>
+            <p>{{ v }}</p>
+          </div>
+        </md-list-item>
+      </md-list>
     </div>
   </md-dialog-content>
 </md-dialog>

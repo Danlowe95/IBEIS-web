@@ -443,6 +443,7 @@ var workspace = angular.module('workspace', [])
             /* IMAGE INFO DIALOG */
             function ImageDialogController($scope, $mdDialog, mediaAsset) {
                 var mediaAssetId = mediaAsset.id;
+                console.log(mediaAsset);
                 // var mediaAssetId = 31798;
                 $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
                     .then(function(response) {
