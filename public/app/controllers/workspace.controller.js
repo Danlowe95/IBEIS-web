@@ -168,7 +168,7 @@ var workspace = angular.module('workspace', [])
             $scope.deleteWorkspace = function() {
                 var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete this workspace?')
-                    .textContent('This will delete the current filtering parameters.  All of your images will remain in the database.')
+                    .textContent('This will delete the current workspace.  All of your images will remain in the database.')
                     .ok('Yes')
                     .cancel("No");
                 $mdDialog.show(confirm).then(function() {
