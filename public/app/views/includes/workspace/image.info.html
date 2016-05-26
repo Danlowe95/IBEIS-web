@@ -25,7 +25,7 @@
       <md-subheader>Marked Individuals</md-subheader>
       <md-list>
         <md-list-item ng-repeat="ind in mediaAssetContext.MarkedIndividuals">
-          <a target="_blank" href="{{ ind.url }}">{{ ind.individualID }}</a>
+          <a href="{{ ind.url }}">{{ ind.individualID }}</a>
         </md-list-item>
       </md-list>
       <md-subheader>Occurences</md-subheader>
@@ -43,7 +43,7 @@
       <md-subheader>Encounters</md-subheader>
       <md-list>
         <md-list-item ng-repeat="(id, enc) in mediaAssetContext.Encounters">
-          <a target="_blank" href="{{ enc.url }}">{{ id }}</a>
+          <a href="{{ enc.url }}">{{ id }}</a>
         </md-list-item>
       </md-list>
       <md-subheader>Metadata</md-subheader>
