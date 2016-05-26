@@ -6,7 +6,7 @@ var workspace = angular.module('workspace', [])
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
-            $scope.workspace = "Select";
+            $scope.workspace = "No Selected Works";
             $scope.new_name = {};
             $scope.reviewData = {};
 
@@ -440,22 +440,25 @@ var workspace = angular.module('workspace', [])
             }
 
             /* IMAGE INFO DIALOG */
-            function ImageDialogController($scope, $mdDialog, image_index, currentSlides) {
-                $scope.image_index = image_index;
-                $scope.currentSlides = currentSlides;
+            function ImageDialogController($scope, $mdDialog, mediaAsset) {
+                var mediaAssetId = mediaAsset.id;
+                // var mediaAssetId = 31798;
+                $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
+                    .then(function(response) {
+                        console.log(response.data);
+                        $scope.mediaAssetContext = response.data;
+                    });
+                $scope.mediaAsset = mediaAsset;
                 $scope.hide = function() {
                     $mdDialog.hide();
                 };
                 $scope.cancel = function() {
                     $mdDialog.cancel();
                 };
-                $scope.answer = function(answer) {
-                    $mdDialog.hide(answer);
-                };
             };
             //launched on image click, uses the above controller
             $scope.showImageInfo = function(ev, index) {
-                $scope.image_index = index;
+                var asset = $scope.currentSlides[index];
                 $mdDialog.show({
                     controller: ImageDialogController,
                     templateUrl: 'app/views/includes/workspace/image.info.html',
@@ -463,14 +466,8 @@ var workspace = angular.module('workspace', [])
                     clickOutsideToClose: true,
                     fullscreen: true,
                     locals: {
-                        image_index: $scope.image_index,
-                        currentSlides: $scope.currentSlides
+                        mediaAsset: asset
                     }
-                });
-                $scope.$watch(function() {
-                    return $mdMedia('xs') || $mdMedia('sm');
-                }, function(wantsFullScreen) {
-                    $scope.customFullscreen = (wantsFullScreen === true);
                 });
             };
 

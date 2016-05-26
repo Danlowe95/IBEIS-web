@@ -1,36 +1,60 @@
-<md-dialog id="image-info" class="fullscreen-dialog" aria-label="imageInfo" md-component-id="image" ng-cloak>
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>Image Information</h2>
-            <span flex></span>
-            <md-button class="md-icon-button" aria-label="Cancel" ng-click="cancel()">
-                <i class="fa fa-remove"></i>
-                <md-tooltip md-autohide>
-                    Return to workspace
-                </md-tooltip>
-            </md-button>
-        </div>
-    </md-toolbar>
-    <md-dialog-content style="max-height: 100%; max-width: 100%">
-        <div layout="row">
-            <md-content flex>
-                <img ng-src="{{currentSlides[image_index].url}}" style="max-width: 100%" />
-            </md-content>
-            <div flex>
-                <!-- <pre>{{currentSlides[image_index]|json}}</pre> -->
-                <table style="table-layout:fixed; width: 100%">
-                    <tr>
-                        <th style="max-width: 100%;">Key</th>
-                        <th style="max-width: 100%;">Value</th>
-                    </tr>
-                    <tr ng-repeat="(k,v) in currentSlides[image_index]">
-                        <td style="max-width: 100%; word-wrap:break-word">{{k}}</td>
-                        <td style="max-width: 100%; word-wrap:break-word;  text-align: left"><pre style="word-wrap: break-word;">{{v|json}}</pre></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </md-dialog-content>
+<md-dialog id="image-info" aria-label="imageInfo" ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Image Information: <em>{{ mediaAsset.id }}</em></h2>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="Cancel" ng-click="cancel()">
+        <i class="fa fa-remove"></i>
+        <md-tooltip md-autohide>
+          Return to workspace
+        </md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <!-- image display -->
+    <img style="margin: auto; max-width: 100%;" src="{{ mediaAsset.url }}" />
+    <div class="md-dialog-content">
+      <!-- image metadata and information -->
+      <md-subheader class="md-no-sticky">Marked Individuals</md-subheader>
+      <md-list>
+        <md-list-item ng-repeat="ind in mediaAssetContext.MarkedIndividuals">
+          <a target="_blank" href="{{ ind.url }}">{{ ind.individualID }}</a>
+        </md-list-item>
+      </md-list>
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky">Occurences</md-subheader>
+      <md-list>
+        <md-list-item ng-repeat="occ in mediaAssetContext.Occurences">
+          {{ occ }}
+        </md-list-item>
+      </md-list>
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky">Annotations</md-subheader>
+      <md-list>
+        <md-list-item ng-repeat="ann in mediaAssetContext.Annotations">
+          {{ ann.id }}
+        </md-list-item>
+      </md-list>
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky">Encounters</md-subheader>
+      <md-list>
+        <md-list-item ng-repeat="enc in mediaAssetContext.Encounters">
+          <a target="_blank" href="{{ enc.url }}">Link to Encounter</a>
+        </md-list-item>
+      </md-list>
+      <md-divider></md-divider>
+    </div>
+  </md-dialog-content>
 </md-dialog>
-<!-- <ng-photoswipe slides="currentSlides" options="opts" start-on="{{ startEvent }}">
-</ng-photoswipe> -->
+
+<!-- <table style="table-layout:fixed; width: 100%">
+  <tr>
+    <th style="max-width: 100%;">Key</th>
+    <th style="max-width: 100%;">Value</th>
+  </tr>
+  <tr ng-repeat="(k,v) in currentSlides[image_index]">
+    <td style="max-width: 100%; word-wrap:break-word">{{k}}</td>
+    <td style="max-width: 100%; word-wrap:break-word;  text-align: left"><pre style="word-wrap: break-word;">{{v|json}}</pre></td>
+  </tr>
+</table> -->

@@ -52,10 +52,6 @@ md-checkbox.md-checked.green .md-icon {
     min-width: 420px;
     max-width: 420px;
 }
-#image-info-sidenav {
-    min-width: 540px;
-    max-width: 540px;
-}
 .angular-google-map-container {
 	height: 1000px;
 }
@@ -185,13 +181,6 @@ td {
 }
 .identification-icon{
     color: red;
-}
-md-dialog.fullscreen-dialog {
-    max-width: 90%;
-    max-height: 90%;
-    width: 90%;
-    height: 90%;
-    border-radius: 0;
 }
 
 .gridListdemoBasicUsage md-grid-list {
