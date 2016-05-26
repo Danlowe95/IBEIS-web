@@ -446,7 +446,6 @@ var workspace = angular.module('workspace', [])
                 // var mediaAssetId = 31798;
                 $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
                     .then(function(response) {
-                        console.log(response.data);
                         $scope.mediaAssetContext = response.data;
                     });
                 $scope.mediaAsset = mediaAsset;

@@ -21,4 +21,10 @@ angular.module('ibeis', [
             //   blue-grey
             .primaryPalette('green')
             .accentPalette('blue');
+    })
+    // setup utility functions
+    .run(function($rootScope) {
+        $rootScope.Utils = {
+            keys: Object.keys
+        };
     });
