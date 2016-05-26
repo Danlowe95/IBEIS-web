@@ -4,17 +4,27 @@
   <!-- Functions -->
   <md-divider></md-divider>
   <div class="action-container" layout="column">
-    <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.startDetection($event)"><strong>Run</strong> Detection</md-button>
-    <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.showDetectionReview($event)"><strong>
-            Review</strong> Detection</md-button>
-    <md-button class="md-primary md-raised sidenav-btn" disabled><strong>
-                    Review</strong> Annotations</md-button>
-    <md-button class="md-primary md-raised sidenav-btn" disabled><strong>Run</strong> Identification</md-button>
-    <md-button class="md-primary md-raised sidenav-btn" disabled><strong>Review</strong> Identification</md-button>
-    <md-button class="md-primary md-raised sidenav-btn" disabled><strong>View</strong> Biological Data</md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.startDetection($event)" ng-disabled="workspace == 'Loading...'">
+      <strong>Run</strong> Detection
+    </md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.showDetectionReview($event)" ng-disabled="workspace == 'Loading...'">
+      <strong>Review</strong> Detection
+    </md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'">
+      <strong>Review</strong> Annotations
+    </md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'">
+      <strong>Run</strong> Identification
+    </md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'">
+      <strong>Review</strong> Identification
+    </md-button>
+    <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" href="http://springbreak.wildbook.org/">
+      <strong>View</strong> Biological Data
+    </md-button>
   </div>
   <md-divider></md-divider>
-  <p>
+  <p ng-hide="workspac == 'Loading...'">
     Other workspace information.
   </p>
 </md-content>
