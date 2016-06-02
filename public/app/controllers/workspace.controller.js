@@ -7,7 +7,7 @@ var workspace = angular.module('workspace', [])
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
             $scope.workspace = "No Selected Works";
-            $scope.new_name = {};
+            $scope.workspace_input = {};
             $scope.reviewData = {};
 
             //Might be outdated, used sometimes to query with specific parameters
@@ -146,7 +146,7 @@ var workspace = angular.module('workspace', [])
             $scope.saveWorkspace = function() {
                 //this has to have user input
                 var params = $.param({
-                    id: String($scope.new_name.form_data),
+                    id: String($scope.workspace_input.form_data),
                     args: JSON.stringify($scope.workspace_args)
                 });
                 console.log(params);
@@ -192,6 +192,33 @@ var workspace = angular.module('workspace', [])
                     console.log("said no to changing!");
                 });
 
+            };
+            $scope.save_datetime = function() {
+                console.log("saving");
+                //this has to have user input
+                //need to find out params for image edit
+                var params = $.param({
+                    datetime: String($scope.workspace_input.datetime_input),
+                    id: String($scope.mediaAssetId)
+                });
+                console.log(params);
+                $.ajax({
+                        type: "POST",
+                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
+                        data: params,
+                        dataType: "json"
+                    })
+                    .then(function(data) {
+                        console.log("save complete "+response.data);
+                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
+                            .then(function(response) {
+                                $scope.mediaAssetContext = response.data;
+                            });
+                    }).fail(function(data) {
+                        console.log("success or failure - needs fixing");
+                        console.log(data);
+                        $scope.queryWorkspaceList();
+                    });
             };
             /* FILTERING */
             //used to catch all form data for filtering and send in for query
@@ -443,6 +470,8 @@ var workspace = angular.module('workspace', [])
             /* IMAGE INFO DIALOG */
             function ImageDialogController($scope, $mdDialog, mediaAsset) {
                 var mediaAssetId = mediaAsset.id;
+                $scope.mediaAsset = mediaAsset;
+                $scope.mediaAssetId = mediaAsset.id;
                 console.log(mediaAsset);
                 // var mediaAssetId = 31798;
                 $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
@@ -466,6 +495,7 @@ var workspace = angular.module('workspace', [])
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
+                    scope: $scope,
                     locals: {
                         mediaAsset: asset
                     }
