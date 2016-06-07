@@ -9,7 +9,12 @@ var workspace = angular.module('workspace', [])
             $scope.workspace = "No Selected Works";
             $scope.workspace_input = {};
             $scope.reviewData = {};
+            $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
 
+            //used for saving info using the datepicker
+            $scope.set_datetime_model = function() {
+                $scope.datetime_model = new Date($scope.mediaAsset.dateTime);
+            };
             //Might be outdated, used sometimes to query with specific parameters
             $scope.queryWorkspace = function(params) {
                 $scope.workspace_args = params;
@@ -131,7 +136,6 @@ var workspace = angular.module('workspace', [])
                         dataType: "json"
                     })
                     .then(function(data) {
-
                         $scope.$apply(function() {
                             $scope.workspace = id_;
                             $scope.currentSlides = data.assets;
@@ -157,7 +161,6 @@ var workspace = angular.module('workspace', [])
                         dataType: "json"
                     })
                     .then(function(data) {
-                        // $scope.currentSlides = data.assets;
                         $scope.queryWorkspaceList();
                     }).fail(function(data) {
                         console.log("success or failure - needs fixing");
@@ -168,7 +171,7 @@ var workspace = angular.module('workspace', [])
             $scope.deleteWorkspace = function() {
                 var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete this workspace?')
-                    .textContent('This will delete the current workspace.  All of your images will remain in the database.')
+                    .textContent('All of your images will remain in the database.')
                     .ok('Yes')
                     .cancel("No");
                 $mdDialog.show(confirm).then(function() {
@@ -181,7 +184,6 @@ var workspace = angular.module('workspace', [])
                             dataType: "json"
                         })
                         .then(function(data) {
-                            // $scope.currentSlides = data.assets;
                             $scope.queryWorkspaceList();
                         }).fail(function(data) {
                             console.log("success or failure - needs fixing");
@@ -193,33 +195,7 @@ var workspace = angular.module('workspace', [])
                 });
 
             };
-            $scope.save_datetime = function() {
-                console.log("saving");
-                //this has to have user input
-                //need to find out params for image edit
-                var params = $.param({
-                    datetime: String($scope.workspace_input.datetime_input),
-                    id: String($scope.mediaAssetId)
-                });
-                console.log(params);
-                $.ajax({
-                        type: "POST",
-                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
-                        data: params,
-                        dataType: "json"
-                    })
-                    .then(function(data) {
-                        console.log("save complete "+response.data);
-                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
-                            .then(function(response) {
-                                $scope.mediaAssetContext = response.data;
-                            });
-                    }).fail(function(data) {
-                        console.log("success or failure - needs fixing");
-                        console.log(data);
-                        $scope.queryWorkspaceList();
-                    });
-            };
+
             /* FILTERING */
             //used to catch all form data for filtering and send in for query
             $scope.filter = {
@@ -465,15 +441,38 @@ var workspace = angular.module('workspace', [])
                     .ariaLabel('Alert')
                     .ok('OK')
                 );
-            }
+            };
+            $scope.save_datetime = function() {
+                var params = $.param({
+                    datetime: String($scope.workspace_input.datetime_input),
+                    id: String($scope.mediaAssetId)
+                });
+                console.log(params);
+                $.ajax({
+                        type: "POST",
+                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
+                        data: params,
+                        dataType: "json"
+                    })
+                    .then(function(data) {
+                        console.log("saved");
+                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
+                            .then(function(response) {
+                                $scope.mediaAssetContext = response.data;
+                                // $scope.setWorkspace($scope.workspace);
+                                // $scope.mediaAsset = $scope.currentSlides[$scope.image_index];
+                            });
+                    }).fail(function(data) {
+                        console.log("success or failure - needs fixing");
+                        console.log(data);
+                        $scope.queryWorkspaceList();
+                    });
+            };
 
             /* IMAGE INFO DIALOG */
             function ImageDialogController($scope, $mdDialog, mediaAsset) {
                 var mediaAssetId = mediaAsset.id;
-                $scope.mediaAsset = mediaAsset;
                 $scope.mediaAssetId = mediaAsset.id;
-                console.log(mediaAsset);
-                // var mediaAssetId = 31798;
                 $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
                     .then(function(response) {
                         $scope.mediaAssetContext = response.data;
@@ -489,6 +488,7 @@ var workspace = angular.module('workspace', [])
             //launched on image click, uses the above controller
             $scope.showImageInfo = function(ev, index) {
                 var asset = $scope.currentSlides[index];
+                $scope.image_index = index;
                 $mdDialog.show({
                     controller: ImageDialogController,
                     templateUrl: 'app/views/includes/workspace/image.info.html',
@@ -496,6 +496,7 @@ var workspace = angular.module('workspace', [])
                     clickOutsideToClose: true,
                     fullscreen: true,
                     scope: $scope,
+                    preserveScope: true,
                     locals: {
                         mediaAsset: asset
                     }

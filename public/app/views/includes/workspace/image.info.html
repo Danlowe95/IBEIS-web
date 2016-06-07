@@ -17,18 +17,18 @@
     <div class="md-dialog-content">
       <!-- image metadata and information -->
       <md-subheader>Date and Time
-        
       </md-subheader>
       <md-list>
         <div ng-if="!edit_datetime" ng-init="edit_datetime=false">
           <md-list-item>
-            {{ mediaAsset.dateTime }} <md-icon-button ng-click="$parent.edit_datetime=true" class="fa fa-edit"></md-icon-button>
+            {{ mediaAsset.dateTime }}
+            <md-icon-button ng-click="$parent.edit_datetime=true" class="fa fa-edit"></md-icon-button>
           </md-list-item>
         </div>
         <div ng-if="edit_datetime">
-          <input id="image_datetime_input" ng-model="workspace_input.datetime_input" ng-value="mediaAsset.dateTime"> 
-          </input>
-          &nbsp;<md-icon-button ng-click="save_datetime(); $parent.edit_datetime=false" class="fa fa-save"></md-icon-button>
+          <md-datepicker ng-model="datetime_model" ng-init="set_datetime_model()" ng-value="mediaAsset.dateTime" ng-change="workspace_input.datetime_input = datetime_model.toISOString()"></md-datepicker>
+          &nbsp;
+          <md-icon-button ng-click="save_datetime(); $parent.edit_datetime=false" class="fa fa-save"></md-icon-button>
         </div>
       </md-list>
       <md-subheader>Marked Individuals</md-subheader>
