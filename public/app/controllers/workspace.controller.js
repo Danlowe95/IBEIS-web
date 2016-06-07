@@ -1,7 +1,7 @@
 var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
-        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Upload',
-        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Upload) {
+        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Wildbook',
+        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Wildbook) {
 
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
@@ -507,7 +507,7 @@ var workspace = angular.module('workspace', [])
             //  - 2 = occurence
             //  - 3 = complete
             $scope.upload = {
-                types: Upload.types,
+                types: Wildbook.types,
                 type: "s3",
                 updateType: function() {
                     var t = $routeParams.upload;
@@ -574,50 +574,50 @@ var workspace = angular.module('workspace', [])
                     $scope.upload.images[index].progress = progress;
                     $scope.upload.updateProgress();
                 },
-                completionCallback: function(mediaAssetSetId) {
+                completionCallback: function(assets) {
                     $scope.setWorkspace($scope.workspace);
                     $scope.upload.stage = 2;
-
-                    $scope.upload.mediaAssetSetId = mediaAssetSetId;
-
-                    $mdDialog.show($scope.upload.completionDialog.dialog);
+                    $scope.upload.uploadSetDialog.assets = assets;
+                    $scope.upload.uploadSetDialog.updateUploadSets();
+                    $mdDialog.show($scope.upload.uploadSetDialog.dialog);
                 },
-                completionDialog: {
+                uploadSetDialog: {
+                    assets: null,
                     dialog: {
                         templateUrl: 'app/views/includes/workspace/completed_upload.dialog.html',
                         clickOutsideToClose: false,
                         preserveScope: true,
                         scope: $scope
                     },
-                    workspace_name: "",
+                    addToOption: null,
+                    uploadSets: null,
+                    updateUploadSets: function() {
+                        Wildbook.retrieveWorkspaces(true).then(function(data) {
+                            data = data.slice(1, (data.length - 2));
+                            $scope.upload.uploadSetDialog.uploadSets = _.without(data.split(", "), "*undefined*");
+                        });
+                    },
+                    uploadSetName: "",
                     completeUpload: function(mediaAssetSetId) {
                         console.log("COMPLETING UPLOAD: creating a workspace");
-                        var query = {
-                            class: 'org.ecocean.media.MediaAssetSet',
-                            query: JSON.stringify({
-                                id: $scope.upload.mediaAssetSetId
-                            })
-                        };
-                        var params = $.param({
-                            id: $scope.upload.completionDialog.workspace_name,
-                            args: JSON.stringify(query)
-                        });
-                        $.ajax({
-                                type: "POST",
-                                url: 'http://springbreak.wildbook.org/WorkspaceServer',
-                                data: params,
-                                dataType: "json"
-                            })
-                            .then(function(data) {
-                                // $scope.currentSlides = data.assets;
-                                $scope.queryWorkspaceList();
-                            }).fail(function(data) {
-                                console.log("success or failure - needs fixing");
-                                console.log(data);
-                                $scope.queryWorkspaceList();
-                            });
-                        $mdDialog.hide($scope.upload.completionDialog.dialog);
-                        $scope.upload.completionDialog.reset();
+
+                        switch ($scope.upload.uploadSetDialog.addToOption) {
+                            case "new":
+                                break;
+                            case "existing":
+                                var set = $scope.upload.uploadSetDialog.uploadSetName;
+                                var assets = $scope.upload.uploadSetDialog.assets;
+                                console.log(assets);
+                                Wildbook.findMediaAssetSetIdFromUploadSet(set).then(function(response) {
+                                    var id = JSON.parse(response.data.metadata.TranslateQueryArgs.query).id;
+                                    Wildbook.addAssetsToMediaAssetSet(assets, id).then(function(response) {
+                                        console.log(response);
+                                    });
+                                });
+                                break;
+                            default:
+
+                        }
                     },
                     generateName: function() {
                         console.log("GENERATING NAME");
@@ -625,15 +625,15 @@ var workspace = angular.module('workspace', [])
                         var dateString = date.toDateString();
                         var timeString = date.toTimeString();
                         var generated = dateString + " " + timeString;
-                        $scope.upload.completionDialog.workspace_name = generated;
+                        $scope.upload.uploadSetDialog.uploadSetName = generated;
                     },
                     reset: function() {
-                        $scope.upload.completionDialog.workspace_name = "";
+                        $scope.upload.uploadSetDialog.uploadSetName = "";
                     }
                 },
                 upload: function() {
                     $scope.upload.stage = 1;
-                    Upload.upload($scope.upload.images, $scope.upload.type, $scope.upload.progressCallback, $scope.upload.completionCallback);
+                    Wildbook.upload($scope.upload.images, $scope.upload.type, $scope.upload.progressCallback, $scope.upload.completionCallback);
                 },
                 updateProgress: function() {
                     var max = 100 * $scope.upload.images.length;
@@ -694,4 +694,4 @@ var workspace = angular.module('workspace', [])
             readAsDataUrl: readAsDataURL
         };
 
-    }]);;
+    }]);
