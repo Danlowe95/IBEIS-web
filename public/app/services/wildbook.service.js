@@ -1,33 +1,31 @@
-angular.module('upload.service', [])
-    .factory('Upload', ['$http', function($http) {
+angular.module('wildbook.service', [])
+    .factory('Wildbook', ['$http', function($http) {
         var factory = {};
 
-        // upload
+        // UPLOADING TO S3 AND THROUGH FLOW
+        // ==================================
         factory.types = ["s3", "local"];
         factory.upload = function(images, type, progressCallback, completionCallback) {
             console.log("UPLOADING");
             // retrieve a mediaAssetSetId
-            requestMediaAssetSet().success(function(data) {
-                var mediaAssetSetId = data.mediaAssetSetId;
-                switch (_.indexOf(factory.types, type)) {
-                    case 0:
-                        // s3
-                        s3Upload(mediaAssetSetId, images, progressCallback, completionCallback);
-                        break;
-                    case 1:
-                        // local
-                        flowUpload(mediaAssetSetId, images, progressCallback, completionCallback);
-                        break;
-                    default:
-                        // doesn't exist
-                        // TODO: design failure return
-                        return null;
-                }
-            });
+            switch (_.indexOf(factory.types, type)) {
+                case 0:
+                    // s3
+                    s3Upload(images, progressCallback, completionCallback);
+                    break;
+                case 1:
+                    // local
+                    flowUpload(images, progressCallback, completionCallback);
+                    break;
+                default:
+                    // doesn't exist
+                    // TODO: design failure return
+                    return null;
+            }
         };
 
         // upload to s3
-        var s3Upload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
+        var s3Upload = function(images, progressCallback, completionCallback) {
             // AWS Uploader Config
             AWS.config.update({
                 accessKeyId: AWS_ACCESS_KEY_ID,
@@ -41,8 +39,10 @@ angular.module('upload.service', [])
                 }
             });
             var count = 0;
+            var uploads = [];
+            var prepend = (new Date()).getTime();
             for (i in images) {
-                var key = mediaAssetSetId + '/' + images[i].name;
+                var key = prepend + '/' + images[i].name;
                 var params = {
                     Key: key,
                     ContentType: images[i].type,
@@ -55,20 +55,20 @@ angular.module('upload.service', [])
                         console.error(err);
                     } else {
                         console.log(data);
-                        createS3MediaAsset(mediaAssetSetId, data).success(function(data) {
-                            console.log(data);
-                            count = count + 1;
-                            if (count >= images.length) {
-                                completionCallback(mediaAssetSetId);
-                            }
-                        });
+                        var uploadData = {
+                            bucket: data.Bucket,
+                            key: data.key
+                        };
+                        uploads.push(uploadData);
+                        count = count + 1;
+                        completionCallback(uploads);
                     }
                 }).on('httpUploadProgress', function(data) {
                     var progress = Math.round(data.loaded / data.total * 100);
                     var index = -1;
                     // find the image index, and return that
                     for (var j = 0; j < images.length; j++) {
-                        var testKey = mediaAssetSetId + '/' + images[j].name;
+                        var testKey = prepend + '/' + images[j].name;
                         if (data.key === testKey) {
                             index = j;
                             break;
@@ -84,23 +84,20 @@ angular.module('upload.service', [])
         };
 
         // upload to local server with flow
-        var flowUpload = function(mediaAssetSetId, images, progressCallback, completionCallback) {
+        var flowUpload = function(images, progressCallback, completionCallback) {
             var flow = new Flow({
                 target: 'http://springbreak.wildbook.org/ResumableUpload',
                 forceChunkSize: true,
                 maxChunkRetries: 5,
-                query: {
-                    mediaAssetSetId: mediaAssetSetId
-                },
                 testChunks: false
             });
             var count = 0;
             flow.on('fileProgress', function(file, chunk) {
                 var progress = Math.round(file._prevUploadedSize / file.size * 100);
                 var index = -1;
-                var fileKey = mediaAssetSetId + '/' + file.name;
+                var fileKey = file.name;
                 for (var i = 0; i < images.length; i++) {
-                    var testKey = mediaAssetSetId + '/' + images[i].name;
+                    var testKey = images[i].name;
                     if (testKey === fileKey) {
                         index = i;
                         break;
@@ -116,13 +113,8 @@ angular.module('upload.service', [])
             flow.on('fileSuccess', function(file, message, chunk) {
                 console.log(file);
                 var name = file.name;
-                createFlowFileMediaAsset(mediaAssetSetId, name).success(function(data) {
-                    console.log(data);
-                    count = count + 1;
-                    if (count >= images.length) {
-                        completionCallback(mediaAssetSetId);
-                    }
-                });
+
+                // TODO
             });
             flow.on('fileError', function(file, message, chunk) {
                 // TODO: handle error
@@ -141,40 +133,59 @@ angular.module('upload.service', [])
             flow.upload();
         };
 
+        // MEDIA assets
+        // ==============
+
         // request mediaAssetSet
         var requestMediaAssetSet = function() {
             // TODO: check for errors?
             return $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet');
         };
 
-        // create MediaAsset using s3 upload
-        var createS3MediaAsset = function(mediaAssetSetId, uploadData) {
-            var mediaAsset = {
-                MediaAssetCreate: [{
-                    setId: mediaAssetSetId,
-                    assets: [{
-                        bucket: uploadData.Bucket,
-                        key: uploadData.key
-                    }]
-                }]
-            };
+        // create MediaAsset for flow upload
+        // var mediaAsset = {
+        //     MediaAssetCreate: [{
+        //         setId: mediaAssetSetId,
+        //         assets: [{
+        //             filename: fileName
+        //         }]
+        //     }]
+        // };
 
-            return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset);
+        factory.findMediaAssetSetIdFromUploadSet = function(setName) {
+            var params = {
+                method: "GET",
+                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                params: {
+                    id: setName
+                }
+            };
+            return $http(params);
         };
 
-        // create MediaAsset using flow upload
-        var createFlowFileMediaAsset = function(mediaAssetSetId, fileName) {
-            var mediaAsset = {
+        factory.addAssetsToMediaAssetSet = function(assets, setId) {
+            var mediaAssets = {
                 MediaAssetCreate: [{
-                    setId: mediaAssetSetId,
-                    assets: [{
-                        filename: fileName
-                    }]
+                    setId: setId,
+                    assets: assets
                 }]
             };
-
-            return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAsset);
+            return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAssets);
         };
+
+        // WORKSPACES
+        // ============
+        factory.retrieveWorkspaces = function(isImageSet) {
+            return $.ajax({
+                type: "GET",
+                url: 'http://springbreak.wildbook.org/WorkspacesForUser',
+                params: {
+                    isImageSet: isImageSet
+                }
+            });
+        };
+
+
 
         return factory;
 

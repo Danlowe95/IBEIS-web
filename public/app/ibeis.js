@@ -4,7 +4,7 @@ angular.module('ibeis', [
         // controllers
         'workspace',
         // services
-        'upload.service',
+        'wildbook.service',
         // imports
         'ngMaterial', // angular material
         'ngMessages',
