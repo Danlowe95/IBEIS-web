@@ -7,6 +7,7 @@ angular.module('ibeis', [
         'wildbook.service',
         // imports
         'ngMaterial', // angular material
+        'ngMessages',
         'smart-table',
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
