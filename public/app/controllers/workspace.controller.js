@@ -109,7 +109,8 @@ var workspace = angular.module('workspace', [])
 
             /* TYPE MENU */
             //Used for top-right selector to change the data between the below 3 items
-            $scope.types = ['images', 'annotations', 'animals'];
+            // $scope.types = ['images', 'annotations', 'animals'];
+            $scope.types = ['images'];
             $scope.type = $scope.types[0];
 
             $scope.setType = function(t) {
@@ -122,16 +123,8 @@ var workspace = angular.module('workspace', [])
                 // if trying to set to current workspace, break function
                 if ($scope.workspace === id_) return;
                 $scope.workspace = "Loading..."
-                $.ajax({
-                        type: "GET",
-                        url: 'http://springbreak.wildbook.org/WorkspaceServer',
-                        data: {
-                            id: id_
-                        },
-                        dataType: "json"
-                    })
+                Wildbook.getWorkspace(id_)
                     .then(function(data) {
-
                         $scope.$apply(function() {
                             $scope.workspace = id_;
                             $scope.currentSlides = data.assets;
@@ -144,18 +137,9 @@ var workspace = angular.module('workspace', [])
 
             //used when save button is pressed
             $scope.saveWorkspace = function() {
-                //this has to have user input
-                var params = $.param({
-                    id: String($scope.workspace_input.form_data),
-                    args: JSON.stringify($scope.workspace_args)
-                });
-                console.log(params);
-                $.ajax({
-                        type: "POST",
-                        url: 'http://springbreak.wildbook.org/WorkspaceServer',
-                        data: params,
-                        dataType: "json"
-                    })
+                var id = $scope.workspace_input.form_data;
+                var args = $scope.workspace_args;
+                Wildbook.saveWorkspace(id, args)
                     .then(function(data) {
                         // $scope.currentSlides = data.assets;
                         $scope.queryWorkspaceList();
@@ -165,6 +149,7 @@ var workspace = angular.module('workspace', [])
                         $scope.queryWorkspaceList();
                     });
             };
+
             $scope.deleteWorkspace = function() {
                 var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete this workspace?')
@@ -209,7 +194,7 @@ var workspace = angular.module('workspace', [])
                         dataType: "json"
                     })
                     .then(function(data) {
-                        console.log("save complete "+response.data);
+                        console.log("save complete " + response.data);
                         $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
                             .then(function(response) {
                                 $scope.mediaAssetContext = response.data;
@@ -513,7 +498,8 @@ var workspace = angular.module('workspace', [])
             };
 
             /* VIEW MENU */
-            $scope.views = ['thumbnails', 'table', 'map'];
+            // $scope.views = ['thumbnails', 'table', 'map'];
+            $scope.views = ['thumbnails', 'table'];
             $scope.view = $scope.views[0];
             $scope.setView = function(v) {
                 $scope.view = v;
@@ -628,20 +614,36 @@ var workspace = angular.module('workspace', [])
                         });
                     },
                     uploadSetName: "",
-                    completeUpload: function(mediaAssetSetId) {
+                    completeUpload: function() {
                         console.log("COMPLETING UPLOAD: creating a workspace");
-
+                        var set = $scope.upload.uploadSetDialog.uploadSetName;
+                        var assets = $scope.upload.uploadSetDialog.assets;
                         switch ($scope.upload.uploadSetDialog.addToOption) {
                             case "new":
+                                Wildbook.requestMediaAssetSet().then(function(response) {
+                                    var id = response.data.mediaAssetSetId;
+                                    Wildbook.addAssetsToMediaAssetSet(assets, id).then(function(response) {
+                                        console.log(response);
+                                    });
+                                    var setArgs = {
+                                        query: {
+                                            id: id
+                                        },
+                                        class: "org.ecocean.media.MediaAssetSet"
+                                    };
+                                    Wildbook.saveWorkspace(set, setArgs).then(function(response) {
+                                        console.log(response);
+                                    });
+                                });
                                 break;
                             case "existing":
-                                var set = $scope.upload.uploadSetDialog.uploadSetName;
-                                var assets = $scope.upload.uploadSetDialog.assets;
                                 console.log(assets);
                                 Wildbook.findMediaAssetSetIdFromUploadSet(set).then(function(response) {
                                     var id = JSON.parse(response.data.metadata.TranslateQueryArgs.query).id;
                                     Wildbook.addAssetsToMediaAssetSet(assets, id).then(function(response) {
                                         console.log(response);
+                                        $scope.setWorkspace(set);
+                                        $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
                                     });
                                 });
                                 break;

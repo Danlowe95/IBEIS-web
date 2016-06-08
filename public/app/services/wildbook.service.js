@@ -61,7 +61,7 @@ angular.module('wildbook.service', [])
                         };
                         uploads.push(uploadData);
                         count = count + 1;
-                        completionCallback(uploads);
+                        if (count >= images.length) completionCallback(uploads);
                     }
                 }).on('httpUploadProgress', function(data) {
                     var progress = Math.round(data.loaded / data.total * 100);
@@ -137,7 +137,7 @@ angular.module('wildbook.service', [])
         // ==============
 
         // request mediaAssetSet
-        var requestMediaAssetSet = function() {
+        factory.requestMediaAssetSet = function() {
             // TODO: check for errors?
             return $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet');
         };
@@ -164,6 +164,7 @@ angular.module('wildbook.service', [])
         };
 
         factory.addAssetsToMediaAssetSet = function(assets, setId) {
+            console.log(JSON.stringify(assets));
             var mediaAssets = {
                 MediaAssetCreate: [{
                     setId: setId,
@@ -182,6 +183,30 @@ angular.module('wildbook.service', [])
                 params: {
                     isImageSet: isImageSet
                 }
+            });
+        };
+
+        factory.saveWorkspace = function(name, args) {
+            var params = $.param({
+                id: String(name),
+                args: JSON.stringify(args)
+            });
+            return $.ajax({
+                type: "POST",
+                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                data: params,
+                dataType: "json"
+            });
+        };
+
+        factory.getWorkspace = function(id) {
+            return $.ajax({
+                type: "GET",
+                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                data: {
+                    id: id
+                },
+                dataType: "json"
             });
         };
 

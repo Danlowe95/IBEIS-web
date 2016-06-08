@@ -27,7 +27,7 @@
     </md-menu-content>
   </md-menu>
   <!-- filter nav buttons -->
-  <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" hide-gt-sm class="md-icon-button">
+  <!-- <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" hide-gt-sm class="md-icon-button">
     <i class="fa fa-filter"></i>
   </md-button>
   <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
@@ -41,15 +41,15 @@
     <md-tooltip md-autohide>
       Revert to last saved iteration.
     </md-tooltip>
-  </md-button>
-  <div ng-if="!saving" ng-init="saving=false">
+  </md-button> -->
+  <!-- <div ng-if="!saving" ng-init="saving=false">
     <md-button class="md-icon-button" aria-label="Save" ng-click="$parent.saving=true">
       <i class="fa fa-save"></i>
       <md-tooltip md-autohide>
         Save to new workspace.
       </md-tooltip>
     </md-button>
-  </div>
+  </div> -->
   <div>
     <md-button class="md-icon-button" aria-label="Delete" ng-click="deleteWorkspace()">
       <i class="fa fa-trash-o"></i>
