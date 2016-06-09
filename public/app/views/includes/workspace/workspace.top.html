@@ -8,18 +8,32 @@
     </md-button>
     <md-menu-content width="4">
       <md-menu-item ng-repeat="w in workspaces">
-        <md-button ng-click="setWorkspace(w)">
+        <md-button ng-click="setWorkspace(w, true)">
           <div layout="row">
             <span>
-
-            <i class="fa fa-object-group detect-icon" ></i>
+              <i class="fa fa-object-group detect-icon" ></i>
             </span> &nbsp;
             <span class="fa-stack identication-icon">
-             <!-- <i class="fa fa-eye fa-stack-1x"></i> -->
-             <i class="fa fa-tag fa-stack-1x identification-icon"></i>
-          </span>
+              <i class="fa fa-tag fa-stack-1x identification-icon"></i>
+            </span>
             <p flex>
               {{w}}
+            </p>
+          </div>
+        </md-button>
+      </md-menu-item>
+      <md-divider></md-divider>
+      <md-menu-item>
+        <md-button ng-click="viewAllImages(true)">
+          <div layout="row">
+            <span>
+              <i class="fa fa-object-group detect-icon" ></i>
+            </span> &nbsp;
+            <span class="fa-stack identication-icon">
+              <i class="fa fa-tag fa-stack-1x identification-icon"></i>
+            </span>
+            <p flex>
+              All Images
             </p>
           </div>
         </md-button>

@@ -28,7 +28,6 @@ var workspace = angular.module('workspace', [])
                     // when the response is available
                     $scope.$apply(function() {
                         $scope.currentSlides = data.assets;
-                        console.log($scope.currentSlides);
                     })
                 })
             };
@@ -45,7 +44,7 @@ var workspace = angular.module('workspace', [])
 
                             data = data.slice(1, (data.length - 2));
                             $scope.workspaces = data.split(", ");
-                            $scope.setWorkspace($scope.workspaces[0]);
+                            $scope.setWorkspace($scope.workspaces[0], false);
                         })
                     }).fail(function(data) {
                         console.log("failed workspaces get");
@@ -124,20 +123,33 @@ var workspace = angular.module('workspace', [])
                 }
             };
             /* WORKSPACES */
-            $scope.setWorkspace = function(id_) {
-                // if trying to set to current workspace, break function
-                if ($scope.workspace === id_) return;
-                $scope.workspace = "Loading..."
+            $scope.setWorkspace = function(id_, checkSame) {
+                // break if we are checking for the same workspace, otherwise
+                //  this should be used as a sort of refresh
+                if (checkSame && $scope.workspace === id_) return;
+                $scope.workspace = "Loading...";
                 Wildbook.getWorkspace(id_)
                     .then(function(data) {
                         $scope.$apply(function() {
                             $scope.workspace = id_;
                             $scope.currentSlides = data.assets;
                             $scope.workspace_args = data.metadata.TranslateQueryArgs;
+                            console.log(data.metadata.TranslateQueryArgs);
                         })
                     }).fail(function(data) {
                         console.log("failed workspace get");
                     });
+            };
+
+            $scope.viewAllImages = function(checkSame) {
+                if (checkSame && $scope.workspace === "All Images") return;
+                $scope.workspace = "Loading...";
+                Wildbook.getAllMediaAssets().then(function(response) {
+                    console.log(response);
+                    $scope.workspace = "All Images";
+                    $scope.currentSlides = response.data;
+                    $scope.workspace_args = "all";
+                });
             };
 
             //used when save button is pressed
@@ -621,7 +633,6 @@ var workspace = angular.module('workspace', [])
                     $scope.upload.updateProgress();
                 },
                 completionCallback: function(assets) {
-                    $scope.setWorkspace($scope.workspace);
                     $scope.upload.stage = 2;
                     $scope.upload.uploadSetDialog.assets = assets;
                     $scope.upload.uploadSetDialog.updateUploadSets();
@@ -652,37 +663,43 @@ var workspace = angular.module('workspace', [])
                             case "new":
                                 Wildbook.requestMediaAssetSet().then(function(response) {
                                     var id = response.data.mediaAssetSetId;
-                                    Wildbook.addAssetsToMediaAssetSet(assets, id).then(function(response) {
+                                    Wildbook.createMediaAssets(assets, id).then(function(response) {
                                         console.log(response);
-                                    });
-                                    var setArgs = {
-                                        query: {
-                                            id: id
-                                        },
-                                        class: "org.ecocean.media.MediaAssetSet"
-                                    };
-                                    Wildbook.saveWorkspace(set, setArgs).then(function(response) {
-                                        console.log(response);
+                                        var setArgs = {
+                                            query: {
+                                                id: id
+                                            },
+                                            class: "org.ecocean.media.MediaAssetSet"
+                                        };
+                                        // why does this succeed but return a failure
+                                        Wildbook.saveWorkspace(set, setArgs).then(function(response) {
+                                            console.log(response);
+                                        }, function(response) {
+                                            console.log(response);
+                                            $scope.queryWorkspaceList();
+                                            $scope.setWorkspace(set, false);
+                                            $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
+                                        });
                                     });
                                 });
                                 break;
                             case "existing":
-                                console.log(assets);
                                 Wildbook.findMediaAssetSetIdFromUploadSet(set).then(function(response) {
-                                    var id = JSON.parse(response.data.metadata.TranslateQueryArgs.query).id;
-                                    Wildbook.addAssetsToMediaAssetSet(assets, id).then(function(response) {
-                                        console.log(response);
-                                        $scope.setWorkspace(set);
+                                    var id = response.data.metadata.TranslateQueryArgs.query.id;
+                                    Wildbook.createMediaAssets(assets, id).then(function(response) {
+                                        $scope.setWorkspace(set, false);
                                         $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
                                     });
                                 });
                                 break;
                             default:
-
+                                Wildbook.createMediaAssets(assets).then(function(response) {
+                                    $scope.viewAllImages();
+                                    $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
+                                });
                         }
                     },
                     generateName: function() {
-                        console.log("GENERATING NAME");
                         var date = new Date();
                         var dateString = date.toDateString();
                         var timeString = date.toTimeString();

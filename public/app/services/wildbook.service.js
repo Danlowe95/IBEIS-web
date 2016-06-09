@@ -92,6 +92,7 @@ angular.module('wildbook.service', [])
                 testChunks: false
             });
             var count = 0;
+            var assets = [];
             flow.on('fileProgress', function(file, chunk) {
                 var progress = Math.round(file._prevUploadedSize / file.size * 100);
                 var index = -1;
@@ -113,8 +114,11 @@ angular.module('wildbook.service', [])
             flow.on('fileSuccess', function(file, message, chunk) {
                 console.log(file);
                 var name = file.name;
-
-                // TODO
+                assets.push({
+                    filename: name
+                });
+                count = count + 1;
+                if (count >= images.length) completionCallback(assets);
             });
             flow.on('fileError', function(file, message, chunk) {
                 // TODO: handle error
@@ -163,15 +167,29 @@ angular.module('wildbook.service', [])
             return $http(params);
         };
 
-        factory.addAssetsToMediaAssetSet = function(assets, setId) {
-            console.log(JSON.stringify(assets));
-            var mediaAssets = {
-                MediaAssetCreate: [{
-                    setId: setId,
-                    assets: assets
-                }]
-            };
+        // if no setId is given, create them outside of a MediaAssetSet
+        factory.createMediaAssets = function(assets, setId) {
+            var mediaAssets = null;
+            if (setId) {
+                mediaAssets = {
+                    MediaAssetCreate: [{
+                        setId: setId,
+                        assets: assets
+                    }]
+                };
+            } else {
+                mediaAssets = {
+                    MediaAssetCreate: [{
+                        assets: assets
+                    }]
+                };
+            }
             return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAssets);
+        };
+
+        factory.getAllMediaAssets = function() {
+            console.log("retrieving all media assets for this user");
+            return $http.get('http://springbreak.wildbook.org/MediaAssetsForUser');
         };
 
         // WORKSPACES
