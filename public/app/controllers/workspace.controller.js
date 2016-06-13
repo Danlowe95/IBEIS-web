@@ -7,6 +7,7 @@ var workspace = angular.module('workspace', [])
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
             $scope.workspace = "No Selected Works";
+            $scope.workspace_occ = [];
             $scope.workspace_input = {};
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
@@ -130,12 +131,13 @@ var workspace = angular.module('workspace', [])
                 $scope.workspace = "Loading...";
                 Wildbook.getWorkspace(id_)
                     .then(function(data) {
-                        $scope.$apply(function() {
-                            $scope.workspace = id_;
-                            $scope.currentSlides = data.assets;
-                            $scope.workspace_args = data.metadata.TranslateQueryArgs;
-                            console.log(data.metadata.TranslateQueryArgs);
-                        })
+                        $scope.workspace = id_;
+                        $scope.currentSlides = data.assets;
+                        $scope.workspace_args = data.metadata.TranslateQueryArgs;
+                        $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurences);
+                        console.log($scope.workspace_occ);
+                        console.log(data);
+                        $scope.$apply();
                     }).fail(function(data) {
                         console.log("failed workspace get");
                     });
@@ -722,6 +724,40 @@ var workspace = angular.module('workspace', [])
                     }
                     $scope.upload.totalProgress = Math.round(sum / max * 100);
                 }
+            };
+
+            $scope.lewaUpload = {
+                dialog: {
+                    templateUrl: 'app/views/includes/workspace/upload/lewa.dialog.html',
+                    clickOutsideToClose: true,
+                    fullscreen: true,
+                    preserveScope: true,
+                    scope: $scope
+                },
+                show: function(ev) {
+                    $mdDialog.show($scope.lewaUpload.dialog);
+                },
+                close: function(ev) {
+                    $mdDialog.hide($scope.lewaUpload.dialog);
+                },
+                selectXML: function(element) {
+                    var justFile = $.map(element.files, function(val, key) {
+                        return val;
+                    }, true);
+                    $scope.lewaUpload.xml = justFile;
+                    $scope.$apply();
+                    console.log($scope.lewaUpload.xml);
+                },
+                selectFolder: function(element) {
+                    var justFiles = $.map(element.files, function(val, key) {
+                        return val;
+                    }, true);
+                    $scope.lewaUpload.images = justFiles;
+                    $scope.$apply();
+                    console.log($scope.lewaUpload.images);
+                },
+                images: null,
+                xml: null
             };
 
             /* An intermediate function to link an md-button to a

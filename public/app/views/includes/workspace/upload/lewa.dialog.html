@@ -1,0 +1,30 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Lewa XML</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="lewaUpload.close()">
+        <i class="fa fa-close"></i>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-padding" flex>
+    <input type="file" class="file-input" id="lewa-folder-upload" webkitdirectory directory onchange="angular.element(this).scope().lewaUpload.selectFolder(this)" />
+    <md-button class="md-primary" ng-click="proxy('lewa-folder-upload')" flex>
+      Select <strong>Images</strong>
+    </md-button>
+    <p ng-if="lewaUpload.images">{{ lewaUpload.images.length }} files in selected folder.</p>
+  </md-dialog-content>
+  <md-dialog-content class="md-padding" flex>
+    <input type="file" class="file-input" id="lewa-xml-upload" accept="text/xml" onchange="angular.element(this).scope().lewaUpload.selectXML(this)" />
+    <md-button class="md-primary" ng-click="proxy('lewa-xml-upload')" flex>
+      Select <strong>XML</strong>
+    </md-button>
+    <p ng-if="lewaUpload.xml">{{ lewaUpload.xml[0].name }}</p>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <md-button class="md-primary md-raised">
+      Begin <strong>Upload</strong>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>
