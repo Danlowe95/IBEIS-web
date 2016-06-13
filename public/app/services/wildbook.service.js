@@ -61,7 +61,7 @@ angular.module('wildbook.service', [])
                         };
                         uploads.push(uploadData);
                         count = count + 1;
-                        completionCallback(uploads);
+                        if (count >= images.length) completionCallback(uploads);
                     }
                 }).on('httpUploadProgress', function(data) {
                     var progress = Math.round(data.loaded / data.total * 100);
@@ -92,6 +92,7 @@ angular.module('wildbook.service', [])
                 testChunks: false
             });
             var count = 0;
+            var assets = [];
             flow.on('fileProgress', function(file, chunk) {
                 var progress = Math.round(file._prevUploadedSize / file.size * 100);
                 var index = -1;
@@ -113,8 +114,11 @@ angular.module('wildbook.service', [])
             flow.on('fileSuccess', function(file, message, chunk) {
                 console.log(file);
                 var name = file.name;
-
-                // TODO
+                assets.push({
+                    filename: name
+                });
+                count = count + 1;
+                if (count >= images.length) completionCallback(assets);
             });
             flow.on('fileError', function(file, message, chunk) {
                 // TODO: handle error
@@ -137,7 +141,7 @@ angular.module('wildbook.service', [])
         // ==============
 
         // request mediaAssetSet
-        var requestMediaAssetSet = function() {
+        factory.requestMediaAssetSet = function() {
             // TODO: check for errors?
             return $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet');
         };
@@ -163,14 +167,29 @@ angular.module('wildbook.service', [])
             return $http(params);
         };
 
-        factory.addAssetsToMediaAssetSet = function(assets, setId) {
-            var mediaAssets = {
-                MediaAssetCreate: [{
-                    setId: setId,
-                    assets: assets
-                }]
-            };
+        // if no setId is given, create them outside of a MediaAssetSet
+        factory.createMediaAssets = function(assets, setId) {
+            var mediaAssets = null;
+            if (setId) {
+                mediaAssets = {
+                    MediaAssetCreate: [{
+                        setId: setId,
+                        assets: assets
+                    }]
+                };
+            } else {
+                mediaAssets = {
+                    MediaAssetCreate: [{
+                        assets: assets
+                    }]
+                };
+            }
             return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAssets);
+        };
+
+        factory.getAllMediaAssets = function() {
+            console.log("retrieving all media assets for this user");
+            return $http.get('http://springbreak.wildbook.org/MediaAssetsForUser');
         };
 
         // WORKSPACES
@@ -182,6 +201,30 @@ angular.module('wildbook.service', [])
                 params: {
                     isImageSet: isImageSet
                 }
+            });
+        };
+
+        factory.saveWorkspace = function(name, args) {
+            var params = $.param({
+                id: String(name),
+                args: JSON.stringify(args)
+            });
+            return $.ajax({
+                type: "POST",
+                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                data: params,
+                dataType: "json"
+            });
+        };
+
+        factory.getWorkspace = function(id) {
+            return $.ajax({
+                type: "GET",
+                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                data: {
+                    id: id
+                },
+                dataType: "json"
             });
         };
 

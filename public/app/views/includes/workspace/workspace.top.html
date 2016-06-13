@@ -8,18 +8,32 @@
     </md-button>
     <md-menu-content width="4">
       <md-menu-item ng-repeat="w in workspaces">
-        <md-button ng-click="setWorkspace(w)">
+        <md-button ng-click="setWorkspace(w, true)">
           <div layout="row">
             <span>
-
-            <i class="fa fa-object-group detect-icon" ></i>
+              <i class="fa fa-object-group detect-icon" ></i>
             </span> &nbsp;
             <span class="fa-stack identication-icon">
-             <!-- <i class="fa fa-eye fa-stack-1x"></i> -->
-             <i class="fa fa-tag fa-stack-1x identification-icon"></i>
-          </span>
+              <i class="fa fa-tag fa-stack-1x identification-icon"></i>
+            </span>
             <p flex>
               {{w}}
+            </p>
+          </div>
+        </md-button>
+      </md-menu-item>
+      <md-divider></md-divider>
+      <md-menu-item>
+        <md-button ng-click="viewAllImages(true)">
+          <div layout="row">
+            <span>
+              <i class="fa fa-object-group detect-icon" ></i>
+            </span> &nbsp;
+            <span class="fa-stack identication-icon">
+              <i class="fa fa-tag fa-stack-1x identification-icon"></i>
+            </span>
+            <p flex>
+              All Images
             </p>
           </div>
         </md-button>
@@ -27,7 +41,7 @@
     </md-menu-content>
   </md-menu>
   <!-- filter nav buttons -->
-  <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" hide-gt-sm class="md-icon-button">
+  <!-- <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" hide-gt-sm class="md-icon-button">
     <i class="fa fa-filter"></i>
   </md-button>
   <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
@@ -41,15 +55,15 @@
     <md-tooltip md-autohide>
       Revert to last saved iteration.
     </md-tooltip>
-  </md-button>
-  <div ng-if="!saving" ng-init="saving=false">
+  </md-button> -->
+  <!-- <div ng-if="!saving" ng-init="saving=false">
     <md-button class="md-icon-button" aria-label="Save" ng-click="$parent.saving=true">
       <i class="fa fa-save"></i>
       <md-tooltip md-autohide>
         Save to new workspace.
       </md-tooltip>
     </md-button>
-  </div>
+  </div> -->
   <div>
     <md-button class="md-icon-button" aria-label="Delete" ng-click="deleteWorkspace()">
       <i class="fa fa-trash-o"></i>
