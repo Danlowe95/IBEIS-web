@@ -6,7 +6,7 @@ var workspace = angular.module('workspace', [])
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
-            $scope.workspace = "No Selected Works";
+            $scope.workspace = null;
             $scope.workspace_occ = [];
             $scope.workspace_input = {};
             $scope.reviewData = {};
@@ -131,12 +131,11 @@ var workspace = angular.module('workspace', [])
                 $scope.workspace = "Loading...";
                 Wildbook.getWorkspace(id_)
                     .then(function(data) {
+                        console.log(data);
                         $scope.workspace = id_;
                         $scope.currentSlides = data.assets;
                         $scope.workspace_args = data.metadata.TranslateQueryArgs;
-                        $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurences);
-                        console.log($scope.workspace_occ);
-                        console.log(data);
+                        $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurrences);
                         $scope.$apply();
                     }).fail(function(data) {
                         console.log("failed workspace get");
@@ -266,44 +265,27 @@ var workspace = angular.module('workspace', [])
             //object where all identification methods are stored
             $scope.identification = {
                 startIdentification: function(ev) {
-
+                    var confirm = $mdDialog.confirm()
+                        .title('Would you like to run identification?')
+                        .textContent('You will be running identification on ' + $scope.workspace_occ.length + ' occurrences.')
+                        .targetEvent(ev)
+                        .ok('Yes')
+                        .cancel('Not Right Now');
+                    $mdDialog.show(confirm).then(function() {
+                        console.log("starting identification");
+                        Wildbook.runIdentification($scope.workspace_occ).then(function(data) {
+                            console.log(data);
+                        });
+                    });
                 },
                 showIdentificationReview: function(ev) {
-                    // $scope.startCheckDetection();
-                    $mdDialog.show({
-                        scope: $scope,
-                        preserveScope: true,
-                        templateUrl: 'app/views/includes/workspace/identification.review.html',
-                        targetEvent: ev,
-                        clickOutsideToClose: false,
-                        fullscreen: true
-
+                    $scope.identification.getReview();
+                },
+                getReview: function() {
+                    Wildbook.getIdentificationReview().then(function(response) {
+                        console.log(response);
                     });
-                },
-                submitIdentificationReview: function() {
-                    $('#ia-identification-form').submit(function(ev) {
-                        ev.preventDefault();
-                        $.ajax({
-                            url: $(this).attr('action'),
-                            type: $(this).attr('method'),
-                            dataType: 'json',
-                            data: $(this).serialize()
-
-                        }).then(function(data) {
-                            console.log("done");
-                        }).fail(function(data) {
-                            console.log("error");
-                        });
-                        return false;
-                    });
-                    $('#ia-detection-form').submit();
-                },
-                loadIdentificationHTML: function() {
-                    $scope.reviewOffset = 0;
-                    console.log("http://springbreak.wildbook.org/ia?getIdentificationReviewHtml=" + $scope.last_jobid);
-                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getIdentificationReviewHtml=" + $scope.last_jobid);
-                },
-
+                }
             };
 
             //object where all detection functions are stored
@@ -688,7 +670,11 @@ var workspace = angular.module('workspace', [])
                             case "existing":
                                 Wildbook.findMediaAssetSetIdFromUploadSet(set).then(function(response) {
                                     var id = response.data.metadata.TranslateQueryArgs.query.id;
+                                    if (id == undefined) id = JSON.parse(response.data.metadata.TranslateQueryArgs.query).id;
+                                    console.log("id: " + id);
                                     Wildbook.createMediaAssets(assets, id).then(function(response) {
+                                        console.log(response);
+                                        $scope.queryWorkspaceList();
                                         $scope.setWorkspace(set, false);
                                         $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
                                     });

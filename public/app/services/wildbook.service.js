@@ -228,6 +228,32 @@ angular.module('wildbook.service', [])
             });
         };
 
+        // IDENTIFICATION
+        // ================
+
+        factory.runIdentification = function(occurrences) {
+            var params = {
+                identify: {
+                    occurrenceIds: occurrences
+                }
+            };
+            return $.ajax({
+                type: "POST",
+                url: 'http://springbreak.wildbook.org/ia',
+                data: JSON.stringify(params),
+                dataType: "json",
+                contentType: 'application/javascript'
+            });
+        };
+
+        factory.getIdentificationReview = function(id) {
+            if (id) {
+                console.log("get a specific id review TODO");
+            } else {
+                return $http.get('http://springbreak.wildbook.org/ia?getIdentificationReviewHtmlNext');
+            }
+        };
+
 
 
         return factory;
