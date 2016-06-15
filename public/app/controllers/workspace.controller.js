@@ -269,7 +269,10 @@ var workspace = angular.module('workspace', [])
                     clickOutsideToClose: true,
                     fullscreen: true,
                     preserveScope: true,
-                    scope: $scope
+                    scope: $scope,
+                    onComplete: function() {
+                        $scope.identification.getReview();
+                    }
                 },
                 startIdentification: function(ev) {
                     var confirm = $mdDialog.confirm()
@@ -287,7 +290,6 @@ var workspace = angular.module('workspace', [])
                 },
                 showIdentificationReview: function(ev) {
                     $mdDialog.show($scope.identification.dialog);
-                    $scope.identification.getReview();
                 },
                 hideReview: function() {
                     $mdDialog.hide($scope.identification.dialog);
