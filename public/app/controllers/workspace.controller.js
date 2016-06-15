@@ -264,6 +264,13 @@ var workspace = angular.module('workspace', [])
 
             //object where all identification methods are stored
             $scope.identification = {
+                dialog: {
+                    templateUrl: 'app/views/includes/workspace/identification.review.html',
+                    clickOutsideToClose: true,
+                    fullscreen: true,
+                    preserveScope: true,
+                    scope: $scope
+                },
                 startIdentification: function(ev) {
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to run identification?')
@@ -279,12 +286,23 @@ var workspace = angular.module('workspace', [])
                     });
                 },
                 showIdentificationReview: function(ev) {
+                    $mdDialog.show($scope.identification.dialog);
                     $scope.identification.getReview();
                 },
+                hideReview: function() {
+                    $mdDialog.hide($scope.identification.dialog);
+                },
                 getReview: function() {
-                    Wildbook.getIdentificationReview().then(function(response) {
-                        console.log(response);
+                    var href = Wildbook.identificationReview();
+                    console.log("GETTING ID REVIEW");
+                    $("#identification-review").load(href, function(response, status, xhr) {
+                        console.log(status);
+                        // TODO something?
                     });
+                },
+                next: function(id) {
+                    $scope.proxy(id);
+                    $scope.identification.getReview();
                 }
             };
 
@@ -334,7 +352,7 @@ var workspace = angular.module('workspace', [])
                     $scope.waiting_for_response = true;
 
                     // while ($scope.waiting_for_response == true) {
-                        $scope.detection.checkLoadedDetection();
+                    $scope.detection.checkLoadedDetection();
                     // }
                     // $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 500);
                 },
@@ -393,7 +411,7 @@ var workspace = angular.module('workspace', [])
                 },
                 //temp function
                 nextClicked: function() {
-                    if(document.getElementsByName("mediaasset-id")[0] != null){
+                    if (document.getElementsByName("mediaasset-id")[0] != null) {
                         $scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
                     }
                     console.log($scope.pastDetectionReviews);
@@ -405,7 +423,7 @@ var workspace = angular.module('workspace', [])
                 },
                 //temp function
                 decrementOffset: function() {
-                    //go back to last detection 
+                    //go back to last detection
 
                     // $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
@@ -421,7 +439,7 @@ var workspace = angular.module('workspace', [])
                 },
                 getNextDetectionHTML: function() {
                     console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext");
-                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
+                    $("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
                         console.log("loaded");
                         console.log(status);
                         $scope.waiting_for_response = false;

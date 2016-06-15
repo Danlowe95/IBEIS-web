@@ -246,11 +246,11 @@ angular.module('wildbook.service', [])
             });
         };
 
-        factory.getIdentificationReview = function(id) {
+        factory.identificationReview = function(id) {
             if (id) {
                 console.log("get a specific id review TODO");
             } else {
-                return $http.get('http://springbreak.wildbook.org/ia?getIdentificationReviewHtmlNext');
+                return 'http://springbreak.wildbook.org/ia?getIdentificationReviewHtmlNext&test';
             }
         };
 

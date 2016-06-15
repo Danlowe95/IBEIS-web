@@ -128,6 +128,13 @@ td {
     display: none;
 }
 
+#ia-turk-submit-match,
+#ia-turk-submit-notmatch,
+#ia-turk-submit-notcomparable,
+#ia-turk-submit-photobomb {
+  display: none;
+}
+
 .grid-container {
     margin: 10px;
 }
@@ -220,7 +227,7 @@ td {
 table {
     color: #333;
     /*font-family: Helvetica, Arial, sans-serif;*/
-    
+
     width: 640px;
     border-collapse: collapse;
     border-spacing: 0;
@@ -229,14 +236,14 @@ td,
 th {
     border: 1px solid transparent;
     /* No more visible border */
-    
+
     height: 30px;
     /*transition: all 0.3s;   Simple transition for hover effect */
 }
 th {
     background: #DFDFDF;
     /* Darken header a bit */
-    
+
     font-weight: bold;
     text-align: center;
 }
