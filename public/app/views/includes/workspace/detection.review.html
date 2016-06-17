@@ -3,7 +3,7 @@
     <div class="md-toolbar-tools">
       <h2>Detection Review</h2>
       <span flex></span>
-      <md-button class="md-primary" ng-click="detection.loadDetectionHTML()">Restart
+      <md-button class="md-primary" ng-click="detection.getNextDetectionHTML()">Restart
         <md-tooltip md-autohide>
           Restart from offset 0
         </md-tooltip>
@@ -23,7 +23,7 @@
     <div layout-padding flex class="ibeis-div" id="detection-review"></div>
     <md-dialog-actions layout="row">
       <div>
-        <md-button class="md-primary md-raised" ng-click="detection.decrementOffset()">Go Back</md-button>
+        <md-button class="md-primary md-raised" ng-disabled="!allowBackButton" ng-click="detection.decrementOffset()">Go Back</md-button>
         <md-button class="md-primary md-raised" ng-click="detection.nextClicked()">Next Image</md-button>
         <!-- <md-utton class="md-primary md-raised" ng-click="detection.endReview()">Save and Exit</md-button> -->
       </div>

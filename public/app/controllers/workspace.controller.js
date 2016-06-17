@@ -6,12 +6,11 @@ var workspace = angular.module('workspace', [])
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
-            $scope.workspace = null;
-            $scope.workspace_occ = [];
+            $scope.workspace = "No Selected Works";
             $scope.workspace_input = {};
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
-            $scope.pastDetectionReviews = [];
+
             //used for saving info using the datepicker
             $scope.set_datetime_model = function() {
                 $scope.datetime_model = new Date($scope.mediaAsset.dateTime);
@@ -131,12 +130,12 @@ var workspace = angular.module('workspace', [])
                 $scope.workspace = "Loading...";
                 Wildbook.getWorkspace(id_)
                     .then(function(data) {
-                        console.log(data);
-                        $scope.workspace = id_;
-                        $scope.currentSlides = data.assets;
-                        $scope.workspace_args = data.metadata.TranslateQueryArgs;
-                        $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurrences);
-                        $scope.$apply();
+                        $scope.$apply(function() {
+                            $scope.workspace = id_;
+                            $scope.currentSlides = data.assets;
+                            $scope.workspace_args = data.metadata.TranslateQueryArgs;
+                            console.log(data.metadata.TranslateQueryArgs);
+                        })
                     }).fail(function(data) {
                         console.log("failed workspace get");
                     });
@@ -263,6 +262,7 @@ var workspace = angular.module('workspace', [])
             };
 
             //object where all identification methods are stored
+            //object where all identification methods are stored
             $scope.identification = {
                 dialog: {
                     templateUrl: 'app/views/includes/workspace/identification.review.html',
@@ -303,42 +303,15 @@ var workspace = angular.module('workspace', [])
                     });
                 },
                 next: function(id) {
-                    $scope.identification.prepForm(id);
                     $scope.proxy(id);
                     $scope.identification.getReview();
-                },
-                prepForm: function(id) {
-                    $('#ia-query-match-form').submit(function(ev) {
-                        ev.preventDefault();
-
-                        var clicked = $('#' + id),
-                            name = clicked.attr("name"),
-                            value = clicked.val();
-                        console.log(name + " : " + value);
-                        var input = $("<input>")
-                            .attr("type", "hidden")
-                            .attr("name", name).val(value);
-                        $(this).append($(input));
-
-                        $.ajax({
-                            url: $(this).attr('action'),
-                            type: $(this).attr('method'),
-                            dataType: 'json',
-                            data: $(this).serialize(),
-                            success: function(data) {
-                                console.log(data);
-                            },
-                            error: function(xhr, err) {
-                                alert('Error');
-                            }
-                        });
-                        return false;
-                    });
                 }
             };
 
             //object where all detection functions are stored
+            $scope.pastDetectionReviews = [];
             $scope.detection = {
+                allowBackButton: false,
                 startDetection: function(ev) {
                     //get all image id's in the workspace
                     image_ids = [];
@@ -383,26 +356,24 @@ var workspace = angular.module('workspace', [])
                     $scope.waiting_for_response = true;
 
                     // while ($scope.waiting_for_response == true) {
-                    $scope.detection.checkLoadedDetection();
+                    $scope.detection.getNextDetectionHTML();
                     // }
                     // $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 500);
                 },
                 //check function every x seconds
-                checkLoadedDetection: function() {
+                // checkLoadedDetection: function() {
 
-                    $scope.detection.getNextDetectionHTML();
-                    // var myElem = document.getElementById('ia-detection-form');
-                    // if (myElem != null) {
-                    //     clearInterval($scope.detection.detectionChecker);
-                    //     $scope.$apply(function() {
-                    //         $scope.reviewData.reviewReady = true;
-                    //     });
-                    // }
-                },
+
+                // var myElem = document.getElementById('ia-detection-form');
+                // if (myElem != null) {
+                //     clearInterval($scope.detection.detectionChecker);
+                //     $scope.$apply(function() {
+                //         $scope.reviewData.reviewReady = true;
+                //     });
+                // }
+                // },
                 //creates a dialog
                 showDetectionReview: function(ev) {
-                    $scope.detection.startCheckDetection();
-
                     $mdDialog.show({
                         scope: $scope,
                         preserveScope: true,
@@ -412,6 +383,8 @@ var workspace = angular.module('workspace', [])
                         fullscreen: true
 
                     });
+                    $scope.detection.startCheckDetection();
+
                 },
 
                 detectDialogCancel: function() {
@@ -455,7 +428,24 @@ var workspace = angular.module('workspace', [])
                 //temp function
                 decrementOffset: function() {
                     //go back to last detection
-
+                    var lastAsset = String($scope.pastDetectionReviews.pop());
+                    console.log(lastAsset);
+                    if (lastAsset == null) {
+                        $scope.detection.allowBackButton = false;
+                        return;
+                    } else {
+                        $scope.detection.allowBackButton = true;
+                        console.log("not null");
+                    }
+                    var params = $.param({
+                        "mediaasset-id": String(lastAsset)
+                    });
+                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtml", params, function(response, status, xhr) {
+                        console.log("loaded");
+                        console.log(status);
+                        // $scope.waiting_for_response = false;
+                        $scope.reviewData.reviewReady = true;
+                    });
                     // $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
                     // $scope.reviewOffset = $scope.reviewOffset - 1;
@@ -470,12 +460,17 @@ var workspace = angular.module('workspace', [])
                 },
                 getNextDetectionHTML: function() {
                     $("#detection-review").load(Wildbook.baseUrl + "ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
+                        if ($scope.pastDetectionReviews.length == 0) {
+                            $scope.detection.allowBackButton = false;
+                        } else {
+                            $scope.detection.allowBackButton = true;
+                        }
                         console.log("loaded");
                         console.log(status);
                         $scope.waiting_for_response = false;
                         $scope.reviewData.reviewReady = true;
-                    });
 
+                    })
                 },
                 //temp function
                 // loadDetectionHTMLwithOffset: function() {
@@ -742,11 +737,7 @@ var workspace = angular.module('workspace', [])
                             case "existing":
                                 Wildbook.findMediaAssetSetIdFromUploadSet(set).then(function(response) {
                                     var id = response.data.metadata.TranslateQueryArgs.query.id;
-                                    if (id == undefined) id = JSON.parse(response.data.metadata.TranslateQueryArgs.query).id;
-                                    console.log("id: " + id);
                                     Wildbook.createMediaAssets(assets, id).then(function(response) {
-                                        console.log(response);
-                                        $scope.queryWorkspaceList();
                                         $scope.setWorkspace(set, false);
                                         $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
                                     });
@@ -782,40 +773,6 @@ var workspace = angular.module('workspace', [])
                     }
                     $scope.upload.totalProgress = Math.round(sum / max * 100);
                 }
-            };
-
-            $scope.lewaUpload = {
-                dialog: {
-                    templateUrl: 'app/views/includes/workspace/upload/lewa.dialog.html',
-                    clickOutsideToClose: true,
-                    fullscreen: true,
-                    preserveScope: true,
-                    scope: $scope
-                },
-                show: function(ev) {
-                    $mdDialog.show($scope.lewaUpload.dialog);
-                },
-                close: function(ev) {
-                    $mdDialog.hide($scope.lewaUpload.dialog);
-                },
-                selectXML: function(element) {
-                    var justFile = $.map(element.files, function(val, key) {
-                        return val;
-                    }, true);
-                    $scope.lewaUpload.xml = justFile;
-                    $scope.$apply();
-                    console.log($scope.lewaUpload.xml);
-                },
-                selectFolder: function(element) {
-                    var justFiles = $.map(element.files, function(val, key) {
-                        return val;
-                    }, true);
-                    $scope.lewaUpload.images = justFiles;
-                    $scope.$apply();
-                    console.log($scope.lewaUpload.images);
-                },
-                images: null,
-                xml: null
             };
 
             /* An intermediate function to link an md-button to a
