@@ -312,6 +312,14 @@ var workspace = angular.module('workspace', [])
             $scope.pastDetectionReviews = [];
             $scope.detection = {
                 allowBackButton: false,
+                dialog: {
+                    scope: $scope,
+                    preserveScope: true,
+                    templateUrl: 'app/views/includes/workspace/detection.review.html',
+                    targetEvent: ev,
+                    clickOutsideToClose: false,
+                    fullscreen: true
+                },
                 startDetection: function(ev) {
                     //get all image id's in the workspace
                     image_ids = [];
@@ -330,13 +338,12 @@ var workspace = angular.module('workspace', [])
                     }).then(function(data) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        $scope.$apply(function() {
-                            //detection has started.  Save the job id, then launch review
-                            $scope.last_jobid = data.sendDetect.response;
-                            console.log("New jobID " + data.sendDetect.response);
+                        //detection has started.  Save the job id, then launch review
+                        $scope.last_jobid = data.sendDetect.response;
+                        console.log("New jobID " + data.sendDetect.response);
 
-                            $scope.detection.showDetectionReview(ev);
-                        })
+                        $scope.detection.showDetectionReview(ev);
+                        $scope.$apply();
                     }).fail(function(data) {
 
                         $mdDialog.show(
@@ -374,25 +381,17 @@ var workspace = angular.module('workspace', [])
                 // },
                 //creates a dialog
                 showDetectionReview: function(ev) {
-                    $mdDialog.show({
-                        scope: $scope,
-                        preserveScope: true,
-                        templateUrl: 'app/views/includes/workspace/detection.review.html',
-                        targetEvent: ev,
-                        clickOutsideToClose: false,
-                        fullscreen: true
-
-                    });
+                    $mdDialog.show($scope.detection.dialog);
                     $scope.detection.startCheckDetection();
 
                 },
 
                 detectDialogCancel: function() {
-                    $mdDialog.cancel();
+                    $mdDialog.cancel($scope.detection.dialog);
                 },
                 //unused?
                 detectDialogHide: function() {
-                    $mdDialog.hide();
+                    $mdDialog.hide($scope.detection.dialog);
                 },
                 //on button click prev/next/saveandexit
                 submitDetectionReview: function() {
@@ -440,7 +439,7 @@ var workspace = angular.module('workspace', [])
                     var params = $.param({
                         "mediaasset-id": String(lastAsset)
                     });
-                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtml", params, function(response, status, xhr) {
+                    $("#ibeis-process").load(Wildbook.baseUrl + "ia?getDetectionReviewHtml", params, function(response, status, xhr) {
                         console.log("loaded");
                         console.log(status);
                         // $scope.waiting_for_response = false;
@@ -460,7 +459,7 @@ var workspace = angular.module('workspace', [])
                 },
                 getNextDetectionHTML: function() {
                     $("#detection-review").load(Wildbook.baseUrl + "ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
-                        if ($scope.pastDetectionReviews.length == 0) {
+                        if ($scope.pastDetectionReviews.length <= 0) {
                             $scope.detection.allowBackButton = false;
                         } else {
                             $scope.detection.allowBackButton = true;
@@ -617,13 +616,13 @@ var workspace = angular.module('workspace', [])
             //  - 3 = complete
             $scope.upload = {
                 types: Wildbook.types,
-                type: "s3",
+                type: "local",
                 updateType: function() {
                     var t = $routeParams.upload;
                     if (t && _.indexOf($scope.upload.types, t) !== -1) {
                         $scope.upload.type = t;
                     }
-                    console.log($scope.upload.type);
+                    console.log('upload type: ' + $scope.upload.type);
                 },
                 dialog: {
                     templateUrl: 'app/views/includes/workspace/upload.dialog.html',
