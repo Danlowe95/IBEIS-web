@@ -23,7 +23,7 @@
     <div layout-padding flex class="ibeis-div" id="detection-review"></div>
     <md-dialog-actions layout="row">
       <div>
-        <md-button class="md-primary md-raised" ng-click="detection.decrementOffset()">Go Back</md-button>
+        <md-button class="md-primary md-raised" ng-disabled="!allowBackButton" ng-click="detection.decrementOffset()">Go Back</md-button>
         <md-button class="md-primary md-raised" ng-click="detection.nextClicked()">Next Image</md-button>
         <!-- <md-utton class="md-primary md-raised" ng-click="detection.endReview()">Save and Exit</md-button> -->
       </div>

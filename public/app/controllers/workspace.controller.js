@@ -10,7 +10,7 @@ var workspace = angular.module('workspace', [])
             $scope.workspace_input = {};
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
-            $scope.pastDetectionReviews = [];
+            
             //used for saving info using the datepicker
             $scope.set_datetime_model = function() {
                 $scope.datetime_model = new Date($scope.mediaAsset.dateTime);
@@ -305,7 +305,9 @@ var workspace = angular.module('workspace', [])
             };
 
             //object where all detection functions are stored
+            $scope.pastDetectionReviews = [];
             $scope.detection = {
+                allowBackButton: false,
                 startDetection: function(ev) {
                     //get all image id's in the workspace
                     image_ids = [];
@@ -421,11 +423,23 @@ var workspace = angular.module('workspace', [])
                 },
                 //temp function
                 decrementOffset: function() {
-                    //go back to last detection 
-                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtml", function(response, status, xhr) {
+                    //go back to last detection
+                    var lastAsset = String($scope.pastDetectionReviews.pop());
+                    console.log(lastAsset);
+                    if (lastAsset == null){
+                        $scope.detection.allowBackButton = false;
+                        return;
+                    }else{
+                        $scope.detection.allowBackButton = true;
+                        console.log("not null");
+                    }
+                    var params = $.param({
+                    "mediaasset-id": String(lastAsset)
+                });
+                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtml", params,function(response, status, xhr) {
                         console.log("loaded");
                         console.log(status);
-                        $scope.waiting_for_response = false;
+                        // $scope.waiting_for_response = false;
                         $scope.reviewData.reviewReady = true;
                     });
                     // $scope.detection.submitDetectionReview();
@@ -441,6 +455,11 @@ var workspace = angular.module('workspace', [])
                     $scope.detection.detectDialogCancel();
                 },
                 getNextDetectionHTML: function() {
+                    if ($scope.pastDetectionReviews.length == 0){
+                        $scope.detection.allowBackButton = false;
+                    }else{
+                        $scope.detection.allowBackButton = true;
+                    }
                     console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext");
                     $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
                         console.log("loaded");
