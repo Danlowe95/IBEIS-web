@@ -21,7 +21,7 @@ var workspace = angular.module('workspace', [])
                 $scope.workspace_args = params;
                 $.ajax({
                     type: "POST",
-                    url: 'http://springbreak.wildbook.org/TranslateQuery',
+                    url: Wildbook.baseUrl + 'TranslateQuery',
                     data: params,
                     dataType: "json"
                 }).then(function(data) {
@@ -37,7 +37,7 @@ var workspace = angular.module('workspace', [])
             $scope.queryWorkspaceList = function() {
                 $.ajax({
                         type: "GET",
-                        url: 'http://springbreak.wildbook.org/WorkspacesForUser'
+                        url: Wildbook.baseUrl + 'WorkspacesForUser'
                     })
                     .then(function(data) {
                         //We need to decide a proper variable for saving workspace data. do we need 1 or 2
@@ -176,7 +176,7 @@ var workspace = angular.module('workspace', [])
                 $mdDialog.show(confirm).then(function() {
                     $.ajax({
                             type: "POST",
-                            url: 'http://springbreak.wildbook.org/WorkspaceDelete',
+                            url: Wildbook.baseUrl + 'WorkspaceDelete',
                             data: {
                                 id: $scope.workspace
                             },
@@ -206,13 +206,13 @@ var workspace = angular.module('workspace', [])
                 console.log(params);
                 $.ajax({
                         type: "POST",
-                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
+                        url: Wildbook.baseUrl + 'MediaAssetModify',
                         data: params,
                         dataType: "json"
                     })
                     .then(function(data) {
                         console.log("save complete " + response.data);
-                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
+                        $http.get(Wildbook.baseUrl + 'MediaAssetContext?id=' + $scope.mediaAssetId)
                             .then(function(response) {
                                 $scope.mediaAssetContext = response.data;
                             });
@@ -303,8 +303,37 @@ var workspace = angular.module('workspace', [])
                     });
                 },
                 next: function(id) {
+                    $scope.identification.prepForm(id);
                     $scope.proxy(id);
                     $scope.identification.getReview();
+                },
+                prepForm: function(id) {
+                    $('#ia-query-match-form').submit(function(ev) {
+                        ev.preventDefault();
+
+                        var clicked = $('#' + id),
+                            name = clicked.attr("name"),
+                            value = clicked.val();
+                        console.log(name + " : " + value);
+                        var input = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", name).val(value);
+                        $(this).append($(input));
+
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: $(this).attr('method'),
+                            dataType: 'json',
+                            data: $(this).serialize(),
+                            success: function(data) {
+                                console.log(data);
+                            },
+                            error: function(xhr, err) {
+                                alert('Error');
+                            }
+                        });
+                        return false;
+                    });
                 }
             };
 
@@ -321,7 +350,7 @@ var workspace = angular.module('workspace', [])
                     var detect_data = "{detect: [" + image_ids + "]}";
                     $.ajax({
                         type: "POST",
-                        url: 'http://springbreak.wildbook.org/ia',
+                        url: Wildbook.baseUrl + 'ia',
                         data: detect_data,
                         dataType: "json",
                         contentType: 'application/javascript'
@@ -440,8 +469,7 @@ var workspace = angular.module('workspace', [])
                     $scope.detection.detectDialogCancel();
                 },
                 getNextDetectionHTML: function() {
-                    console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext");
-                    $("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
+                    $("#detection-review").load(Wildbook.baseUrl + "ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
                         console.log("loaded");
                         console.log(status);
                         $scope.waiting_for_response = false;
@@ -504,13 +532,13 @@ var workspace = angular.module('workspace', [])
                 console.log(params);
                 $.ajax({
                         type: "POST",
-                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
+                        url: Wildbook.baseUrl + 'MediaAssetModify',
                         data: params,
                         dataType: "json"
                     })
                     .then(function(data) {
                         console.log("saved");
-                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
+                        $http.get(Wildbook.baseUrl + 'MediaAssetContext?id=' + $scope.mediaAssetId)
                             .then(function(response) {
                                 $scope.mediaAssetContext = response.data;
                                 // $scope.setWorkspace($scope.workspace);
@@ -527,7 +555,7 @@ var workspace = angular.module('workspace', [])
             function ImageDialogController($scope, $mdDialog, mediaAsset) {
                 var mediaAssetId = mediaAsset.id;
                 $scope.mediaAssetId = mediaAsset.id;
-                $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
+                $http.get(Wildbook.baseUrl + 'MediaAssetContext?id=' + mediaAssetId)
                     .then(function(response) {
                         $scope.mediaAssetContext = response.data;
                     });

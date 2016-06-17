@@ -2,6 +2,8 @@ angular.module('wildbook.service', [])
     .factory('Wildbook', ['$http', function($http) {
         var factory = {};
 
+        factory.baseUrl = "http://springbreak.wildbook.org/"
+
         // UPLOADING TO S3 AND THROUGH FLOW
         // ==================================
         factory.types = ["s3", "local"];
@@ -86,7 +88,7 @@ angular.module('wildbook.service', [])
         // upload to local server with flow
         var flowUpload = function(images, progressCallback, completionCallback) {
             var flow = new Flow({
-                target: 'http://springbreak.wildbook.org/ResumableUpload',
+                target: factory.baseUrl + 'ResumableUpload',
                 forceChunkSize: true,
                 maxChunkRetries: 5,
                 testChunks: false
@@ -143,7 +145,7 @@ angular.module('wildbook.service', [])
         // request mediaAssetSet
         factory.requestMediaAssetSet = function() {
             // TODO: check for errors?
-            return $http.get('http://springbreak.wildbook.org/MediaAssetCreate?requestMediaAssetSet');
+            return $http.get(factory.baseUrl + 'MediaAssetCreate?requestMediaAssetSet');
         };
 
         // create MediaAsset for flow upload
@@ -159,7 +161,7 @@ angular.module('wildbook.service', [])
         factory.findMediaAssetSetIdFromUploadSet = function(setName) {
             var params = {
                 method: "GET",
-                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                url: factory.baseUrl + 'WorkspaceServer',
                 params: {
                     id: setName
                 }
@@ -184,12 +186,12 @@ angular.module('wildbook.service', [])
                     }]
                 };
             }
-            return $http.post('http://springbreak.wildbook.org/MediaAssetCreate', mediaAssets);
+            return $http.post(factory.baseUrl + 'MediaAssetCreate', mediaAssets);
         };
 
         factory.getAllMediaAssets = function() {
             console.log("retrieving all media assets for this user");
-            return $http.get('http://springbreak.wildbook.org/MediaAssetsForUser');
+            return $http.get(factory.baseUrl + 'MediaAssetsForUser');
         };
 
         // WORKSPACES
@@ -197,7 +199,7 @@ angular.module('wildbook.service', [])
         factory.retrieveWorkspaces = function(isImageSet) {
             return $.ajax({
                 type: "GET",
-                url: 'http://springbreak.wildbook.org/WorkspacesForUser',
+                url: factory.baseUrl + 'WorkspacesForUser',
                 params: {
                     isImageSet: isImageSet
                 }
@@ -211,7 +213,7 @@ angular.module('wildbook.service', [])
             });
             return $.ajax({
                 type: "POST",
-                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                url: factory.baseUrl + 'WorkspaceServer',
                 data: params,
                 dataType: "json"
             });
@@ -220,7 +222,7 @@ angular.module('wildbook.service', [])
         factory.getWorkspace = function(id) {
             return $.ajax({
                 type: "GET",
-                url: 'http://springbreak.wildbook.org/WorkspaceServer',
+                url: factory.baseUrl + 'WorkspaceServer',
                 data: {
                     id: id
                 },
@@ -239,7 +241,7 @@ angular.module('wildbook.service', [])
             };
             return $.ajax({
                 type: "POST",
-                url: 'http://springbreak.wildbook.org/ia',
+                url: factory.baseUrl + 'ia',
                 data: JSON.stringify(params),
                 dataType: "json",
                 contentType: 'application/javascript'
@@ -250,7 +252,7 @@ angular.module('wildbook.service', [])
             if (id) {
                 console.log("get a specific id review TODO");
             } else {
-                return 'http://springbreak.wildbook.org/ia?getIdentificationReviewHtmlNext&test';
+                return factory.baseUrl + 'ia?getIdentificationReviewHtmlNext&test';
             }
         };
 
