@@ -303,8 +303,37 @@ var workspace = angular.module('workspace', [])
                     });
                 },
                 next: function(id) {
+                    $scope.identification.prepForm(id);
                     $scope.proxy(id);
                     $scope.identification.getReview();
+                },
+                prepForm: function(id) {
+                    $('#ia-query-match-form').submit(function(ev) {
+                        ev.preventDefault();
+
+                        var clicked = $('#' + id),
+                            name = clicked.attr("name"),
+                            value = clicked.val();
+                        console.log(name + " : " + value);
+                        var input = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", name).val(value);
+                        $(this).append($(input));
+
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: $(this).attr('method'),
+                            dataType: 'json',
+                            data: $(this).serialize(),
+                            success: function(data) {
+                                console.log(data);
+                            },
+                            error: function(xhr, err) {
+                                alert('Error');
+                            }
+                        });
+                        return false;
+                    });
                 }
             };
 
@@ -316,7 +345,6 @@ var workspace = angular.module('workspace', [])
                     scope: $scope,
                     preserveScope: true,
                     templateUrl: 'app/views/includes/workspace/detection.review.html',
-                    targetEvent: ev,
                     clickOutsideToClose: false,
                     fullscreen: true
                 },
@@ -736,7 +764,11 @@ var workspace = angular.module('workspace', [])
                             case "existing":
                                 Wildbook.findMediaAssetSetIdFromUploadSet(set).then(function(response) {
                                     var id = response.data.metadata.TranslateQueryArgs.query.id;
+                                    if (id == undefined) id = JSON.parse(response.data.metadata.TranslateQueryArgs.query).id;
+                                    console.log("id: " + id);
                                     Wildbook.createMediaAssets(assets, id).then(function(response) {
+                                        console.log(response);
+                                        $scope.queryWorkspaceList();
                                         $scope.setWorkspace(set, false);
                                         $mdDialog.hide($scope.upload.uploadSetDialog.dialog);
                                     });
