@@ -8,6 +8,7 @@ var workspace = angular.module('workspace', [])
             $scope.reviewOffset = 0;
             $scope.workspace = "No Selected Works";
             $scope.workspace_input = {};
+            $scope.workspace_occ = null;
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
 
@@ -134,7 +135,8 @@ var workspace = angular.module('workspace', [])
                             $scope.workspace = id_;
                             $scope.currentSlides = data.assets;
                             $scope.workspace_args = data.metadata.TranslateQueryArgs;
-                            console.log(data.metadata.TranslateQueryArgs);
+                            $scope.workspace_occ = data.metadata.occurrences;
+                            console.log(data.metadata);
                         })
                     }).fail(function(data) {
                         console.log("failed workspace get");
