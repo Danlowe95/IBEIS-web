@@ -35,6 +35,7 @@ module.exports = function(config) {
       'public/bower_components/ui-leaflet/dist/ui-leaflet.js',
       'public/bower_components/angular-route/angular-route.js',
       'public/bower_components/jquery-alphanum/jquery.alphanum.js',
+      'public/bower_components/angular-lazy-img/release/angular-lazy-img.js',
       // endbower
       "public/app/ibeis.js",
       "public/app/ibeis.routes.js",

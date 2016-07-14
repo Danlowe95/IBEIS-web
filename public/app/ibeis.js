@@ -12,6 +12,7 @@ angular.module('ibeis', [
         'uiGmapgoogle-maps', // angular google maps
         'ngPhotoswipe', // photoswipe
         'ui-leaflet',
+        'angularLazyImg',
     ])
     // setup theme
     .config(function($mdThemingProvider) {

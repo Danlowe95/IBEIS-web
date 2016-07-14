@@ -1,11 +1,16 @@
-<script src="<your-bower-components>/angular-lazy-img/release/angular-lazy-img.js"></script>
+<html>
+<head>
+  <script src="jquery.js"></script>
+
+<script src="bower_components/angular-lazy-img/release/angular-lazy-img.js"></script>
+</head>
 <div class="gridListdemoBasicUsage">
   <div class='md-padding' layout="row" layout-align="center center" layout-wrap>
     <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="slide in currentSlides" ng-click="showImageInfo($event, $index)">
       <div>
         <div style="border: 1px solid black;">
-          <img class="card-img" ng-src="{{slide.url}}">
-          <!-- <img class="card-img" lazy-img='{{slide.url}}'></div> -->
+          <!-- <img class="card-img" ng-src="{{slide.url}}"> -->
+          <img class="card-img" lazy-img='{{slide.url}}'/></div>
 
         </div>
         <md-card-actions layout="row" layout-align="center" class="img-text">
@@ -15,3 +20,4 @@
     </md-card>
   </div>
 </div>
+</html>
