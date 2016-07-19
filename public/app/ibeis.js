@@ -13,6 +13,7 @@ angular.module('ibeis', [
         'ngPhotoswipe', // photoswipe
         'ui-leaflet',
         'angularLazyImg',
+
     ])
     // setup theme
     .config(function($mdThemingProvider) {

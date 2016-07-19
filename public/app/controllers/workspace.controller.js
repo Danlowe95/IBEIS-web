@@ -11,6 +11,11 @@ var workspace = angular.module('workspace', [])
             $scope.workspace_occ = null;
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
+            $scope.totalDisplayed = 20;
+
+            $scope.loadMore = function () {
+              $scope.totalDisplayed += 20;  
+            };
 
             //used for saving info using the datepicker
             $scope.set_datetime_model = function() {

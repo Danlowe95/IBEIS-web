@@ -16,7 +16,8 @@
     "ui-leaflet": "^1.0.0",
     "angular-route": "^1.5.5",
     "jquery-alphanum": "^1.0.24",
-    "angular-lazy-img": "^1.2.2"
+    "angular-lazy-img": "^1.2.2",
+    "lazysizes": "^2.0.0"
   },
   "overrides": {
     "font-awesome": {
