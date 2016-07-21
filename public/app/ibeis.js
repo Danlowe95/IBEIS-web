@@ -11,6 +11,8 @@ angular.module('ibeis', [
         'smart-table',
         'uiGmapgoogle-maps', // angular google maps
         'ui-leaflet',
+        'angularLazyImg',
+
     ])
     // setup theme
     .config(function($mdThemingProvider) {

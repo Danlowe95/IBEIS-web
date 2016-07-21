@@ -21,8 +21,8 @@
       <md-list>
         <div ng-if="!edit_datetime" ng-init="edit_datetime=false">
           <md-list-item>
-            {{ mediaAsset.dateTime }}
-            <md-icon-button ng-click="$parent.edit_datetime=true" class="fa fa-edit"></md-icon-button>
+            {{ mediaAsset.dateTime }} 
+            <md-icon-button ng-click="$parent.edit_datetime=true" class="fa fa-edit" style="color: green; padding-left: 5px;"></md-icon-button>
           </md-list-item>
         </div>
         <div ng-if="edit_datetime">

@@ -129,7 +129,6 @@ var workspace = angular.module('workspace', [])
                 //  this should be used as a sort of refresh
                 if (checkSame && $scope.workspace === id_) return;
                 $scope.workspace = "Loading...";
-                $scope.refreshReviews();
                 Wildbook.getWorkspace(id_)
                     .then(function(data) {
                         console.log(data);
@@ -146,7 +145,6 @@ var workspace = angular.module('workspace', [])
             $scope.viewAllImages = function(checkSame) {
                 if (checkSame && $scope.workspace === "All Images") return;
                 $scope.workspace = "Loading...";
-                $scope.refreshReviews();
                 Wildbook.getAllMediaAssets().then(function(response) {
                     console.log(response);
                     $scope.workspace = "All Images";
@@ -264,14 +262,9 @@ var workspace = angular.module('workspace', [])
                 }
             };
 
-            $scope.refreshReviews = function() {
-                $scope.reviewCounts = Wildbook.getReviewCounts();
-            };
-
             //object where all identification methods are stored
             $scope.identification = {
                 startIdentification: function(ev) {
-                    $scope.refreshReviews();
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to run identification?')
                         .textContent('You will be running identification on ' + $scope.workspace_occ.length + ' occurrences.')
@@ -286,20 +279,18 @@ var workspace = angular.module('workspace', [])
                     });
                 },
                 showIdentificationReview: function(ev) {
-                    $scope.refreshReviews();
                     $scope.identification.getReview();
                 },
                 getReview: function() {
                     Wildbook.getIdentificationReview().then(function(response) {
                         console.log(response);
                     });
-                },
+                }
             };
 
             //object where all detection functions are stored
             $scope.detection = {
                 startDetection: function(ev) {
-                    $scope.refreshReviews();
                     //get all image id's in the workspace
                     image_ids = [];
                     var i;
@@ -361,8 +352,6 @@ var workspace = angular.module('workspace', [])
                 },
                 //creates a dialog
                 showDetectionReview: function(ev) {
-                    $scope.refreshReviews();
-
                     $scope.detection.startCheckDetection();
 
                     $mdDialog.show({
