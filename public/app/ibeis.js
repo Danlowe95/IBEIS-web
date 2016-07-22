@@ -13,6 +13,7 @@ angular.module('ibeis', [
         'ngPhotoswipe', // photoswipe
         'ui-leaflet',
         'angularLazyImg',
+        'infinite-scroll',
 
     ])
     // setup theme
