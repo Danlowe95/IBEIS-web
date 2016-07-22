@@ -84,7 +84,7 @@ $(function(){
       <strong>Run</strong> Detection
     </md-button>
     <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.showDetectionReview($event)" ng-disabled="workspace == 'Loading...'">
-      <strong>Review</strong> Detection
+      <strong>Review</strong> Detection ({{ reviewCounts.responseJSON.detection }})
     </md-button>
     <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'">
       <strong>Review</strong> Annotations
@@ -93,7 +93,7 @@ $(function(){
       <strong>Run</strong> Identification
     </md-button>
     <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" ng-click="identification.showIdentificationReview()">
-      <strong>Review</strong> Identification
+      <strong>Review</strong> Identification ({{ reviewCounts.responseJSON.identification }})
     </md-button>
     <md-button class="md-secondary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" href="http://springbreak.wildbook.org/">
       <strong>View</strong> Biological Data

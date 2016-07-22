@@ -221,6 +221,14 @@ angular.module('wildbook.service', [])
             return $http.get(factory.baseUrl + 'MediaAssetsForUser');
         };
 
+        factory.getReviewCounts = function() {
+            return $.ajax({
+                type: "GET",
+                url: 'http://springbreak.wildbook.org/ia?getReviewCounts',
+                dataType: "json"
+            });
+        };
+
         // WORKSPACES
         // ============
         factory.retrieveWorkspaces = function(isImageSet) {
