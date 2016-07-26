@@ -24,9 +24,6 @@ module.exports = function(config) {
       'public/bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js',
       'public/bower_components/js-rich-marker/src/richmarker.js',
       'public/bower_components/angular-google-maps/dist/angular-google-maps.js',
-      'public/bower_components/photoswipe/dist/photoswipe.js',
-      'public/bower_components/photoswipe/dist/photoswipe-ui-default.js',
-      'public/bower_components/ng-photoswipe/angular-photoswipe.min.js',
       'public/bower_components/flow.js/dist/flow.js',
       'public/bower_components/aws-sdk/dist/aws-sdk.js',
       'public/bower_components/underscore/underscore.js',
@@ -37,6 +34,8 @@ module.exports = function(config) {
       'public/bower_components/jquery-alphanum/jquery.alphanum.js',
       'public/bower_components/exif-js/exif.js',
       'public/bower_components/ng-exif/ng-exif.js',
+      'public/bower_components/angular-lazy-img/release/angular-lazy-img.js',
+      'public/bower_components/lazysizes/lazysizes.js',
       // endbower
       "public/app/ibeis.js",
       "public/app/ibeis.routes.js",
