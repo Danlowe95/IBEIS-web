@@ -6,12 +6,12 @@ var workspace = angular.module('workspace', [])
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
             $scope.reviewOffset = 0;
-            $scope.workspace = "No Selected Works";
+            $scope.workspace = null;
+            $scope.workspace_occ = [];
             $scope.workspace_input = {};
-            $scope.workspace_occ = null;
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
-
+            $scope.pastDetectionReviews = [];
             //used for saving info using the datepicker
             $scope.set_datetime_model = function() {
                 $scope.datetime_model = new Date($scope.mediaAsset.dateTime);
@@ -21,7 +21,7 @@ var workspace = angular.module('workspace', [])
                 $scope.workspace_args = params;
                 $.ajax({
                     type: "POST",
-                    url: Wildbook.baseUrl + 'TranslateQuery',
+                    url: 'http://springbreak.wildbook.org/TranslateQuery',
                     data: params,
                     dataType: "json"
                 }).then(function(data) {
@@ -37,7 +37,7 @@ var workspace = angular.module('workspace', [])
             $scope.queryWorkspaceList = function() {
                 $.ajax({
                         type: "GET",
-                        url: Wildbook.baseUrl + 'WorkspacesForUser'
+                        url: 'http://springbreak.wildbook.org/WorkspacesForUser'
                     })
                     .then(function(data) {
                         //We need to decide a proper variable for saving workspace data. do we need 1 or 2
@@ -117,16 +117,16 @@ var workspace = angular.module('workspace', [])
                 //  this should be used as a sort of refresh
                 if (checkSame && $scope.workspace === id_) return;
                 $scope.workspace = "Loading...";
+                $scope.refreshReviews();
                 Wildbook.getWorkspace(id_)
                     .then(function(data) {
-                        $scope.$apply(function() {
-                            $scope.workspace = id_;
-                            $scope.currentSlides = data.assets;
-                            $scope.workspace_args = data.metadata.TranslateQueryArgs;
-                            $scope.workspace_occ = data.metadata.occurrences;
-                            console.log(data.metadata);
-							$scope.map.refreshMap();
-                        })
+                        console.log(data);
+                        $scope.workspace = id_;
+                        $scope.currentSlides = data.assets;
+                        $scope.workspace_args = data.metadata.TranslateQueryArgs;
+                        $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurrences);
+                        $scope.$apply();
+						$scope.map.refreshMap();
                     }).fail(function(data) {
                         console.log("failed workspace get");
                     });
@@ -135,6 +135,7 @@ var workspace = angular.module('workspace', [])
             $scope.viewAllImages = function(checkSame) {
                 if (checkSame && $scope.workspace === "All Images") return;
                 $scope.workspace = "Loading...";
+                $scope.refreshReviews();
                 Wildbook.getAllMediaAssets().then(function(response) {
                     console.log(response);
                     $scope.workspace = "All Images";
@@ -167,7 +168,7 @@ var workspace = angular.module('workspace', [])
                 $mdDialog.show(confirm).then(function() {
                     $.ajax({
                             type: "POST",
-                            url: Wildbook.baseUrl + 'WorkspaceDelete',
+                            url: 'http://springbreak.wildbook.org/WorkspaceDelete',
                             data: {
                                 id: $scope.workspace
                             },
@@ -197,13 +198,13 @@ var workspace = angular.module('workspace', [])
                 console.log(params);
                 $.ajax({
                         type: "POST",
-                        url: Wildbook.baseUrl + 'MediaAssetModify',
+                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
                         data: params,
                         dataType: "json"
                     })
                     .then(function(data) {
                         console.log("save complete " + response.data);
-                        $http.get(Wildbook.baseUrl + 'MediaAssetContext?id=' + $scope.mediaAssetId)
+                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
                             .then(function(response) {
                                 $scope.mediaAssetContext = response.data;
                             });
@@ -253,20 +254,14 @@ var workspace = angular.module('workspace', [])
                 }
             };
 
-            //object where all identification methods are stored
+            $scope.refreshReviews = function() {
+                $scope.reviewCounts = Wildbook.getReviewCounts();
+            };
+
             //object where all identification methods are stored
             $scope.identification = {
-                dialog: {
-                    templateUrl: 'app/views/includes/workspace/identification.review.html',
-                    clickOutsideToClose: true,
-                    fullscreen: true,
-                    preserveScope: true,
-                    scope: $scope,
-                    onComplete: function() {
-                        $scope.identification.getReview();
-                    }
-                },
                 startIdentification: function(ev) {
+                    $scope.refreshReviews();
                     var confirm = $mdDialog.confirm()
                         .title('Would you like to run identification?')
                         .textContent('You will be running identification on ' + $scope.workspace_occ.length + ' occurrences.')
@@ -281,66 +276,20 @@ var workspace = angular.module('workspace', [])
                     });
                 },
                 showIdentificationReview: function(ev) {
-                    $mdDialog.show($scope.identification.dialog);
-                },
-                hideReview: function() {
-                    $mdDialog.hide($scope.identification.dialog);
-                },
-                getReview: function() {
-                    var href = Wildbook.identificationReview();
-                    console.log("GETTING ID REVIEW");
-                    $("#identification-review").load(href, function(response, status, xhr) {
-                        console.log(status);
-                        // TODO something?
-                    });
-                },
-                next: function(id) {
-                    $scope.identification.prepForm(id);
-                    $scope.proxy(id);
+                    $scope.refreshReviews();
                     $scope.identification.getReview();
                 },
-                prepForm: function(id) {
-                    $('#ia-query-match-form').submit(function(ev) {
-                        ev.preventDefault();
-
-                        var clicked = $('#' + id),
-                            name = clicked.attr("name"),
-                            value = clicked.val();
-                        console.log(name + " : " + value);
-                        var input = $("<input>")
-                            .attr("type", "hidden")
-                            .attr("name", name).val(value);
-                        $(this).append($(input));
-
-                        $.ajax({
-                            url: $(this).attr('action'),
-                            type: $(this).attr('method'),
-                            dataType: 'json',
-                            data: $(this).serialize(),
-                            success: function(data) {
-                                console.log(data);
-                            },
-                            error: function(xhr, err) {
-                                alert('Error');
-                            }
-                        });
-                        return false;
+                getReview: function() {
+                    Wildbook.getIdentificationReview().then(function(response) {
+                        console.log(response);
                     });
-                }
+                },
             };
 
             //object where all detection functions are stored
-            $scope.pastDetectionReviews = [];
             $scope.detection = {
-                allowBackButton: false,
-                dialog: {
-                    scope: $scope,
-                    preserveScope: true,
-                    templateUrl: 'app/views/includes/workspace/detection.review.html',
-                    clickOutsideToClose: false,
-                    fullscreen: true
-                },
                 startDetection: function(ev) {
+                    $scope.refreshReviews();
                     //get all image id's in the workspace
                     image_ids = [];
                     var i;
@@ -351,19 +300,19 @@ var workspace = angular.module('workspace', [])
                     var detect_data = "{detect: [" + image_ids + "]}";
                     $.ajax({
                         type: "POST",
-                        url: Wildbook.baseUrl + 'ia',
+                        url: 'http://springbreak.wildbook.org/ia',
                         data: detect_data,
                         dataType: "json",
                         contentType: 'application/javascript'
                     }).then(function(data) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        // detection has started.  Save the job id, then launch review
-                        $scope.last_jobid = data.sendDetect.response;
-                        console.log("New jobID " + data.sendDetect.response);
-
-                        $scope.detection.showDetectionReview(ev);
-                        $scope.$apply();
+                        $scope.$apply(function() {
+                            //detection has started.  Save the job id, then launch review
+                            $scope.last_jobid = data.sendDetect.response;
+                            console.log("New jobID " + data.sendDetect.response);
+                            $scope.detection.showDetectionReview(ev);
+                        })
                     }).fail(function(data) {
 
                         $mdDialog.show(
@@ -383,35 +332,45 @@ var workspace = angular.module('workspace', [])
                     $scope.waiting_for_response = true;
 
                     // while ($scope.waiting_for_response == true) {
-                    $scope.detection.getNextDetectionHTML();
+                        $scope.detection.checkLoadedDetection();
                     // }
                     // $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 500);
                 },
                 //check function every x seconds
-                // checkLoadedDetection: function() {
+                checkLoadedDetection: function() {
 
-
-                // var myElem = document.getElementById('ia-detection-form');
-                // if (myElem != null) {
-                //     clearInterval($scope.detection.detectionChecker);
-                //     $scope.$apply(function() {
-                //         $scope.reviewData.reviewReady = true;
-                //     });
-                // }
-                // },
+                    $scope.detection.getNextDetectionHTML();
+                    // var myElem = document.getElementById('ia-detection-form');
+                    // if (myElem != null) {
+                    //     clearInterval($scope.detection.detectionChecker);
+                    //     $scope.$apply(function() {
+                    //         $scope.reviewData.reviewReady = true;
+                    //     });
+                    // }
+                },
                 //creates a dialog
                 showDetectionReview: function(ev) {
-                    $mdDialog.show($scope.detection.dialog);
+                    $scope.refreshReviews();
+
                     $scope.detection.startCheckDetection();
 
+                    $mdDialog.show({
+                        scope: $scope,
+                        preserveScope: true,
+                        templateUrl: 'app/views/includes/workspace/detection.review.html',
+                        targetEvent: ev,
+                        clickOutsideToClose: false,
+                        fullscreen: true
+
+                    });
                 },
 
                 detectDialogCancel: function() {
-                    $mdDialog.cancel($scope.detection.dialog);
+                    $mdDialog.cancel();
                 },
                 //unused?
                 detectDialogHide: function() {
-                    $mdDialog.hide($scope.detection.dialog);
+                    $mdDialog.hide();
                 },
                 //on button click prev/next/saveandexit
                 submitDetectionReview: function() {
@@ -434,12 +393,9 @@ var workspace = angular.module('workspace', [])
                 },
                 //temp function
                 nextClicked: function() {
-                    //if (document.getElementsByName("mediaasset-id")[0] != null) {
-                    //    $scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
-                    //}
-					if ($scope.currentSlides[0] != null) {
-						$scope.pastDetectionReviews.push($scope.currentSlides[0].id);
-					}
+                    if(document.getElementsByName("mediaasset-id")[0] != null){
+                        $scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
+                    }
                     console.log($scope.pastDetectionReviews);
                     $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
@@ -451,25 +407,8 @@ var workspace = angular.module('workspace', [])
                 },
                 //temp function
                 decrementOffset: function() {
-                    //go back to last detection
-                    var lastAsset = String($scope.pastDetectionReviews.pop());
-                    console.log(lastAsset);
-                    if (lastAsset == null) {
-                        $scope.detection.allowBackButton = false;
-                        return;
-                    } else {
-                        $scope.detection.allowBackButton = true;
-                        console.log("not null");
-                    }
-                    var params = $.param({
-                        "mediaasset-id": String(lastAsset)
-                    });
-                    $("#ibeis-process").load(Wildbook.baseUrl + "ia?getDetectionReviewHtml", params, function(response, status, xhr) {
-                        console.log("loaded");
-                        console.log(status);
-                        // $scope.waiting_for_response = false;
-                        $scope.reviewData.reviewReady = true;
-                    });
+                    //go back to last detection 
+
                     // $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
                     // $scope.reviewOffset = $scope.reviewOffset - 1;
@@ -483,8 +422,9 @@ var workspace = angular.module('workspace', [])
                     $scope.detection.detectDialogCancel();
                 },
                 getNextDetectionHTML: function() {
-                    $("#detection-review").load(Wildbook.baseUrl + "ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
-                        if ($scope.pastDetectionReviews.length <= 0) {
+                    console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext");
+                    $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
+						if ($scope.pastDetectionReviews.length <= 0) {
                             $scope.detection.allowBackButton = false;
                         } else {
                             $scope.detection.allowBackButton = true;
@@ -494,8 +434,8 @@ var workspace = angular.module('workspace', [])
                         console.log(status);
                         $scope.waiting_for_response = false;
                         $scope.reviewData.reviewReady = true;
+                    });
 
-                    })
                 },
                 //temp function
                 // loadDetectionHTMLwithOffset: function() {
@@ -552,13 +492,13 @@ var workspace = angular.module('workspace', [])
                 console.log(params);
                 $.ajax({
                         type: "POST",
-                        url: Wildbook.baseUrl + 'MediaAssetModify',
+                        url: 'http://springbreak.wildbook.org/MediaAssetModify',
                         data: params,
                         dataType: "json"
                     })
                     .then(function(data) {
                         console.log("saved");
-                        $http.get(Wildbook.baseUrl + 'MediaAssetContext?id=' + $scope.mediaAssetId)
+                        $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + $scope.mediaAssetId)
                             .then(function(response) {
                                 $scope.mediaAssetContext = response.data;
                                 // $scope.setWorkspace($scope.workspace);
@@ -575,7 +515,7 @@ var workspace = angular.module('workspace', [])
             function ImageDialogController($scope, $mdDialog, mediaAsset) {
                 var mediaAssetId = mediaAsset.id;
                 $scope.mediaAssetId = mediaAsset.id;
-                $http.get(Wildbook.baseUrl + 'MediaAssetContext?id=' + mediaAssetId)
+                $http.get('http://springbreak.wildbook.org/MediaAssetContext?id=' + mediaAssetId)
                     .then(function(response) {
                         $scope.mediaAssetContext = response.data;
                     });
@@ -800,13 +740,13 @@ var workspace = angular.module('workspace', [])
             //  - 3 = complete
             $scope.upload = {
                 types: Wildbook.types,
-                type: "local",
+                type: "s3",
                 updateType: function() {
                     var t = $routeParams.upload;
                     if (t && _.indexOf($scope.upload.types, t) !== -1) {
                         $scope.upload.type = t;
                     }
-                    console.log('upload type: ' + $scope.upload.type);
+                    console.log($scope.upload.type);
                 },
                 dialog: {
                     templateUrl: 'app/views/includes/workspace/upload.dialog.html',

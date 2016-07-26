@@ -1,14 +1,90 @@
 <md-content md-scroll-y layout-padding layout="column" class="left-scroll" flex>
-  <h2 class="ws-title">{{workspace}}</h2>
+
+<html>
+<head>
+
+  <!-- If Workspace name is too big, it resizes text -->
+<style type="text/css">
+   .textfill {
+    font-size: 9px;
+    text-align: center;
+    overflow: hidden;
+}
+</style>
+
+<script type="text/javascript">
+(function($) {
+    $.fn.textfill = function(maxFontSize, maxWords) {
+        maxFontSize = parseInt(maxFontSize, 10);
+        maxWords = parseInt(maxWords, 10) || 3;
+        return this.each(function(){
+            var self = $(this),
+                orgText = self.text(),
+                fontSize = parseInt(self.css("fontSize"), 10),
+                lineHeight = parseInt(self.css("lineHeight"), 10),
+                maxHeight = self.height(),
+                maxWidth = self.width(),
+                words = self.text().split(" ");
+            
+            function calcSize(text) {
+                var ourText = $("<span>"+text+"</span>").appendTo(self),
+                    multiplier = maxWidth/ourText.width(),
+                    newSize = fontSize*(multiplier-0.1);
+                ourText.css(
+                    "fontSize", 
+                    (maxFontSize > 0 && newSize > maxFontSize) ? 
+                        maxFontSize : 
+                        newSize
+                );
+                var scrollHeight = self[0].scrollHeight;
+                if (scrollHeight  > maxHeight) {
+                    multiplier = maxHeight/scrollHeight;
+                    newSize = (newSize*multiplier);
+                    ourText.css(
+                        "fontSize", 
+                        (maxFontSize > 0 && newSize > maxFontSize) ? 
+                            maxFontSize : 
+                            newSize
+                    );
+                }
+            }
+            self.empty();
+            if (words.length > maxWords) {
+                while (words.length > 0) {
+                    var newText = words.splice(0, maxWords).join(" ");
+                    console.log
+                    calcSize(newText);
+                    self.append("<br>");
+                }
+            } else {
+                calcSize(orgText);
+            }
+        });
+    };
+})(jQuery);
+
+$(function(){
+    $(".textfill.little").textfill();
+    
+    $(".textfill.much").textfill(0, 11);
+});
+</script>
+
+</head>
+
+
+<md-content md-scroll-y layout-padding layout="column" class="left-scroll" flex>
+<div class="textfill little"><h2 class="ws-title">{{workspace}}</h2></div>
+  <!-- <h2 class="ws-title">{{workspace}}</h2> -->
   <!-- <div id="pieChart"></div> -->
   <!-- Functions -->
   <md-divider></md-divider>
-  <div class="action-container" layout="column">
+  <div class="action-container" layout="column" style="margin-top: 0px">
     <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.startDetection($event)" ng-disabled="workspace == 'Loading...'">
       <strong>Run</strong> Detection
     </md-button>
     <md-button class="md-primary md-raised sidenav-btn" ng-click="detection.showDetectionReview($event)" ng-disabled="workspace == 'Loading...'">
-      <strong>Review</strong> Detection
+      <strong>Review</strong> Detection ({{ reviewCounts.responseJSON.detection }})
     </md-button>
     <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'">
       <strong>Review</strong> Annotations
@@ -17,7 +93,7 @@
       <strong>Run</strong> Identification
     </md-button>
     <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" ng-click="identification.showIdentificationReview()">
-      <strong>Review</strong> Identification
+      <strong>Review</strong> Identification ({{ reviewCounts.responseJSON.identification }})
     </md-button>
     <md-button class="md-secondary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" href="http://springbreak.wildbook.org/">
       <strong>View</strong> Biological Data
