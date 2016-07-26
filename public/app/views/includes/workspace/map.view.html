@@ -1,5 +1,5 @@
-<!-- <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map.options" flex>
-    <ui-gmap-marker coords="{latitude: 45, longitude: -73}" idkey="0" click="clickMarker(0)"></ui-gmap-marker>
-</ui-gmap-google-map>
- -->
- <leaflet></leaflet>
+<html ng-app="leafletmap">
+	<body ng-controller="mapctrl">
+		<leaflet defaults="map.options" lf-center="map.center" width="100%" height="90vh"></leaflet>
+	</body>
+</html>

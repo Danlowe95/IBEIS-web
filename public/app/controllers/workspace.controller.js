@@ -1,7 +1,7 @@
 var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
-        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Wildbook',
-        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Wildbook) {
+        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Wildbook', 'leafletData',
+        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Wildbook, leafletData) {
 
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
@@ -53,21 +53,9 @@ var workspace = angular.module('workspace', [])
             }
             $scope.queryWorkspaceList();
 
-            //map variable
-            $scope.map = {
-                center: {
-                    latitude: 45,
-                    longitude: -73
-                },
-                zoom: 8,
-                options: {
-                    disableDefaultUI: true,
-                    draggable: true,
-                    minZoom: 4,
-                    zoomControl: true
-                }
-            };
+			
 
+			
 
             //don't know, unused
             function sanitizePosition() {
@@ -137,6 +125,7 @@ var workspace = angular.module('workspace', [])
                             $scope.workspace_args = data.metadata.TranslateQueryArgs;
                             $scope.workspace_occ = data.metadata.occurrences;
                             console.log(data.metadata);
+							$scope.map.refreshMap();
                         })
                     }).fail(function(data) {
                         console.log("failed workspace get");
@@ -151,6 +140,7 @@ var workspace = angular.module('workspace', [])
                     $scope.workspace = "All Images";
                     $scope.currentSlides = response.data;
                     $scope.workspace_args = "all";
+					$scope.map.refreshMap();
                 });
             };
 
@@ -368,7 +358,7 @@ var workspace = angular.module('workspace', [])
                     }).then(function(data) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        //detection has started.  Save the job id, then launch review
+                        // detection has started.  Save the job id, then launch review
                         $scope.last_jobid = data.sendDetect.response;
                         console.log("New jobID " + data.sendDetect.response);
 
@@ -444,15 +434,20 @@ var workspace = angular.module('workspace', [])
                 },
                 //temp function
                 nextClicked: function() {
-                    if (document.getElementsByName("mediaasset-id")[0] != null) {
-                        $scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
-                    }
+                    //if (document.getElementsByName("mediaasset-id")[0] != null) {
+                    //    $scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
+                    //}
+					if ($scope.currentSlides[0] != null) {
+						$scope.pastDetectionReviews.push($scope.currentSlides[0].id);
+					}
                     console.log($scope.pastDetectionReviews);
                     $scope.detection.submitDetectionReview();
                     //add logic for only allowing numbers in range of images
                     // $scope.reviewOffset = $scope.reviewOffset + 1;
                     $scope.detection.getNextDetectionHTML();
                     // $scope.detection.loadDetectionHTMLwithOffset();
+					
+					
                 },
                 //temp function
                 decrementOffset: function() {
@@ -493,6 +488,7 @@ var workspace = angular.module('workspace', [])
                             $scope.detection.allowBackButton = false;
                         } else {
                             $scope.detection.allowBackButton = true;
+							console.log($scope.pastDetectionReviews.length);
                         }
                         console.log("loaded");
                         console.log(status);
@@ -620,8 +616,8 @@ var workspace = angular.module('workspace', [])
             };
 
             /* VIEW MENU */
-            // $scope.views = ['thumbnails', 'table', 'map'];
-            $scope.views = ['thumbnails', 'table'];
+            $scope.views = ['thumbnails', 'table', 'map'];
+            // $scope.views = ['thumbnails', 'table'];
             $scope.view = $scope.views[0];
             $scope.setView = function(v) {
                 $scope.view = v;
@@ -634,9 +630,160 @@ var workspace = angular.module('workspace', [])
                     return true;
                 }
             };
-
-
-
+	
+			var exifToDecimal = function(coords) {
+				return (coords[0].numerator
+						+ coords[1].numerator/60
+						+ (coords[2].numerator/coords[2].denominator)
+						/ 3600).toFixed(4);
+			}
+			
+			//Leaflet map
+            $scope.map = {
+                center: {
+                    lat: 0,
+					lng: 0,
+					zoom: 4
+                },
+                options: {
+                    draggable: true,
+                    zoomControl: true
+                },
+				markers: [],
+				centerMarkers: function() {
+					var centerLat = 0;
+					var centerLng = 0;
+					for (i=0; i<$scope.map.markers.length; i++) {
+						var latLng = $scope.map.markers[i].getLatLng();
+						centerLat += latLng.lat;
+						centerLng += latLng.lng;
+					}
+					if ($scope.map.markers.length > 0) {
+						centerLat /= $scope.map.markers.length;
+						centerLng /= $scope.map.markers.length;
+					}
+					$scope.map.center.lat = centerLat;
+					$scope.map.center.lng = centerLng;
+					leafletData.getMap().then(function(map) {
+						map.setView($scope.map.center, $scope.map.center.zoom);
+					});
+				},
+				setBounds: function() {
+					var nLat = 0;
+					var sLat = 0;
+					var eLng = 0;
+					var wLng = 0;
+					for (i=0; i<$scope.map.markers.length; i++) {
+						var m = $scope.map.markers[i].getLatLng;
+						nLat = Math.max(nLat, m.lat);
+						sLat = Math.min(sLat, m.lat);
+						eLng = Math.max(eLng, m.lng);
+						wLng = Math.min(wLng, m.lng);
+					}
+					leafletData.getMap().then(function(map) {
+						map.fitBounds([[sLat,wLng],[nLat,eLng]]);
+					});
+				},
+				invalidateSize: function() {
+					leafletData.getMap().then(function(map) {
+						map.invalidateSize();
+					});
+				},
+				refreshMap: function() {
+					leafletData.getMap().then(function(map) {
+						// Clear previous markers
+						for (i=0; i<$scope.map.markers.length; i++) {
+							map.removeLayer($scope.map.markers[i]);
+						}
+						$scope.map.markers = [];
+						for (i=0; i<$scope.currentSlides.length; i++) {
+							// Get image via XMLHttpRequest
+							// Doesn't work
+							/* var img = new XMLHttpRequest();
+							img.open('GET', $scope.currentSlides[i].url, true);
+							img.onload = function() {
+								console.log('load successful! :D');
+							};
+							img.onerror = function() {
+								console.log('load failed D:');
+							};
+							img.send(); */
+							
+							
+							// Get image by URL
+							// Doesn't work
+							/* var img;
+							$http.get($scope.currentSlides[i].url)
+								.then(function(response) {
+									img = response;
+								});
+							console.log(img); */
+							/* var x = EXIF.getData(img, function(img2) {
+								console.log("execute");
+								var rawlng = EXIF.getTag(img2, "GPSLongitude");
+								var rawlat = EXIF.getTag(img2, "GPSLatitude");
+								if (!rawlng) {
+									console.log("lng failed");
+								}
+								if (!rawlat) {
+									console.log("lat failed");
+								}
+								else {
+									console.log(lng.toString() + ',' + lat.toString());
+									var lng = exifToDecimal(rawlng);
+									var lat = exifToDecimal(rawlat);
+									if (EXIF.getTag(img2, "GPSLongitudeRef") == 'W') {
+										lng *= -1;
+									}
+									if (EXIF.getTag(img2, "GPSLatitudeRef") == 'S') {
+										lat *= -1;
+									}
+									var marker = new L.marker([lng,lat]);
+									$scope.map.markers.push(marker);
+									$scope.map.markers[i].bindPopup(lng.toString() + ', ' + lat.toString());
+									map.addLayer($scope.map.markers[i]);
+								}
+							}); */
+							var lat;
+							var lng;
+							Wildbook.getMediaAssetDetails($scope.currentSlides[i].id).then(function(response) {
+								var info = response.data;
+								if (info.userLatitude) {
+									lat = info.userLatitude;
+								}
+								else if (info.latitude) {
+									lat = info.latitude;
+								}
+								if (info.userLongitude) {
+									lng = info.userLongitude;
+								}
+								else if (info.longitude) {
+									lng = info.longitude;
+								}
+							});
+							
+							if (lat && lng) {
+								// Place marker for each image
+								var marker = new L.marker([lat,lng]);
+								var ptxt = "imageID: " + $scope.currentSlides[i].id.toString()
+											+ "<br><img src='"
+											+ $scope.currentSlides[i].url
+											+ "' style='max-width:150px !important; max-height:200px;"
+											+ " width:auto; height:auto'>"
+											+ "<br>" + lat.toString() + " N"
+											+ "<br>" + lng.toString() + " E";
+								marker.bindPopup(ptxt);
+								map.addLayer(marker);
+								$scope.map.markers.push(marker);
+							}
+						}
+						// $scope.map.invalidateSize();
+						$scope.map.centerMarkers();
+						// $scope.map.setBounds();
+					});
+				}
+            };
+					
             //everything below is upload
 
             // stages:
@@ -848,7 +995,8 @@ var workspace = angular.module('workspace', [])
                 angular.element($('#' + id)).click();
             };
 
-            $scope.upload.updateType();
+			$scope.upload.updateType();
+
         }
     ])
     .factory('reader-factory', ['$q', function($q) {

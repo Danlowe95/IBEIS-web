@@ -193,6 +193,15 @@ angular.module('wildbook.service', [])
             console.log("retrieving all media assets for this user");
             return $http.get(factory.baseUrl + 'MediaAssetsForUser');
         };
+		
+		factory.getMediaAssetDetails = function(imageID) {
+			console.log("retrieving details for imageID: " + imageID.toString());
+			//return $http.get(factory.baseUrl + 'rest/org.ecocean.media.MediaAsset/' + imageID.toString());
+			return $.ajax({
+				type: "GET",
+				url: factory.baseUrl + 'rest/org.ecocean.media.MediaAsset/' + imageID.toString()
+			});
+		};
 
         // WORKSPACES
         // ============
