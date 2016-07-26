@@ -744,38 +744,45 @@ var workspace = angular.module('workspace', [])
 									map.addLayer($scope.map.markers[i]);
 								}
 							}); */
-							var lat;
-							var lng;
+
 							Wildbook.getMediaAssetDetails($scope.currentSlides[i].id).then(function(response) {
-								var info = response.data;
-								if (info.userLatitude) {
-									lat = info.userLatitude;
+								console.log("id: " + response.id);
+								console.log(response.userLatitude + ", " + response.userLongitude);
+								var lat;
+								var lng;
+								var id;
+								if (response.userLatitude) {
+									lat = response.userLatitude;
+									console.log('lat = ' + lat);
 								}
-								else if (info.latitude) {
-									lat = info.latitude;
+								else if (response.latitude) {
+									lat = response.latitude;
+									console.log('lat2 = ' + lat);
 								}
-								if (info.userLongitude) {
-									lng = info.userLongitude;
+								if (response.userLongitude) {
+									lng = response.userLongitude;
+									console.log('lng = ' + lng);
 								}
-								else if (info.longitude) {
-									lng = info.longitude;
+								else if (response.longitude) {
+									lng = response.longitude;
+									console.log('lng2 = ' + lng);
+								}
+								if (lat && lng) {
+									console.log("placing marker");
+									// Place marker for each image
+									var marker = new L.marker([lat,lng]);
+									var ptxt = "imageID: " + response.id
+												+ "<br><img src='"
+												+ response.url
+												+ "' style='max-width:150px !important; max-height:200px;"
+												+ " width:auto; height:auto'>"
+												+ "<br>" + lat + " N"
+												+ "<br>" + lng + " E";
+									marker.bindPopup(ptxt);
+									map.addLayer(marker);
+									$scope.map.markers.push(marker);
 								}
 							});
-							
-							if (lat && lng) {
-								// Place marker for each image
-								var marker = new L.marker([lat,lng]);
-								var ptxt = "imageID: " + $scope.currentSlides[i].id.toString()
-											+ "<br><img src='"
-											+ $scope.currentSlides[i].url
-											+ "' style='max-width:150px !important; max-height:200px;"
-											+ " width:auto; height:auto'>"
-											+ "<br>" + lat.toString() + " N"
-											+ "<br>" + lng.toString() + " E";
-								marker.bindPopup(ptxt);
-								map.addLayer(marker);
-								$scope.map.markers.push(marker);
-							}
 						}
 						// $scope.map.invalidateSize();
 						$scope.map.centerMarkers();
