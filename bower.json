@@ -15,6 +15,7 @@
     "ui-leaflet": "^1.0.0",
     "angular-route": "^1.5.5",
     "jquery-alphanum": "^1.0.24",
+    "ng-exif": "^1.0.0",
     "angular-lazy-img": "^1.2.2",
     "lazysizes": "^2.0.0"
   },
