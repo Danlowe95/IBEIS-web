@@ -591,6 +591,7 @@ var workspace = angular.module('workspace', [])
                 },
 				markers: [],
 				centerMarkers: function() {
+					// Centers map on average location of markers
 					var centerLat = 0;
 					var centerLng = 0;
 					for (i=0; i<$scope.map.markers.length; i++) {
@@ -609,6 +610,7 @@ var workspace = angular.module('workspace', [])
 					});
 				},
 				setBounds: function() {
+					// Centers map on markers via fitBounds
 					var nLat = 0;
 					var sLat = 0;
 					var eLng = 0;
@@ -637,79 +639,30 @@ var workspace = angular.module('workspace', [])
 						}
 						$scope.map.markers = [];
 						for (i=0; i<$scope.currentSlides.length; i++) {
-							// Get image via XMLHttpRequest
-							// Doesn't work
-							/* var img = new XMLHttpRequest();
-							img.open('GET', $scope.currentSlides[i].url, true);
-							img.onload = function() {
-								console.log('load successful! :D');
-							};
-							img.onerror = function() {
-								console.log('load failed D:');
-							};
-							img.send(); */
-							
-							
-							// Get image by URL
-							// Doesn't work
-							/* var img;
-							$http.get($scope.currentSlides[i].url)
-								.then(function(response) {
-									img = response;
-								});
-							console.log(img); */
-							/* var x = EXIF.getData(img, function(img2) {
-								console.log("execute");
-								var rawlng = EXIF.getTag(img2, "GPSLongitude");
-								var rawlat = EXIF.getTag(img2, "GPSLatitude");
-								if (!rawlng) {
-									console.log("lng failed");
-								}
-								if (!rawlat) {
-									console.log("lat failed");
-								}
-								else {
-									console.log(lng.toString() + ',' + lat.toString());
-									var lng = exifToDecimal(rawlng);
-									var lat = exifToDecimal(rawlat);
-									if (EXIF.getTag(img2, "GPSLongitudeRef") == 'W') {
-										lng *= -1;
-									}
-									if (EXIF.getTag(img2, "GPSLatitudeRef") == 'S') {
-										lat *= -1;
-									}
-									var marker = new L.marker([lng,lat]);
-									$scope.map.markers.push(marker);
-									$scope.map.markers[i].bindPopup(lng.toString() + ', ' + lat.toString());
-									map.addLayer($scope.map.markers[i]);
-								}
-							}); */
-
+							// Get image location
 							Wildbook.getMediaAssetDetails($scope.currentSlides[i].id).then(function(response) {
 								console.log("id: " + response.id);
 								console.log(response.userLatitude + ", " + response.userLongitude);
 								var lat;
 								var lng;
 								var id;
+								// Currently uses 'userLatitude'/'userLongitude'
+								// Will switch to 'latitude'/'longitude' eventually
 								if (response.userLatitude) {
 									lat = response.userLatitude;
-									console.log('lat = ' + lat);
 								}
 								else if (response.latitude) {
 									lat = response.latitude;
-									console.log('lat2 = ' + lat);
 								}
 								if (response.userLongitude) {
 									lng = response.userLongitude;
-									console.log('lng = ' + lng);
 								}
 								else if (response.longitude) {
 									lng = response.longitude;
-									console.log('lng2 = ' + lng);
 								}
 								if (lat && lng) {
 									console.log("placing marker");
-									// Place marker for each image
+									// Place marker for applicable images
 									var marker = new L.marker([lat,lng]);
 									var ptxt = "imageID: " + response.id
 												+ "<br><img src='"
@@ -721,9 +674,11 @@ var workspace = angular.module('workspace', [])
 									marker.bindPopup(ptxt);
 									map.addLayer(marker);
 									$scope.map.markers.push(marker);
+									$scope.map.centerMarkers();
 								}
 							});
 						}
+						// Due to asynchronous API calls, this may be called before markers in place
 						// $scope.map.invalidateSize();
 						$scope.map.centerMarkers();
 						// $scope.map.setBounds();

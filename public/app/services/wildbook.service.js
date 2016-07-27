@@ -223,10 +223,10 @@ angular.module('wildbook.service', [])
 		
 		factory.getMediaAssetDetails = function(imageID) {
 			console.log("retrieving details for imageID: " + imageID.toString());
-			//return $http.get(factory.baseUrl + 'rest/org.ecocean.media.MediaAsset/' + imageID.toString());
 			return $.ajax({
 				type: "GET",
-				url: factory.baseUrl + 'rest/org.ecocean.media.MediaAsset/' + imageID.toString()
+				url: factory.baseUrl + 'rest/org.ecocean.media.MediaAsset/' + imageID.toString(),
+				dataType: "json"
 			});
 		};
 
