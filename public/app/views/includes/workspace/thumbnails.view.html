@@ -13,20 +13,14 @@
         <md-card class="card-img-parent" style="width: 200px; height: 200px;" ng-repeat="slide in currentSlides" ng-click="showImageInfo($event, $index)">
       
           <div style="border: 1px solid black;">
-            <div ng-repeat="label in slide.children">
+            <!-- <div ng-repeat="label in slide.children">
               <div ng-repeat="k in label.labels">
-  
               {{k}}
               </div>
-              <!-- {{label}} -->
-              <!-- <img class="card-img lazyload" data-src="{{label.url}}"/> -->
-            </div>
-            <img class="card-img lazyload" data-src="{{slide.children[0].url}}"/>
-          <!-- <div ng-repeat="label in slide">{{label._thumb}}</div> -->
-
-          <!-- </div>  -->
+            </div> -->
+            <!-- <img class="card-img lazyload" data-src="{{slide.children[0].url}}"/> -->
+            <img class="card-img lazyload" data-src="{{slide.url}}"/>
           </div>
-    
           <md-card-actions layout="row" layout-align="center" class="img-text">
           <!-- <h4>{{slide.title}}</h4 > -->
           </md-card-actions>

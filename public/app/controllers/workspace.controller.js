@@ -12,6 +12,7 @@ var workspace = angular.module('workspace', [])
             $scope.reviewData = {};
             $scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
             $scope.pastDetectionReviews = [];
+            $scope.thumbImages = null;
             //used for saving info using the datepicker
             $scope.set_datetime_model = function() {
                 $scope.datetime_model = new Date($scope.mediaAsset.dateTime);
@@ -23,14 +24,19 @@ var workspace = angular.module('workspace', [])
                     type: "POST",
                     url: 'http://springbreak.wildbook.org/TranslateQuery',
                     data: params,
-                    dataType: "json"
+                    dataType: "json",
+                    class: "org.ecocean.media.MediaAssetSet"
+
                 }).then(function(data) {
                     // this callback will be called asynchronously
                     // when the response is available
                     $scope.$apply(function() {
                         $scope.currentSlides = data.assets;
+
                     })
-                })
+                }).fail(function(data) {
+                        console.log("failed workspaces query");
+                    });
             };
 
             //query all workspaces to populate workspace dropdown
@@ -123,6 +129,7 @@ var workspace = angular.module('workspace', [])
                     $scope.type = t;
                 }
             };
+
             /* WORKSPACES */
             $scope.setWorkspace = function(id_, checkSame) {
                 // break if we are checking for the same workspace, otherwise
@@ -135,6 +142,9 @@ var workspace = angular.module('workspace', [])
                         console.log(data);
                         $scope.workspace = id_;
                         $scope.currentSlides = data.assets;
+                       
+                        // $scope.thumbImages = Wildbook.getThumbnails(data.assets);
+
                         $scope.workspace_args = data.metadata.TranslateQueryArgs;
                         $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurrences);
                         $scope.$apply();
@@ -167,6 +177,30 @@ var workspace = angular.module('workspace', [])
                         console.log(data);
                         $scope.queryWorkspaceList();
                     });
+            };
+
+              $scope.saveNewWorkspace = function(ev) {
+                var confirm = $mdDialog.prompt()
+                .title('SAVE WORKSPACE')
+                .textContent('what would you like to name this workspace?')
+                .placeholder('enter a name')
+                  .ariaLabel('workspace name')
+                  // .initialValue('Buddy')
+                  .targetEvent(ev)
+                  .ok('SAVE')
+                  .cancel('CANCEL');
+                $mdDialog.show(confirm).then(function() {
+                    var id = $scope.workspace_input.form_data;
+                    var args = $scope.workspace_args;
+                    Wildbook.saveWorkspace(id, args)
+                        .then(function(data) {
+                            $scope.queryWorkspaceList();
+                        }).fail(function(data) {
+                            console.log("success or failure - needs fixing");
+                            console.log(data);
+                            $scope.queryWorkspaceList();
+                        });
+                });
             };
 
             $scope.deleteWorkspace = function() {
@@ -226,6 +260,13 @@ var workspace = angular.module('workspace', [])
             };
 
             /* FILTERING */
+
+            $scope.filterIDs = ['Encounter', 'Marked Individual', 'Annotation', 'Media Asset'];
+            $scope.filterID = $scope.filterIDs[0];
+            $scope.setFilter = function(f) {
+                $scope.filterID = f;
+            };
+
             //used to catch all form data for filtering and send in for query
             $scope.filter = {
                 filtering_tests: null,
@@ -574,6 +615,7 @@ var workspace = angular.module('workspace', [])
                 }
             };
 
+           
 
 
             //everything below is upload

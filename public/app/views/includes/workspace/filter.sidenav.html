@@ -1,51 +1,198 @@
 
 <md-sidenav id="filter-sidenav" class="md-sidenav-right md-whiteframe-z2" md-component-id="filter">
   <md-toolbar class="md-theme-light">
-    <h1 class="md-toolbar-tools">Filter Options</h1>
+    <h1 class="md-toolbar-tools">Filter Options &nbsp;
+      <md-menu md-position-mode="target-right target">
+    <md-button aria-label="View Selector" ng-click="$mdOpenMenu($event)">
+      FILTER FOR...<i class="fa fa-caret-down" aria-hidden="true" fa-lg></i>
+      <md-tooltip md-direction="left" md-autohide>
+        Viewing {{filterID}} filter.
+      </md-tooltip>
+    </md-button>
+    <md-menu-content width="3">
+      <md-menu-item ng-repeat="f in filterIDs">
+        <md-button ng-click="setFilter(f)">
+          <div layout="row">
+            <p flex>
+              <i class="fa fa-fw fa-binoculars" ng-show="f == 'Encounter'"></i>
+              <i class="fa fa-fw fa-user" ng-show="f == 'Marked Individual'"></i>
+              <i class="fa fa-fw fa-object-group" ng-show="f == 'Annotation'"></i>
+              <i class="fa fa-fw fa-file-image-o" ng-show="f == 'Media Asset'"></i> &emsp;{{f}} 
+            </p>
+          </div>
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu></h1> 
+    
   </md-toolbar>
   <md-content layout-padding>
+
     <form>
       <div>
-        <ul ng-repeat="field in filter.filtering_tests['org.ecocean.Encounter'].fields">
-          <div ng-if="field.values">
-            <li>
-              <md-input-container>
-                <label>{{field.name}}</label>
-                <md-select ng-model="filter.filterData[field.property]">
-                  <!-- <md-option name="blank" ng-value="none">----</md-option> -->
-                  <md-option ng-repeat="option in field.values" value="{{option}}">{{field.labels[$index]}}</md-option>
-                </md-select>
-              </md-input-container>
-            </li>
-          </div>
-          <div ng-if="field.dataType === 'string' && !field.values">
-            <li>
-              <div layout-gt-sm="row">
-                <md-input-container class="sm-block" flex-gt-sm>
+  <!-- <ul ng-repeat="field in filter.filtering_tests['org.ecocean.MarkedIndividual'].fields"> -->
+
+        <!-- ENCOUNTER FILTER -->
+        <div ng-if="filterID === 'Encounter'">
+          <ul ng-repeat="field in filter.filtering_tests['org.ecocean.Encounter'].fields">
+            <div ng-if="field.values">
+              <li>
+                <md-input-container>
                   <label>{{field.name}}</label>
-                  <input ng-model="filter.filterData[field.property]">
+                  <md-select ng-model="filter.filterData[field.property]">
+                    <!-- <md-option name="blank" ng-value="none">----</md-option> -->
+                    <md-option ng-repeat="option in field.values" value="{{option}}">{{field.labels[$index]}}</md-option>
+                  </md-select>
                 </md-input-container>
-              </div>
-            </li>
-          </div>
-          <div ng-if="field.dataType === 'number'">
-            <li>
-              <div layout-gt-sm="row">
-                <md-input-container class="sm-block" flex-gt-sm>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'string' && !field.values">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'number'">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input required ng-pattern="/^[0-9]*$/" ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div>
+
+        <!-- MARKED INDIVIDUAL FILTER -->
+        <div ng-if="filterID === 'Marked Individual'">
+          <ul ng-repeat="field in filter.filtering_tests['org.ecocean.MarkedIndividual'].fields">
+        
+            <div ng-if="field.values">
+              <li>
+                <md-input-container>
                   <label>{{field.name}}</label>
-                  <input required ng-pattern="/^[0-9]*$/" ng-model="filter.filterData[field.property]">
+                  <md-select ng-model="filter.filterData[field.property]">
+                    <!-- <md-option name="blank" ng-value="none">----</md-option> -->
+                    <md-option ng-repeat="option in field.values" value="{{option}}">{{field.labels[$index]}}</md-option>
+                  </md-select>
                 </md-input-container>
-              </div>
-            </li>
-          </div>
-        </ul>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'string' && !field.values">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'number'">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input required ng-pattern="/^[0-9]*$/" ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div>
+
+        <!-- ANNOTATION FILTER -->
+        <div ng-if="filterID === 'Annotation'">
+          <ul ng-repeat="field in filter.filtering_tests['org.ecocean.Annotation'].fields">
+            <div ng-if="field.values">
+              <li>
+                <md-input-container>
+                  <label>{{field.name}}</label>
+                  <md-select ng-model="filter.filterData[field.property]">
+                    <!-- <md-option name="blank" ng-value="none">----</md-option> -->
+                    <md-option ng-repeat="option in field.values" value="{{option}}">{{field.labels[$index]}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'string' && !field.values">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'number'">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input required ng-pattern="/^[0-9]*$/" ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div> 
+
+        <!-- MEDIA ASSET FILTER -->
+        <div ng-if="filterID === 'Media Asset'">
+          <ul ng-repeat="field in filter.filtering_tests['org.ecocean.MediaAsset'].fields">
+        
+            <div ng-if="field.values">
+              <li>
+                <md-input-container>
+                  <label>{{field.name}}</label>
+                  <md-select ng-model="filter.filterData[field.property]">
+                    <!-- <md-option name="blank" ng-value="none">----</md-option> -->
+                    <md-option ng-repeat="option in field.values" value="{{option}}">{{field.labels[$index]}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'string' && !field.values">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+            <div ng-if="field.dataType === 'number'">
+              <li>
+                <div layout-gt-sm="row">
+                  <md-input-container class="sm-block" flex-gt-sm>
+                    <label>{{field.name}}</label>
+                    <input required ng-pattern="/^[0-9]*$/" ng-model="filter.filterData[field.property]">
+                  </md-input-container>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div>
+
+
       </div>
       <div layout="row">
         <md-button ng-click="filter.submitFilters()" class="md-primary" flex>
           Apply
         </md-button>
         <md-button ng-click="close('filter')" class="md-primary" flex>
-          Discard
+          Close
+        </md-button>
+        <md-button ng-click="filter.filterData= null" class="md-primary" flex>
+          Reset
         </md-button>
       </div>
     </form>

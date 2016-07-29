@@ -41,44 +41,51 @@
     </md-menu-content>
   </md-menu>
   <!-- filter nav buttons -->
-  <!-- <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" hide-gt-sm class="md-icon-button">
-    <i class="fa fa-filter"></i>
-  </md-button>
-  <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
-    <i class="fa fa-filter"></i> Filter
+  <md-button ng-click="toggleSidenav('filter')" aria-label="Filter" class="md-icon-button"> <!-- hide-gt-sm  -->
+    <i class="fa fa-fw fa-filter"></i>
     <md-tooltip md-autohide>
       Apply a filter to your workspace.
     </md-tooltip>
   </md-button>
+  <!-- <md-button ng-click="toggleSidenav('filter')" class="md-primary" aria-label="Filter" hide show-gt-md>
+    <i class="fa fa-filter"></i> Filter
+    <md-tooltip md-autohide>
+      Apply a filter to your workspace.
+    </md-tooltip>
+  </md-button> -->
   <md-button class="md-icon-button" aria-label="Undo" ng-click="filter.undoFilter()">
-    <i class="fa fa-undo"></i>
+    <i class="fa fa-fw fa-undo"></i>
     <md-tooltip md-autohide>
       Revert to last saved iteration.
     </md-tooltip>
-  </md-button> -->
-  <!-- <div ng-if="!saving" ng-init="saving=false">
-    <md-button class="md-icon-button" aria-label="Save" ng-click="$parent.saving=true">
-      <i class="fa fa-save"></i>
+  </md-button>
+  <div ng-if="!saving" ng-init="saving=false">
+    <md-button class="md-icon-button" aria-label="Save" ng-click="saveNewWorkspace($event)">
+    <!-- <md-button class="md-icon-button" aria-label="Save" ng-click="$parent.saving=true"> -->
+      <i class="fa fa-fw fa-save"></i>
       <md-tooltip md-autohide>
         Save to new workspace.
       </md-tooltip>
     </md-button>
-  </div> -->
+  </div>
   <div>
     <md-button class="md-icon-button" aria-label="Delete" ng-click="deleteWorkspace()">
-      <i class="fa fa-trash-o"></i>
+      <i class="fa fa-fw fa-trash-o"></i>
       <md-tooltip md-autohide>
         Delete this workspace
       </md-tooltip>
     </md-button>
   </div>
-  <input id="save_text_input" ng-model="workspace_input.form_data" type="text" placeholder="enter a name" ng-if="saving">
-  <md-button class="md-fab md-mini md-warn" ng-click="$parent.saving=false" ng-if="saving">
+
+
+
+  <!-- <input id="save_text_input" ng-model="workspace_input.form_data" type="text" placeholder="enter a name" ng-if="saving">
+  <md-button class="md-fab md-mini md-warn" aria-label="Close" ng-click="$parent.saving=false" ng-if="saving">
     <i class="fa fa-remove" />
   </md-button>
-  <md-button class="md-fab md-mini" ng-click="saveWorkspace(); $parent.saving=false" ng-if="saving">
+  <md-button class="md-fab md-mini" aria-label="Close" ng-click="saveWorkspace(); $parent.saving=false" ng-if="saving">
     <i class="fa fa-save" />
-  </md-button>
+  </md-button> -->
   <span flex></span>
   <md-menu md-position-mode="target-right target">
     <md-button aria-label="View Selector" ng-click="$mdOpenMenu($event)">

@@ -189,32 +189,7 @@ angular.module('wildbook.service', [])
             return $http.post(factory.baseUrl + 'MediaAssetCreate', mediaAssets);
         };
 
-        // factory.hasLabel = function(assets, label){
-        //     var l = assets.get('labels');
-        //     if (!l || (l.length < 1)) return false;
-        //     return (l.indexOf(label) > -1);)
-        // };
-
-
-        // //create a function you can pass in a MediaAsset and label and get back a url
-        // factory.getLabelUrl = function(assets, label){
-        //     if (!label || assets.hasLabel(label)) return assets.get('url') || ;
-        //     var kids = this.findChildrenWithLabel(label);
-        //     if (kids.length > 0) return kids[0].labelUrl(label, fallback);
-        //     return fallback;
-        //     //return url
-        // };
-
-        // factory.findChildrenWithLabel = function(label){
-        //     var kids = [];
-        //     var c = this.get('children');
-        //     if (!c) return kids;
-        //     for (var i = 0 ; i < c.length ; i++) {
-        //         if (c[i].labels && (c[i].labels.indexOf(label) > -1)) kids.push(new wildbook.Model.MediaAsset(c[i]));
-        //     }
-        //     return kids;
-        // };
-
+        
 
         factory.getAllMediaAssets = function() {
             console.log("retrieving all media assets for this user");
@@ -266,7 +241,7 @@ angular.module('wildbook.service', [])
         };
 
         // IDENTIFICATION
-        // ================
+        // ==================
 
         factory.runIdentification = function(occurrences) {
             var params = {
