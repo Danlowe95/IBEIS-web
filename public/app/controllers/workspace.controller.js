@@ -611,12 +611,9 @@ var workspace = angular.module('workspace', [])
                     return true;
                 }
             };
-<<<<<<< HEAD
-
-           
 
 
-=======
+
 	
 			var exifToDecimal = function(coords) {
 				return (coords[0].numerator
@@ -733,7 +730,7 @@ var workspace = angular.module('workspace', [])
 				}
             };
 					
->>>>>>> d2cf1220a75b6ac869350942eed9c5c6936a8fa3
+
             //everything below is upload
 
             // stages:
