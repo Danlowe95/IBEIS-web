@@ -1,7 +1,7 @@
 var workspace = angular.module('workspace', [])
     .controller('workspace-controller', [
-        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Wildbook',
-        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Wildbook) {
+        '$rootScope', '$scope', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$http', '$sce', 'reader-factory', 'Wildbook', 'leafletData',
+        function($rootScope, $scope, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $http, $sce, readerFactory, Wildbook, leafletData) {
 
             //DECLARE VARIABLES
             $scope.last_jobid = "jobid-0004";
@@ -59,21 +59,9 @@ var workspace = angular.module('workspace', [])
             }
             $scope.queryWorkspaceList();
 
-            //map variable
-            $scope.map = {
-                center: {
-                    latitude: 45,
-                    longitude: -73
-                },
-                zoom: 8,
-                options: {
-                    disableDefaultUI: true,
-                    draggable: true,
-                    minZoom: 4,
-                    zoomControl: true
-                }
-            };
+			
 
+			
 
             //don't know, unused
             function sanitizePosition() {
@@ -148,6 +136,7 @@ var workspace = angular.module('workspace', [])
                         $scope.workspace_args = data.metadata.TranslateQueryArgs;
                         $scope.workspace_occ = $rootScope.Utils.keys(data.metadata.occurrences);
                         $scope.$apply();
+						$scope.map.refreshMap();
                     }).fail(function(data) {
                         console.log("failed workspace get");
                     });
@@ -162,6 +151,7 @@ var workspace = angular.module('workspace', [])
                     $scope.workspace = "All Images";
                     $scope.currentSlides = response.data;
                     $scope.workspace_args = "all";
+					$scope.map.refreshMap();
                 });
             };
 
@@ -362,7 +352,6 @@ var workspace = angular.module('workspace', [])
                             //detection has started.  Save the job id, then launch review
                             $scope.last_jobid = data.sendDetect.response;
                             console.log("New jobID " + data.sendDetect.response);
-
                             $scope.detection.showDetectionReview(ev);
                         })
                     }).fail(function(data) {
@@ -454,6 +443,8 @@ var workspace = angular.module('workspace', [])
                     // $scope.reviewOffset = $scope.reviewOffset + 1;
                     $scope.detection.getNextDetectionHTML();
                     // $scope.detection.loadDetectionHTMLwithOffset();
+					
+					
                 },
                 //temp function
                 decrementOffset: function() {
@@ -474,6 +465,12 @@ var workspace = angular.module('workspace', [])
                 getNextDetectionHTML: function() {
                     console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext");
                     $("#ibeis-process").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
+						if ($scope.pastDetectionReviews.length <= 0) {
+                            $scope.detection.allowBackButton = false;
+                        } else {
+                            $scope.detection.allowBackButton = true;
+							console.log($scope.pastDetectionReviews.length);
+                        }
                         console.log("loaded");
                         console.log(status);
                         $scope.waiting_for_response = false;
@@ -600,8 +597,8 @@ var workspace = angular.module('workspace', [])
             };
 
             /* VIEW MENU */
-            // $scope.views = ['thumbnails', 'table', 'map'];
-            $scope.views = ['thumbnails', 'table'];
+            $scope.views = ['thumbnails', 'table', 'map'];
+            // $scope.views = ['thumbnails', 'table'];
             $scope.view = $scope.views[0];
             $scope.setView = function(v) {
                 $scope.view = v;
@@ -614,10 +611,129 @@ var workspace = angular.module('workspace', [])
                     return true;
                 }
             };
+<<<<<<< HEAD
 
            
 
 
+=======
+	
+			var exifToDecimal = function(coords) {
+				return (coords[0].numerator
+						+ coords[1].numerator/60
+						+ (coords[2].numerator/coords[2].denominator)
+						/ 3600).toFixed(4);
+			}
+			
+			//Leaflet map
+            $scope.map = {
+                center: {
+                    lat: 0,
+					lng: 0,
+					zoom: 4
+                },
+                options: {
+                    draggable: true,
+                    zoomControl: true
+                },
+				markers: [],
+				centerMarkers: function() {
+					// Centers map on average location of markers
+					var centerLat = 0;
+					var centerLng = 0;
+					for (i=0; i<$scope.map.markers.length; i++) {
+						var latLng = $scope.map.markers[i].getLatLng();
+						centerLat += latLng.lat;
+						centerLng += latLng.lng;
+					}
+					if ($scope.map.markers.length > 0) {
+						centerLat /= $scope.map.markers.length;
+						centerLng /= $scope.map.markers.length;
+					}
+					$scope.map.center.lat = centerLat;
+					$scope.map.center.lng = centerLng;
+					leafletData.getMap().then(function(map) {
+						map.setView($scope.map.center, $scope.map.center.zoom);
+					});
+				},
+				setBounds: function() {
+					// Centers map on markers via fitBounds
+					var nLat = 0;
+					var sLat = 0;
+					var eLng = 0;
+					var wLng = 0;
+					for (i=0; i<$scope.map.markers.length; i++) {
+						var m = $scope.map.markers[i].getLatLng;
+						nLat = Math.max(nLat, m.lat);
+						sLat = Math.min(sLat, m.lat);
+						eLng = Math.max(eLng, m.lng);
+						wLng = Math.min(wLng, m.lng);
+					}
+					leafletData.getMap().then(function(map) {
+						map.fitBounds([[sLat,wLng],[nLat,eLng]]);
+					});
+				},
+				invalidateSize: function() {
+					leafletData.getMap().then(function(map) {
+						map.invalidateSize();
+					});
+				},
+				refreshMap: function() {
+					leafletData.getMap().then(function(map) {
+						// Clear previous markers
+						for (i=0; i<$scope.map.markers.length; i++) {
+							map.removeLayer($scope.map.markers[i]);
+						}
+						$scope.map.markers = [];
+						for (i=0; i<$scope.currentSlides.length; i++) {
+							// Get image location
+							Wildbook.getMediaAssetDetails($scope.currentSlides[i].id).then(function(response) {
+								console.log("id: " + response.id);
+								console.log(response.userLatitude + ", " + response.userLongitude);
+								var lat;
+								var lng;
+								var id;
+								// Currently uses 'userLatitude'/'userLongitude'
+								// Will switch to 'latitude'/'longitude' eventually
+								if (response.userLatitude) {
+									lat = response.userLatitude;
+								}
+								else if (response.latitude) {
+									lat = response.latitude;
+								}
+								if (response.userLongitude) {
+									lng = response.userLongitude;
+								}
+								else if (response.longitude) {
+									lng = response.longitude;
+								}
+								if (lat && lng) {
+									console.log("placing marker");
+									// Place marker for applicable images
+									var marker = new L.marker([lat,lng]);
+									var ptxt = "imageID: " + response.id
+												+ "<br><img src='"
+												+ response.url
+												+ "' style='max-width:150px !important; max-height:200px;"
+												+ " width:auto; height:auto'>"
+												+ "<br>" + lat + " N"
+												+ "<br>" + lng + " E";
+									marker.bindPopup(ptxt);
+									map.addLayer(marker);
+									$scope.map.markers.push(marker);
+									$scope.map.centerMarkers();
+								}
+							});
+						}
+						// Due to asynchronous API calls, this may be called before markers in place
+						// $scope.map.invalidateSize();
+						$scope.map.centerMarkers();
+						// $scope.map.setBounds();
+					});
+				}
+            };
+					
+>>>>>>> d2cf1220a75b6ac869350942eed9c5c6936a8fa3
             //everything below is upload
 
             // stages:
@@ -829,7 +945,8 @@ var workspace = angular.module('workspace', [])
                 angular.element($('#' + id)).click();
             };
 
-            $scope.upload.updateType();
+			$scope.upload.updateType();
+
         }
     ])
     .factory('reader-factory', ['$q', function($q) {
