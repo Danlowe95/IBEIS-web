@@ -36,6 +36,7 @@ module.exports = function(config) {
       'public/bower_components/ng-exif/ng-exif.js',
       'public/bower_components/angular-lazy-img/release/angular-lazy-img.js',
       'public/bower_components/lazysizes/lazysizes.js',
+      'public/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
       // endbower
       "public/app/ibeis.js",
       "public/app/ibeis.routes.js",
