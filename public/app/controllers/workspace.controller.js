@@ -132,7 +132,6 @@ var workspace = angular.module('workspace', [])
 					$scope.currentSlides = response.data;
 					$scope.workspace_args = "all";
 					$scope.map.refreshMap();
-<<<<<<< HEAD
 				});
 			};
 
@@ -476,7 +475,6 @@ var workspace = angular.module('workspace', [])
 					$("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
 						$scope.refreshReviews();
 						if ($scope.pastDetectionReviews.length <= 0) {
-<<<<<<< HEAD
 							$scope.detection.allowBackButton = false;
 						} else {
 							$scope.detection.allowBackButton = true;
@@ -715,8 +713,7 @@ var workspace = angular.module('workspace', [])
 					});
 				}
 			};
-					
-<<<<<<< HEAD
+			
 			//everything below is upload
 
 			// stages:
