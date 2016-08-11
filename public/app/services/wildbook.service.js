@@ -197,7 +197,8 @@ angular.module('wildbook.service', [])
         };
 		
 		factory.getMediaAssetDetails = function(imageID) {
-			console.log("retrieving details for imageID: " + imageID.toString());
+			// Gets data about MediaAsset
+			// Primarily used to parse location data for map view
 			return $.ajax({
 				type: "GET",
 				url: factory.baseUrl + 'rest/org.ecocean.media.MediaAsset/' + imageID.toString(),
@@ -208,7 +209,7 @@ angular.module('wildbook.service', [])
         factory.getReviewCounts = function() {
             return $.ajax({
                 type: "GET",
-                url: 'http://springbreak.wildbook.org/ia?getReviewCounts',
+                url: factory.baseUrl + 'ia?getReviewCounts',
                 dataType: "json"
             });
         };
@@ -216,13 +217,21 @@ angular.module('wildbook.service', [])
         // WORKSPACES
         // ============
         factory.retrieveWorkspaces = function(isImageSet) {
-            return $.ajax({
-                type: "GET",
-                url: factory.baseUrl + 'WorkspacesForUser',
-                params: {
-                    isImageSet: isImageSet
-                }
-            });
+			if (typeof isImageSet !== 'undefined') {
+				return $.ajax({
+					type: "GET",
+					url: factory.baseUrl + 'WorkspacesForUser',
+					params: {
+						isImageSet: isImageSet
+					}
+				});
+			}
+			else {
+				return $.ajax({
+					type: "GET",
+					url: factory.baseUrl + 'WorkspacesForUser'
+				});
+			}
         };
 
         factory.saveWorkspace = function(name, args) {
@@ -237,6 +246,17 @@ angular.module('wildbook.service', [])
                 dataType: "json"
             });
         };
+		
+		factory.deleteWorkspace = function(workspaceID) {
+			return $.ajax({
+				type: "POST",
+				url: factory.baseUrl + 'WorkspaceDelete',
+				data: {
+					id: workspaceID
+				},
+				dataType: "json"
+			});
+		}
 
         factory.getWorkspace = function(id) {
             return $.ajax({
@@ -248,6 +268,24 @@ angular.module('wildbook.service', [])
                 dataType: "json"
             });
         };
+		
+		factory.queryWorkspace = function(params) {
+			return $.ajax({
+				type: "POST",
+				url: factory.baseUrl + 'TranslateQuery',
+				data: params,
+				dataType: "json"
+			});
+		};
+		
+		factory.saveDateTime = function(params) {
+			return $.ajax({
+				type: "POST",
+				url: factory.baseUrl + 'MediaAssetModify',
+				data: params,
+				dataType: "json"
+			});
+		};
 
         // IDENTIFICATION
         // ==================
@@ -274,6 +312,39 @@ angular.module('wildbook.service', [])
                 return factory.baseUrl + 'ia?getIdentificationReviewHtmlNext&test';
             }
         };
+		
+		// DETECTION
+		// ================
+		
+		factory.runDetection = function(imageSetID) {
+			var params = {
+				detect: {
+					mediaAssetSetIds: [imageSetID]
+				}
+			};
+			return $.ajax({
+				type: "POST",
+				url: factory.baseUrl + 'ia',
+				data: JSON.stringify(params),
+				dataType: "json",
+				contentType: "application/javascript"
+			});
+		};
+		
+		factory.runDetectionByImage = function(imageIDs) {
+			var params = {
+				detect: {
+					mediaAssetIds: imageIDs
+				}
+			};
+			return $.ajax({
+				type: "POST",
+				url: factory.baseUrl + 'ia',
+				data: JSON.stringify(params),
+				dataType: "json",
+				contentType: "application/javascript"
+			});
+		};
 
 
 
