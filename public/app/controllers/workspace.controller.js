@@ -132,6 +132,7 @@ var workspace = angular.module('workspace', [])
 					$scope.currentSlides = response.data;
 					$scope.workspace_args = "all";
 					$scope.map.refreshMap();
+<<<<<<< HEAD
 				});
 			};
 
@@ -148,7 +149,31 @@ var workspace = angular.module('workspace', [])
 						$scope.queryWorkspaceList();
 					});
 			};
-
+			
+			$scope.saveNewWorkspace = function(ev) {
+				var confirm = $mdDialog.prompt()
+				.title('SAVE WORKSPACE')
+				.textContent('what would you like to name this workspace?')
+				.placeholder('enter a name')
+				  .ariaLabel('workspace name')
+				  // .initialValue('Buddy')
+				  .targetEvent(ev)
+				  .ok('SAVE')
+				  .cancel('CANCEL');
+				$mdDialog.show(confirm).then(function() {
+					var id = $scope.workspace_input.form_data;
+					var args = $scope.workspace_args;
+					Wildbook.saveWorkspace(id, args)
+						.then(function(data) {
+							$scope.queryWorkspaceList();
+						}).fail(function(data) {
+							console.log("success or failure - needs fixing");
+							console.log(data);
+							$scope.queryWorkspaceList();
+						});
+				});
+			};
+			
 			$scope.deleteWorkspace = function() {
 				var confirm = $mdDialog.confirm()
 					.title('Are you sure you want to delete this workspace?')
@@ -194,6 +219,12 @@ var workspace = angular.module('workspace', [])
 			};
 
 			/* FILTERING */
+			$scope.filterIDs = ['Encounter', 'Marked Individual', 'Annotation', 'Media Asset'];
+			$scope.filterID = $scope.filterIDs[0];
+			$scope.setFilter = function(f) {
+				$scope.filterID = f;
+			};
+
 			//used to catch all form data for filtering and send in for query
 			$scope.filter = {
 				filtering_tests: null,
@@ -422,8 +453,6 @@ var workspace = angular.module('workspace', [])
 					// $scope.reviewOffset = $scope.reviewOffset + 1;
 					$scope.detection.getNextDetectionHTML();
 					// $scope.detection.loadDetectionHTMLwithOffset();
-					
-					
 				},
 				//temp function
 				decrementOffset: function() {
@@ -447,6 +476,7 @@ var workspace = angular.module('workspace', [])
 					$("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
 						$scope.refreshReviews();
 						if ($scope.pastDetectionReviews.length <= 0) {
+<<<<<<< HEAD
 							$scope.detection.allowBackButton = false;
 						} else {
 							$scope.detection.allowBackButton = true;
@@ -686,6 +716,7 @@ var workspace = angular.module('workspace', [])
 				}
 			};
 					
+<<<<<<< HEAD
 			//everything below is upload
 
 			// stages:
@@ -896,7 +927,6 @@ var workspace = angular.module('workspace', [])
 			$scope.proxy = function(id) {
 				angular.element($('#' + id)).click();
 			};
-
 			$scope.upload.updateType();
 
 		}

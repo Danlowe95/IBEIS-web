@@ -6,7 +6,6 @@
     "angular-material": "^1.0.6",
     "angular-smart-table": "^2.1.7",
     "font-awesome": "^4.5.0",
-    "angular-google-maps": "^2.3.2",
     "flow.js": "^2.10.1",
     "aws-sdk": "aws-sdk-js#^2.2.44",
     "underscore": "^1.8.3",
@@ -17,7 +16,8 @@
     "jquery-alphanum": "^1.0.24",
     "ng-exif": "^1.0.0",
     "angular-lazy-img": "^1.2.2",
-    "lazysizes": "^2.0.0"
+    "lazysizes": "^2.0.0",
+    "ngInfiniteScroll": "1.0.0"
   },
   "overrides": {
     "font-awesome": {

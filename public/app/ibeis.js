@@ -9,9 +9,9 @@ angular.module('ibeis', [
         'ngMaterial', // angular material
         'ngMessages',
         'smart-table',
-        'uiGmapgoogle-maps', // angular google maps
         'ui-leaflet',
         'angularLazyImg',
+        'infinite-scroll',
 
     ])
     // setup theme
