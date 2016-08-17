@@ -265,7 +265,7 @@ var workspace = angular.module('workspace', [])
 			$scope.refreshReviews = function() {
 				Wildbook.getReviewCounts().then(function(response) {
 					$scope.reviewCounts = response;
-					console.log($scope.reviewCounts.responseText);
+					console.log($scope.reviewCounts);
 				});
 			};
 
