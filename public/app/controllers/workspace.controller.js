@@ -262,10 +262,14 @@ var workspace = angular.module('workspace', [])
 				}
 			};
 
-			$scope.refreshReviews = function() {
+			$scope.refreshReviews = function(callback = function() {return;}) {
 				Wildbook.getReviewCounts().then(function(response) {
 					$scope.reviewCounts = response;
 					console.log($scope.reviewCounts);
+
+					callback();
+					// Some cases require reviewCounts to be updated before proceeding
+					// Pass function as callback to stall until reviews refreshed
 				});
 			};
 
@@ -300,7 +304,6 @@ var workspace = angular.module('workspace', [])
 			//object where all detection functions are stored
 			$scope.detection = {
 				startDetection: function(ev) {
-					$scope.refreshReviews();
 					Wildbook.findMediaAssetSetIdFromUploadSet($scope.workspace)
 						.then(function(response) {
 							console.log('response:');
@@ -324,16 +327,18 @@ var workspace = angular.module('workspace', [])
 											}
 										});
 									}).fail(function(data) {
-
-										$mdDialog.show(
-											$mdDialog.alert()
-											.clickOutsideToClose(true)
-											.title('Error')
-											.textContent('No Response from IA server.')
-											.ariaLabel('IA Error')
-											.ok('OK')
-											.targetEvent(ev)
-										)
+										console.log('IA server error');
+										$scope.detection.startDetectionByImage(ev);
+										
+										// $mdDialog.show(
+											// $mdDialog.alert()
+											// .clickOutsideToClose(true)
+											// .title('Error')
+											// .textContent('No Response from IA server.')
+											// .ariaLabel('IA Error')
+											// .ok('OK')
+											// .targetEvent(ev)
+										// )
 									});
 							}
 							else {
@@ -376,16 +381,19 @@ var workspace = angular.module('workspace', [])
 				startCheckDetection: function() {
 					$scope.reviewData.reviewReady = false;
 					$scope.waiting_for_response = true;
-
-					// while ($scope.waiting_for_response == true) {
-						$scope.detection.checkLoadedDetection();
-					// }
+					$scope.detection.reviewCompleteText = '';
+					$scope.detection.getNextDetectionHTML();
 					// $scope.detection.detectionChecker = setInterval($scope.detection.checkLoadedDetection, 500);
 				},
 				//check function every x seconds
 				checkLoadedDetection: function() {
-
-					$scope.detection.getNextDetectionHTML();
+					if ($scope.reviewCounts.detection > 0) {
+						clearInterval($scope.detection.detectionChecker);
+						$scope.detection.getNextDetectionHTML();
+					}
+					else {
+						$scope.refreshReviews();
+					}
 					// var myElem = document.getElementById('ia-detection-form');
 					// if (myElem != null) {
 					//	 clearInterval($scope.detection.detectionChecker);
@@ -396,10 +404,6 @@ var workspace = angular.module('workspace', [])
 				},
 				//creates a dialog
 				showDetectionReview: function(ev) {
-					$scope.refreshReviews();
-
-					$scope.detection.startCheckDetection();
-
 					$mdDialog.show({
 						scope: $scope,
 						preserveScope: true,
@@ -409,6 +413,7 @@ var workspace = angular.module('workspace', [])
 						fullscreen: true
 
 					});
+					$scope.refreshReviews($scope.detection.startCheckDetection);
 				},
 
 				detectDialogCancel: function() {
@@ -430,6 +435,7 @@ var workspace = angular.module('workspace', [])
 
 						}).then(function(data) {
 							console.log("submit successful");
+							$scope.refreshReviews($scope.detection.getNextDetectionHTML);
 						}).fail(function(data) {
 							console.log("submit failed");
 						});
@@ -444,13 +450,15 @@ var workspace = angular.module('workspace', [])
 					}
 					$scope.reviewData.reviewReady = false;
 					$scope.waiting_for_response = true;
+					document.getElementById("detection-loading").style.visibility="visible";
+					document.getElementById("detection-loading").style.height="auto";
 					document.getElementById("detection-review").style.visibility="hidden";
 					document.getElementById("detection-review").style.height="0px";
 					console.log($scope.pastDetectionReviews);
 					$scope.detection.submitDetectionReview();
 					//add logic for only allowing numbers in range of images
 					// $scope.reviewOffset = $scope.reviewOffset + 1;
-					$scope.detection.getNextDetectionHTML();
+					// $scope.detection.getNextDetectionHTML();
 					// $scope.detection.loadDetectionHTMLwithOffset();
 				},
 				//temp function
@@ -470,30 +478,37 @@ var workspace = angular.module('workspace', [])
 					$scope.detection.detectDialogCancel();
 				},
 				getNextDetectionHTML: function() {
-					$scope.refreshReviews();
-					console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext");
-					$("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext", function(response, status, xhr) {
-						$scope.refreshReviews();
-						if ($scope.pastDetectionReviews.length <= 0) {
-							$scope.detection.allowBackButton = false;
-						} else {
-							$scope.detection.allowBackButton = true;
+					if ($scope.reviewCounts && $scope.reviewCounts.detection == 0) {
+						console.log('No detections remaining');
+						if (document.getElementById("detection-complete")) {
+							$scope.detection.reviewCompleteText = 'Detection Review Complete!';
+							document.getElementById("detection-loading").style.visibility="hidden";
+							document.getElementById("detection-loading").style.height="0px";
 						}
-						if (status == 'success') {
-							document.getElementById("detection-review").style.visibility="visible";
-							document.getElementById("detection-review").style.height="auto";
-							console.log("loaded");
-							$scope.waiting_for_response = false;
-							$scope.reviewData.reviewReady = true;
-						}
-						else if ($scope.reviewCounts.responseJSON.detection <= 1) {
-							console.log('No detections remaining');
-						}
-						else {
-							console.log('error retrieving next detection');
-						}
-					});
-
+					}
+					else {
+						var time = new Date().getTime();
+						console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext&time=" + time);
+						$("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext&time=" + time, function(response, status, xhr) {
+							if ($scope.pastDetectionReviews.length <= 0) {
+								$scope.detection.allowBackButton = false;
+							} else {
+								$scope.detection.allowBackButton = true;
+							}
+							if (status == 'success') {
+								document.getElementById("detection-loading").style.visibility="hidden";
+								document.getElementById("detection-loading").style.height="0px";
+								document.getElementById("detection-review").style.visibility="visible";
+								document.getElementById("detection-review").style.height="auto";
+								console.log("loaded");
+								$scope.waiting_for_response = false;
+								$scope.reviewData.reviewReady = true;
+							}
+							else {
+								console.log('error retrieving next detection');
+							}
+						});
+					}
 				},
 				loadDetectionHTMLwithOffset: function() {
 					 console.log("http://springbreak.wildbook.org/ia?getDetectReviewHtml=" + $scope.last_jobid + "&offset=" + $scope.reviewOffset);
