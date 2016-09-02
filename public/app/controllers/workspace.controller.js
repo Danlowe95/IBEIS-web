@@ -292,13 +292,106 @@ var workspace = angular.module('workspace', [])
 				},
 				showIdentificationReview: function(ev) {
 					$scope.refreshReviews();
-					$scope.identification.getReview();
+					//console.log ("about to call getReview");
+					$scope.identification.getIdentificationReviewHTML();
 				},
-				getReview: function() {
+				getIdentificationReviewHTML: function() {
+					if ($scope.reviewCounts && $scope.reviewCounts.identification == 0) {
+						console.log('No identifications remaining');
+						if (document.getElementById("identification-complete")) {
+							$scope.identification.reviewCompleteText = 'Identification Review Complete!';
+							document.getElementById("identification-loading").style.visibility="hidden";
+							document.getElementById("identification-loading").style.height="0px";
+						}
+					}
+					else {
+						console.log("http://springbreak.wildbook.org/ia?getIdentificationReviewHtmlNext&test");
+						$("#identification-review").load("http://springbreak.wildbook.org/ia?getIdentificationReviewHtmlNext&test", function(response, status, xhr) {
+							if ($scope.pastIdentificationReviews.length <= 0) {
+								$scope.identification.allowBackButton = false;
+							} else {
+								$scope.identification.allowBackButton = true;
+							}
+							if (status == 'success') {
+								document.getElementById("identification-loading").style.visibility="hidden";
+								document.getElementById("identification-loading").style.height="0px";
+								document.getElementById("identification-review").style.visibility="visible";
+								document.getElementById("identification-review").style.height="auto";
+								console.log("loaded");
+								$scope.waiting_for_response = false;
+								$scope.reviewData.reviewReady = true;
+							}
+							else {
+								console.log('error retrieving next identification');
+							}
+						});
+					}
+					/*
+					PREVIOUS CODE FOR ID REVIEW. ???
+
+					//console.log("getReview called. about to call getIDReview");
 					Wildbook.getIdentificationReview().then(function(response) {
+						console.log("getIDReview resolved");
+						console.log(response);
+					}).fail(function(response) {
+						console.log("getIDReview failed");
 						console.log(response);
 					});
+					*/
 				},
+				submitIdentificationReview: function() {
+					$('#ia-identification-form').unbind('submit').bind('submit', function(ev) {
+						ev.preventDefault();
+						$.ajax({
+							url: $(this).attr('action'),
+							type: $(this).attr('method'),
+							dataType: 'json',
+							data: $(this).serialize()
+
+						}).then(function(data) {
+							console.log("submit successful");
+							$scope.refreshReviews($scope.identification.getNextIdentificationHTML);
+						}).fail(function(data) {
+							console.log("submit failed");
+						});
+						return false;
+					});
+					$('#ia-identification-form').submit();
+				},
+				//temp function
+				nextClicked: function() {
+					if(document.getElementsByName("mediaasset-id")[0] != null){
+						$scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
+					}
+					$scope.reviewData.reviewReady = false;
+					$scope.waiting_for_response = true;
+					document.getElementById("detection-loading").style.visibility="visible";
+					document.getElementById("detection-loading").style.height="auto";
+					document.getElementById("detection-review").style.visibility="hidden";
+					document.getElementById("detection-review").style.height="0px";
+					console.log($scope.pastDetectionReviews);
+					$scope.detection.submitDetectionReview();
+					//add logic for only allowing numbers in range of images
+					// $scope.reviewOffset = $scope.reviewOffset + 1;
+					// $scope.detection.getNextDetectionHTML();
+					// $scope.detection.loadDetectionHTMLwithOffset();
+				},
+				//temp function
+				decrementOffset: function() {
+					//go back to last detection 
+
+					// $scope.detection.submitDetectionReview();
+					//add logic for only allowing numbers in range of images
+					// $scope.reviewOffset = $scope.reviewOffset - 1;
+					// $scope.detection.loadDetectionHTMLwithOffset();
+				},
+				//temp function
+				endReview: function() {
+					//do Submit of current review
+					$scope.detection.submitDetectionReview();
+					//exit
+					$scope.detection.detectDialogCancel();
+				}
 			};
 
 			//object where all detection functions are stored

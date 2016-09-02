@@ -306,6 +306,7 @@ angular.module('wildbook.service', [])
         };
 
         factory.getIdentificationReview = function() {
+            //console.log("getIDReview called");
             return $.ajax({
                 type: "GET",
                 url: factory.baseUrl + 'ia?getIdentificationReviewHtmlNext&test',

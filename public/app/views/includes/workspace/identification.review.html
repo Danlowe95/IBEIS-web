@@ -3,6 +3,11 @@
     <div class="md-toolbar-tools">
       <h2>Identification Review</h2>
       <span flex></span>
+      <md-button class="md-primary" ng-click="identification.endReview()">Save and Exit
+        <md-tooltip md-autohide>
+          Submit current review and exit
+        </md-tooltip>
+      </md-button>
       <md-button class="md-icon-button" aria-label="Cancel" ng-click="identification.hideReview()">
         <i class="fa fa-remove"></i>
         <md-tooltip md-autohide>
