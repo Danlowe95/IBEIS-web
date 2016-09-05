@@ -1,3 +1,15 @@
+<head> 
+  <script type="text/javascript">window.addEventListener("dragover",function(e){
+  e = e || event;
+  e.preventDefault();
+},false);
+window.addEventListener("drop",function(e){
+  e = e || event;
+  e.preventDefault();
+},false);
+</script>
+</head>
+
 <md-sidenav id="main-sidenav" layout="column" class="sidenav md-sidenav-left md-whiteframe-z3" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
   <div class="sidenav-header">
     <md-menu-bar class="main-menu md-whiteframe-z1">
@@ -73,7 +85,7 @@
   <md-content md-scroll-y flex>
     <!-- using ng-includes to cut down on the number of lines in each html file -->
     <div>
-      <div flex ng-if="workspace == 'Loading...'" class="md-content">
+      <div flex ng-if="workspace == 'Loading...' || loading == 'on'" class="md-content">
         <div layout="row" layout-align="center center">
           <md-progress-circular md-mode="indeterminate" md-diameter="100">
           </md-progress-circular>

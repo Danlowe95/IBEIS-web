@@ -3,10 +3,81 @@
     <script src="jquery.js"></script>
     <script src="bower_components/lazysizes/ls.attrchange.min.js" async=""></script>
     <script src="bower_components/lazysizes/lazysizes.min.js" async=""></script>
+    <script type="text/javascript">
+    var dropZone = document.getElementById('dropZone');
+
+function showDropZone() {
+    dropZone.style.visibility = "visible";
+}
+function hideDropZone() {
+    dropZone.style.visibility = "hidden";
+}
+
+function allowDrag(e) {
+    if (true) {  // Test that the item being dragged is a valid one
+        e.dataTransfer.dropEffect = 'copy';
+        e.preventDefault();
+    }
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    hideDropZone();
+    e.upload.show();
+    // $scope.upload.images += e;
+    alert('Drop!');
+}
+
+// 1
+window.addEventListener('dragenter', function(e) {
+    showDropZone();
+});
+
+// 2
+dropZone.addEventListener('dragenter', allowDrag);
+dropZone.addEventListener('dragover', allowDrag);
+
+// 3
+dropZone.addEventListener('dragleave', function(e) {
+    hideDropZone();
+});
+
+// 4
+dropZone.addEventListener('drop', handleDrop);
+</script>
+<style type="text/css">
+div#dropZone {
+  background: white;
+  border-color: lightgray; 
+  border-width: 7px;
+  border-style: dashed;
+  text-align: center;
+  vertical-align: middle;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 96.5%;
+  height: 63%;
+  z-index: 999;
+  opacity: 0.8;
+  visibility: hidden;
+  position: center;
+  padding-top: 200px;
+  color: gray;
+  font-size: 5em;
+  outline: 15px solid white;
+  margin: 15px;
+}
+
+
+</style>
   </head>
  
-
+<body>
   <div class="gridListdemoBasicUsage">
+  
+    
+    <div id="dropZone"><input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().upload.select(this)"><center> Drag and drop files here... </center></div>
     <div class='md-padding' layout="row" layout-align="center center" layout-wrap>
       <!-- <div infinite-scroll="addMoreItems()" infinite-scroll-distance='2'> -->
   
@@ -28,5 +99,6 @@
         </md-card>
       <!-- </div> -->
     </div>
-  </div>
+   </div>
+</body>
 </html>

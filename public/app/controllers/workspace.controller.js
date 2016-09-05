@@ -12,22 +12,37 @@ var workspace = angular.module('workspace', [])
 			$scope.reviewData = {};
 			$scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
 			$scope.pastDetectionReviews = [];
+            $scope.loading = 'off';
 			//used for saving info using the datepicker
 			$scope.set_datetime_model = function() {
 				$scope.datetime_model = new Date($scope.mediaAsset.dateTime);
 			};
 			//Might be outdated, used sometimes to query with specific parameters
 			$scope.queryWorkspace = function(params) {
-				$scope.workspace_args = params;
-				Wildbook.queryWorkspace(params)
-					.then(function(data) {
-						// this callback will be called asynchronously
-						// when the response is available
-						$scope.$apply(function() {
-							$scope.currentSlides = data.assets;
-						})
-					});
-			};
+                // $scope.workspace = "Loading...";
+                // params.class = "org.ecocean.media.MediaAssetSet";
+                $scope.loading = 'on';
+                console.log(params);
+                $scope.workspace_args = params; 
+                $.ajax({
+                    type: "POST",
+                    url: 'http://springbreak.wildbook.org/TranslateQuery',
+                    data: params,
+                    dataType: "json"
+
+                }).then(function(data) {
+                    $scope.loading = 'off';
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    $scope.$apply(function() {
+                        $scope.currentSlides = data.assets;
+
+                    })
+                }).fail(function(data) {
+                        $scope.loading = 'off';
+                        console.log("failed workspaces query");
+                    });
+            };
 
 			//query all workspaces to populate workspace dropdown
 			$scope.queryWorkspaceList = function() {
@@ -155,12 +170,11 @@ var workspace = angular.module('workspace', [])
 				.textContent('what would you like to name this workspace?')
 				.placeholder('enter a name')
 				  .ariaLabel('workspace name')
-				  // .initialValue('Buddy')
 				  .targetEvent(ev)
 				  .ok('SAVE')
 				  .cancel('CANCEL');
-				$mdDialog.show(confirm).then(function() {
-					var id = $scope.workspace_input.form_data;
+				$mdDialog.show(confirm).then(function(result) {
+					var id = result;
 					var args = $scope.workspace_args;
 					Wildbook.saveWorkspace(id, args)
 						.then(function(data) {
@@ -229,7 +243,12 @@ var workspace = angular.module('workspace', [])
 				filtering_tests: null,
 				filterData: {},
 				submitFilters: function() {
-					var params = JSON.stringify($scope.filter.filterData);
+					var params = $scope.filter.filterData;
+                    if ($scope.filterID == 'Encounter'){ params.class = "org.ecocean.Encounter"}
+                    if ($scope.filterID == 'Marked Individual'){ params.class = "org.ecocean.MarkedIndividual"}
+                    if ($scope.filterID == 'Annotation'){ params.class = "org.ecocean.Annotation"}
+                    if ($scope.filterID == 'Media Asset'){ params.class = "org.ecocean.MediaAsset"}
+                    // params = JSON.stringify(params);
 					$scope.queryWorkspace(params);
 					$scope.close('filter');
 
@@ -735,6 +754,24 @@ var workspace = angular.module('workspace', [])
 			//  - 1 = upload
 			//  - 2 = occurence
 			//  - 3 = complete
+
+            // $scope.$watch('files.length',function(newVal,oldVal){
+            // console.log($scope.files);
+            // });
+            // $scope.onSubmit = function(){
+            // var formData = new FormData();
+            // angular.forEach($scope.files,function(obj){
+            //     formData.append('files[]', obj.lfFile);
+            // });
+            // $http.post('./upload', formData, {
+            //     transformRequest: angular.identity,
+            //     headers: {'Content-Type': undefined}
+            // }).then(function(result){
+            //     $scope.upload.completionCallback(formData);                 
+            // },function(err){
+            //     // do sometingh
+            // });
+            // };
 			$scope.upload = {
 				types: Wildbook.types,
 				type: "local",

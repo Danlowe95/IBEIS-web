@@ -1,3 +1,4 @@
+
 <md-dialog>
   <md-toolbar>
     <div class="md-toolbar-tools">
@@ -12,6 +13,7 @@
     <div class="md-padding" ng-show="upload.images.length <= 0">
       No images selected. Please select some images to upload.
     </div>
+    
     <div class="gridListdemoBasicUsage" flex>
       <div class="md-padding" layout="row" layout-wrap>
         <md-card class="upload-card" ng-repeat="im in upload.images">
@@ -29,6 +31,8 @@
   </md-dialog-content>
   <md-dialog-actions layout="row">
     <input type="file" multiple accept="image/*" class="file-input" id="img-upload-btn" onchange="angular.element(this).scope().upload.select(this)">
+    <!-- <lf-ng-md-file-input lf-files="files" drag multiple preview progress ng-onchange="upload.select(this)" ng-show="upload.stage < 2" ng-disabled="upload.stage > 0"></lf-ng-md-file-input> -->
+
     <md-button class="md-primary md-raised" ng-click="proxy('img-upload-btn')" ng-show="upload.stage < 2" ng-disabled="upload.stage > 0">
       Select <strong>Images</strong>
     </md-button>

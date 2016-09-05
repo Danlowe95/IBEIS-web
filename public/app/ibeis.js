@@ -12,6 +12,7 @@ angular.module('ibeis', [
         'ui-leaflet',
         'angularLazyImg',
         'infinite-scroll',
+        'lfNgMdFileInput',
 
     ])
     // setup theme
