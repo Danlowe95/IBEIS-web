@@ -305,12 +305,13 @@ angular.module('wildbook.service', [])
             });
         };
 
-        factory.identificationReview = function(id) {
-            if (id) {
-                console.log("get a specific id review TODO");
-            } else {
-                return factory.baseUrl + 'ia?getIdentificationReviewHtmlNext&test';
-            }
+        factory.getIdentificationReview = function() {
+            return $.ajax({
+                type: "GET",
+                url: factory.baseUrl + 'ia?getIdentificationReviewHtmlNext&test',
+                dataType: "json",
+                contentType: 'application/javascript'
+            });
         };
 		
 		// DETECTION

@@ -285,6 +285,7 @@ var workspace = angular.module('workspace', [])
 				Wildbook.getReviewCounts().then(function(response) {
 					$scope.reviewCounts = response;
 					console.log($scope.reviewCounts);
+
 					callback();
 					// Some cases require reviewCounts to be updated before proceeding
 					// Pass function as callback to stall until reviews refreshed
@@ -322,10 +323,9 @@ var workspace = angular.module('workspace', [])
 			//object where all detection functions are stored
 			$scope.detection = {
 				startDetection: function(ev) {
+					$scope.detection.firstRun = true;
 					Wildbook.findMediaAssetSetIdFromUploadSet($scope.workspace)
 						.then(function(response) {
-							console.log('response:');
-							console.log(response);
 							if (response.data.metadata.TranslateQueryArgs.query) {
 								console.log(response.data.metadata.TranslateQueryArgs.query.id);
 								Wildbook.runDetection(response.data.metadata.TranslateQueryArgs.query.id)
@@ -496,7 +496,7 @@ var workspace = angular.module('workspace', [])
 					$scope.detection.detectDialogCancel();
 				},
 				getNextDetectionHTML: function() {
-					if ($scope.reviewCounts && $scope.reviewCounts.detection == 0) {
+					if (!$scope.detection.firstRun && $scope.reviewCounts.detection == 0) {
 						console.log('No detections remaining');
 						if (document.getElementById("detection-complete")) {
 							$scope.detection.reviewCompleteText = 'Detection Review Complete!';
@@ -505,6 +505,7 @@ var workspace = angular.module('workspace', [])
 						}
 					}
 					else {
+						$scope.detection.firstRun = false;
 						var time = new Date().getTime();
 						console.log("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext&time=" + time);
 						$("#detection-review").load("http://springbreak.wildbook.org/ia?getDetectionReviewHtmlNext&time=" + time, function(response, status, xhr) {
@@ -518,7 +519,7 @@ var workspace = angular.module('workspace', [])
 								document.getElementById("detection-loading").style.height="0px";
 								document.getElementById("detection-review").style.visibility="visible";
 								document.getElementById("detection-review").style.height="auto";
-								console.log("loaded");
+								console.log("detection review loaded");
 								$scope.waiting_for_response = false;
 								$scope.reviewData.reviewReady = true;
 							}
