@@ -12,6 +12,7 @@ var workspace = angular.module('workspace', [])
 			$scope.reviewData = {};
 			$scope.datetime_model = new Date('2000-01-01T05:00:00.000Z'); //default/test date, should never be seen
 			$scope.pastDetectionReviews = [];
+			$scope.pastIdentificationReviews = [];
 			//used for saving info using the datepicker
 			$scope.set_datetime_model = function() {
 				$scope.datetime_model = new Date($scope.mediaAsset.dateTime);
@@ -273,6 +274,10 @@ var workspace = angular.module('workspace', [])
 				});
 			};
 
+// -------------------------------------------------------------
+// IDENTIFICATION
+// -------------------------------------------------------------
+
 			//object where all identification methods are stored
 			$scope.identification = {
 				startIdentification: function(ev) {
@@ -290,10 +295,66 @@ var workspace = angular.module('workspace', [])
 						});
 					});
 				},
+				/*	
+				PREVIOUS CODE FOR ID REVIEW. ???
+
 				showIdentificationReview: function(ev) {
 					$scope.refreshReviews();
 					//console.log ("about to call getReview");
 					$scope.identification.getIdentificationReviewHTML();
+				},
+				
+				getReview: function() {
+					//console.log("getReview called. about to call getIDReview");
+					Wildbook.getIdentificationReview().then(function(response) {
+						console.log("getIDReview resolved");
+						console.log(response);
+					}).fail(function(response) {
+						console.log("getIDReview failed");
+						console.log(response);
+					});
+				}
+				*/
+				//used to query for results every 3 seconds until it gets a response
+				startCheckIdentification: function() {
+					$scope.reviewData.reviewReady = false;
+					$scope.waiting_for_response = true;
+					$scope.identification.reviewCompleteText = '';
+					$scope.identification.getIdentificationReviewHTML();
+					// $scope.identification.identificationChecker = setInterval($scope.identification.checkLoadedidentification, 500);
+				},
+				//check function every x seconds
+				checkLoadedIdentification: function() {
+					if ($scope.reviewCounts.identification > 0) {
+						clearInterval($scope.identification.identificationChecker);
+						$scope.identification.getIdentificationReviewHTML();
+					}
+					else {
+						$scope.refreshReviews();
+					}
+					// var myElem = document.getElementById('ia-detection-form');
+					// if (myElem != null) {
+					//	 clearInterval($scope.detection.detectionChecker);
+					//	 $scope.$apply(function() {
+					//		 $scope.reviewData.reviewReady = true;
+					//	 });
+					// }
+				},
+				showIdentificationReview: function(ev) {
+					$mdDialog.show({
+						scope: $scope,
+						preserveScope: true,
+						templateUrl: 'app/views/includes/workspace/identification.review.html',
+						targetEvent: ev,
+						clickOutsideToClose: false,
+						fullscreen: true
+
+					});
+					$scope.refreshReviews($scope.identification.startCheckIdentification);
+				},
+
+				hideReview: function() {
+					$mdDialog.cancel();
 				},
 				getIdentificationReviewHTML: function() {
 					if ($scope.reviewCounts && $scope.reviewCounts.identification == 0) {
@@ -322,22 +383,11 @@ var workspace = angular.module('workspace', [])
 								$scope.reviewData.reviewReady = true;
 							}
 							else {
+								$scope.identification.reviewCompleteText = 'Error retrieving next Identification Review';
 								console.log('error retrieving next identification');
 							}
 						});
 					}
-					/*
-					PREVIOUS CODE FOR ID REVIEW. ???
-
-					//console.log("getReview called. about to call getIDReview");
-					Wildbook.getIdentificationReview().then(function(response) {
-						console.log("getIDReview resolved");
-						console.log(response);
-					}).fail(function(response) {
-						console.log("getIDReview failed");
-						console.log(response);
-					});
-					*/
 				},
 				submitIdentificationReview: function() {
 					$('#ia-identification-form').unbind('submit').bind('submit', function(ev) {
@@ -350,7 +400,7 @@ var workspace = angular.module('workspace', [])
 
 						}).then(function(data) {
 							console.log("submit successful");
-							$scope.refreshReviews($scope.identification.getNextIdentificationHTML);
+							$scope.refreshReviews($scope.identification.getIdentificationReviewHTML);
 						}).fail(function(data) {
 							console.log("submit failed");
 						});
@@ -359,41 +409,30 @@ var workspace = angular.module('workspace', [])
 					$('#ia-identification-form').submit();
 				},
 				//temp function
-				nextClicked: function() {
+				next: function() {
 					if(document.getElementsByName("mediaasset-id")[0] != null){
-						$scope.pastDetectionReviews.push(document.getElementsByName("mediaasset-id")[0].value);
+						$scope.pastIdentificationReviews.push(document.getElementsByName("mediaasset-id")[0].value);
 					}
 					$scope.reviewData.reviewReady = false;
 					$scope.waiting_for_response = true;
-					document.getElementById("detection-loading").style.visibility="visible";
-					document.getElementById("detection-loading").style.height="auto";
-					document.getElementById("detection-review").style.visibility="hidden";
-					document.getElementById("detection-review").style.height="0px";
-					console.log($scope.pastDetectionReviews);
-					$scope.detection.submitDetectionReview();
-					//add logic for only allowing numbers in range of images
-					// $scope.reviewOffset = $scope.reviewOffset + 1;
-					// $scope.detection.getNextDetectionHTML();
-					// $scope.detection.loadDetectionHTMLwithOffset();
+					document.getElementById("identification-loading").style.visibility="visible";
+					document.getElementById("identification-loading").style.height="auto";
+					document.getElementById("identification-review").style.visibility="hidden";
+					document.getElementById("identification-review").style.height="0px";
+					console.log($scope.pastidentificationReviews);
+					$scope.identification.submitIdentificationReview();
 				},
-				//temp function
-				decrementOffset: function() {
-					//go back to last detection 
-
-					// $scope.detection.submitDetectionReview();
-					//add logic for only allowing numbers in range of images
-					// $scope.reviewOffset = $scope.reviewOffset - 1;
-					// $scope.detection.loadDetectionHTMLwithOffset();
-				},
-				//temp function
 				endReview: function() {
 					//do Submit of current review
-					$scope.detection.submitDetectionReview();
+					$scope.identification.submitIdentificationReview();
 					//exit
-					$scope.detection.detectDialogCancel();
-				}
+					$scope.identification.hideReview();
+				},
 			};
 
+// -------------------------------------------------------------
+// DETECTION
+// -------------------------------------------------------------
 			//object where all detection functions are stored
 			$scope.detection = {
 				startDetection: function(ev) {
@@ -571,6 +610,7 @@ var workspace = angular.module('workspace', [])
 					$scope.detection.detectDialogCancel();
 				},
 				getNextDetectionHTML: function() {
+					console.log("GetNextDetectHTML called");
 					if ($scope.reviewCounts && $scope.reviewCounts.detection == 0) {
 						console.log('No detections remaining');
 						if (document.getElementById("detection-complete")) {

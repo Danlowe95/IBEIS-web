@@ -305,6 +305,21 @@ angular.module('wildbook.service', [])
             });
         };
 
+        factory.runIdentificationByImage = function(imageIDs) {
+            var params = {
+                identify: {
+                    mediaAssetIds: imageIDs
+                }
+            };
+            return $.ajax({
+                type: "POST",
+                url: factory.baseUrl + 'ia',
+                data: JSON.stringify(params),
+                dataType: "json",
+                contentType: "application/javascript"
+            });
+        };
+        /*
         factory.getIdentificationReview = function() {
             //console.log("getIDReview called");
             return $.ajax({
@@ -314,6 +329,7 @@ angular.module('wildbook.service', [])
                 contentType: 'application/javascript'
             });
         };
+        */
 		
 		// DETECTION
 		// ================

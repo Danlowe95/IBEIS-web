@@ -17,16 +17,19 @@
     </div>
   </md-toolbar>
   <md-dialog-content style="max-height: 100%;">
-    <!-- <div ng-if="reviewData.reviewReady == false" layout="row" layout-sm="column" layout-align="space-around">
-      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-    </div> -->
+    <div id="identification-loading" layoout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md mode="indeterminate"><md-progress-circular>
+    </div>
     <div flex class="md-dialog-content" id="identification-review"></div>
+    <div id="identification-complete">{{identification.reviewCompleteText}}</div>
     <md-dialog-actions layout="row">
       <div>
-        <md-button class="md-primary md-raised" ng-click="identification.next('ia-turk-submit-match')">Visually Same</md-button>
+        <md-button class="md-primary md-raised" ng-click="identification.next()">Next Image</md-button>
+        <!---
         <md-button class="md-warn md-raised" ng-click="identification.next('ia-turk-submit-notmatch')">Visually Different</md-button>
         <md-button class="md-default md-raised" ng-click="identification.next('ia-turk-submit-notcomparable')">Can't Tell</md-button>
         <md-button class="md-accent md-raised" ng-click="identification.next('ia-turk-submit-photobomb')">Photobomb</md-button>
+        -->
       </div>
     </md-dialog-actions>
   </md-dialog-content>

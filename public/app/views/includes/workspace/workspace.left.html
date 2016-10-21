@@ -92,7 +92,7 @@ $(function(){
     <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" ng-click="identification.startIdentification()">
       <strong>Run</strong> Identification
     </md-button>
-    <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" ng-click="identification.showIdentificationReview()">
+    <md-button class="md-primary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" ng-click="identification.showIdentificationReview($event)">
       <strong>Review</strong> Identification ({{ reviewCounts.identification }})
     </md-button>
     <md-button class="md-secondary md-raised sidenav-btn" ng-disabled="workspace == 'Loading...'" href="http://springbreak.wildbook.org/">
